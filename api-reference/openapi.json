@@ -19,7 +19,7 @@
     }
   ],
   "paths": {
-    "/dashboard_top_cards_data_v2": {
+    "/v2/dashboard_top_cards_data_v2": {
       "get": {
         "description": "Returns the call success rate,average response time,ai accurary rate and total balance",
         "parameters": [
@@ -55,33 +55,35 @@
             }
           }
         }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
+      }
+    },
+    "/dashboard_campaign_list": {
+      "get": {
+        "description": "Returns the campaign distribution",
+        "parameters": [
+          {
+            "name": "schema-name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required":true,
+            "schema": {
+              "type": "string"
             }
-          },
-          "required": true
-        },
+          }
+        ],
         "responses": {
           "200": {
-            "description": "plant response",
+            "description": "Dashboard data response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
+                  "$ref": "#/components/schemas/DashboardCampaignList"
                 }
               }
             }
           },
           "400": {
-            "description": "unexpected error",
+            "description": "Unexpected error",
             "content": {
               "application/json": {
                 "schema": {
@@ -93,28 +95,33 @@
         }
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
+    "/v2/dashboard_data_v2/": {
+      "get": {
+        "description": "Returns the call success rate,average response time,ai accurary rate and total balance",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
+            "name": "schema-name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required":true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
+          "200": {
+            "description": "Dashboard data response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardMonthlyData"
+                }
+              }
+            }
           },
           "400": {
-            "description": "unexpected error",
+            "description": "Unexpected error",
             "content": {
               "application/json": {
                 "schema": {
@@ -125,25 +132,79 @@
           }
         }
       }
-    }
-  },
-  "webhooks": {
-    "/plant/webhook": {
-      "post": {
-        "description": "Information about a new plant added to the store",
-        "requestBody": {
-          "description": "Plant added to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+    },
+    "/v2/campaign-results": {
+      "get": {
+        "description": "Returns the campaign distribution",
+        "parameters": [
+          {
+            "name": "schema-name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required":true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dashboard data response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardCampaignResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
             }
           }
-        },
+        }
+      }
+    },
+    "/v2/quick-campaign-results": {
+      "get": {
+        "description": "Returns the campaign distribution",
+        "parameters": [
+          {
+            "name": "schema-name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required":true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Return a 200 status to indicate that the data was received successfully"
+            "description": "Dashboard data response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardQuickCampaignResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -327,41 +388,96 @@
           }
         }
       },
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
+      "DashboardCampaignList": {
+  "type": "object",
+  "required": ["response", "data"],
+  "properties": {
+    "response": {
+      "type": "string",
+      "description": "Status of the response",
+      "enum": ["success"]
+    },
+    "data": {
+      "type": "object",
+      "required": ["inbound_campaigns", "outbound_campaigns", "quick_campaigns"],
+      "properties": {
+        "inbound_campaigns": {
+          "type": "integer",
+          "description": "Number of inbound campaigns"
+        },
+        "outbound_campaigns": {
+          "type": "integer",
+          "description": "Number of outbound campaigns"
+        },
+        "quick_campaigns": {
+          "type": "integer",
+          "description": "Number of quick campaigns"
         }
+      }
+    }
+  }
       },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
+        "DashboardMonthlyData": {
+        "type": "object",
+        "required": [
+          "success",
+          "message",
+          "total_cost",
+          "total_call_duration",
+          "completed_calls_percentage",
+          "other_call_percentage",
+          "monthly_data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the data fetch was successful"
           },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the request"
+          },
+          "total_cost": {
+            "type": "number",
+            "format": "float",
+            "description": "Total cost of the calls"
+          },
+          "total_call_duration": {
+            "type": "integer",
+            "description": "Total duration of all calls in seconds"
+          },
+          "completed_calls_percentage": {
+            "type": "number",
+            "format": "float",
+            "description": "Percentage of calls that were completed"
+          },
+          "other_call_percentage": {
+            "type": "number",
+            "format": "float",
+            "description": "Percentage of other (non-completed) calls"
+          },
+          "monthly_data": {
+            "type": "array",
+            "description": "Array of monthly data metrics",
+            "items": {
+              "type": "object",
+              "required": ["name", "data"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the metric (e.g., Total Calls)"
+                },
+                "data": {
+                  "type": "array",
+                  "description": "Array of integer values representing the metric data for each month",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
               }
             }
           }
-        ]
+        }
       },
       "Error": {
         "required": [
