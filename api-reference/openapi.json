@@ -22,16 +22,24 @@
     "/dashboard_top_cards_data_v2": {
       "get": {
         "description": "Returns the call success rate,average response time,ai accurary rate and total balance",
+        "parameters": [
+          {
+            "name": "schema-name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required":true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Plant response",
+            "description": "Dashboard data response",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
+                  "$ref": "#/components/schemas/DashboardData"
                 }
               }
             }
@@ -143,6 +151,182 @@
   },
   "components": {
     "schemas": {
+      "DashboardData": {
+        "type": "object",
+        "required": [
+          "total_outbound_calls",
+          "success_rate",
+          "call_duration",
+          "success_rate_breakdown",
+          "ai_accuracy_rate"
+        ],
+        "properties": {
+          "total_outbound_calls": {
+            "type": "integer",
+            "description": "Total number of outbound calls"
+          },
+          "success_rate": {
+            "type": "number",
+            "format": "float",
+            "description": "Overall success rate percentage"
+          },
+          "call_duration": {
+            "type": "object",
+            "required": [
+              "overall",
+              "daily",
+              "weekly",
+              "monthly",
+              "rate_of_change_call_duration"
+            ],
+            "properties": {
+              "overall": {
+                "type": "object",
+                "required": ["average", "peak", "low"],
+                "properties": {
+                  "average": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Average call duration overall"
+                  },
+                  "peak": {
+                    "type": "integer",
+                    "description": "Maximum call duration overall"
+                  },
+                  "low": {
+                    "type": "integer",
+                    "description": "Minimum call duration overall"
+                  }
+                }
+              },
+              "daily": {
+                "type": "object",
+                "required": ["average", "peak", "low"],
+                "properties": {
+                  "average": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Average call duration for the day"
+                  },
+                  "peak": {
+                    "type": "integer",
+                    "description": "Maximum call duration for the day"
+                  },
+                  "low": {
+                    "type": "integer",
+                    "description": "Minimum call duration for the day"
+                  }
+                }
+              },
+              "weekly": {
+                "type": "object",
+                "required": ["average", "peak", "low"],
+                "properties": {
+                  "average": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Average call duration for the week"
+                  },
+                  "peak": {
+                    "type": "integer",
+                    "description": "Maximum call duration for the week"
+                  },
+                  "low": {
+                    "type": "integer",
+                    "description": "Minimum call duration for the week"
+                  }
+                }
+              },
+              "monthly": {
+                "type": "object",
+                "required": ["average", "peak", "low"],
+                "properties": {
+                  "average": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Average call duration for the month"
+                  },
+                  "peak": {
+                    "type": "integer",
+                    "description": "Maximum call duration for the month"
+                  },
+                  "low": {
+                    "type": "integer",
+                    "description": "Minimum call duration for the month"
+                  }
+                }
+              },
+              "rate_of_change_call_duration": {
+                "type": "number",
+                "format": "float",
+                "description": "Rate of change in call duration"
+              }
+            }
+          },
+          "success_rate_breakdown": {
+            "type": "object",
+            "required": [
+              "daily",
+              "weekly",
+              "monthly",
+              "rate_of_change_success_rate"
+            ],
+            "properties": {
+              "daily": {
+                "type": "number",
+                "format": "float",
+                "description": "Daily success rate percentage"
+              },
+              "weekly": {
+                "type": "number",
+                "format": "float",
+                "description": "Weekly success rate percentage"
+              },
+              "monthly": {
+                "type": "number",
+                "format": "float",
+                "description": "Monthly success rate percentage"
+              },
+              "rate_of_change_success_rate": {
+                "type": "number",
+                "format": "float",
+                "description": "Rate of change in success rate"
+              }
+            }
+          },
+          "ai_accuracy_rate": {
+            "type": "object",
+            "required": [
+              "ai_accuracy",
+              "total_sentiment",
+              "transcription_rate",
+              "rate_of_change_ai_accuracy_rate"
+            ],
+            "properties": {
+              "ai_accuracy": {
+                "type": "number",
+                "format": "float",
+                "description": "AI accuracy percentage"
+              },
+              "total_sentiment": {
+                "type": "number",
+                "format": "float",
+                "description": "Total sentiment score"
+              },
+              "transcription_rate": {
+                "type": "number",
+                "format": "float",
+                "description": "Transcription accuracy rate"
+              },
+              "rate_of_change_ai_accuracy_rate": {
+                "type": "number",
+                "format": "float",
+                "description": "Rate of change in AI accuracy rate"
+              }
+            }
+          }
+        }
+      },
       "Plant": {
         "required": [
           "name"
