@@ -10,29 +10,18 @@
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "http://app.closerx.ai"
     }
-  ],
+    ],
   "security": [
     {
       "bearerAuth": []
     }
   ],
   "paths": {
-    "/plants": {
+    "/dashboard_top_cards_data_v2": {
       "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
+        "description": "Returns the call success rate,average response time,ai accurary rate and total balance",
         "responses": {
           "200": {
             "description": "Plant response",

@@ -57,7 +57,7 @@
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Dashboard Data",
             "pages": [
               "api-reference/endpoint/get",
               "api-reference/endpoint/create",
@@ -89,8 +89,8 @@
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/images/snowie.ai_20250309_162347_0000_K09AbcY.png",
+    "dark": "/images/snowie.ai_20250309_162347_0000_K09AbcY.png"
   },
   "navbar": {
     "links": [
