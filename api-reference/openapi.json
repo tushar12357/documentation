@@ -450,6 +450,140 @@
           }
         }
       }
+    },
+    "/v2/update-whitelabel/": {
+      "get": {
+        "description": "Retrieves the whitelabel domain configuration for the tenant",
+        "parameters": [
+          {
+            "name": "schema-name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Whitelabel domain configuration response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WhitelabelResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "Updates the whitelabel domain configuration for the tenant",
+        "parameters": [
+          {
+            "name": "schema-name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Whitelabel configuration data to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WhitelabelRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Whitelabel domain update response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WhitelabelResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/verify-whitelabel/": {
+      "post": {
+        "description": "Verifies the whitelabel domain configuration for the tenant",
+        "parameters": [
+          {
+            "name": "schema-name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Domain and verification step for whitelabel verification",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyWhitelabelRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Whitelabel domain verification response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyWhitelabelResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1404,6 +1538,452 @@
                 }
               }
             }
+          }
+        }
+      },
+       "WhitelabelRequest": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "description": "Domain name for the whitelabel"
+          },
+          "legal_name": {
+            "type": "string",
+            "description": "Legal name of the entity"
+          },
+          "address": {
+            "type": "string",
+            "description": "Address associated with the entity"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Contact email address"
+          },
+          "reselling_price": {
+            "type": "string",
+            "description": "Price for reselling"
+          },
+          
+          "btn_color": {
+            "type": "string",
+            "description": "Color for buttons in hex format"
+          },
+          "btn_hover_color": {
+            "type": "string",
+            "description": "Hover color for buttons in hex format"
+          },
+          "btn_text_color": {
+            "type": "string",
+            "description": "Text color for buttons in hex format"
+          },
+          "background_color_primary": {
+            "type": "string",
+            "description": "Primary background color in hex format"
+          },
+          "background_color_secondary": {
+            "type": "string",
+            "description": "Secondary background color in hex format"
+          },
+          "select_text_color": {
+            "type": "string",
+            "description": "Text color for select elements in hex format"
+          },
+          "text_color": {
+            "type": "string",
+            "description": "General text color in hex format"
+          },
+          "logo": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the logo image"
+          },
+          "fav_icon": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the favicon image"
+          },
+          "icon_color": {
+            "type": "string",
+            "description": "Color for icons in hex format"
+          },
+          "icon_background_color": {
+            "type": "string",
+            "description": "Background color for icons in hex format"
+          },
+          "hide_video": {
+            "type": "boolean",
+            "description": "Indicates if video content should be hidden"
+          },
+          
+          "email_template_subject": {
+            "type": "string",
+            "description": "Subject line for email templates"
+          },
+          "email_template": {
+            "type": "string",
+            "description": "Content of the email template"
+          },
+          "coustum_css": {
+            "type": "string",
+            "description": "Custom CSS for the whitelabel"
+          },
+          "coustum_js": {
+            "type": "string",
+            "description": "Custom JavaScript for the whitelabel"
+          },
+          "loginpage_theme_name": {
+            "type": "string",
+            "description": "Name of the theme for the login page"
+          },
+          "text_hover_color": {
+            "type": "string",
+            "nullable": true,
+            "description": "Text hover color in hex format"
+          },
+          "logo_background_color": {
+            "type": "string",
+            "nullable": true,
+            "description": "Background color for the logo in hex format"
+          },
+          "layout_border_color": {
+            "type": "string",
+            "nullable": true,
+            "description": "Border color for the layout in hex format"
+          },
+          "button_border_color": {
+            "type": "string",
+            "nullable": true,
+            "description": "Border color for buttons in hex format"
+          },
+          "text_color_light": {
+            "type": "string",
+            "nullable": true,
+            "description": "Light text color in hex format"
+          },
+          "sidebar_tab_hover_color": {
+            "type": "string",
+            "nullable": true,
+            "description": "Hover color for sidebar tabs in hex format"
+          }
+        }
+      },
+      "WhitelabelResponse": {
+        "type": "object",
+        "required": ["success", "status_code", "data", "message"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful"
+          },
+          "status_code": {
+            "type": "integer",
+            "description": "HTTP status code of the response"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "id",
+              "domain",
+              "is_primary",
+              "activate",
+              "legal_name",
+              "address",
+              "email",
+              "subsription_type",
+              "subsription_id",
+              "reselling_price",
+              "stripe_key",
+              "btn_color",
+              "btn_hover_color",
+              "btn_text_color",
+              "background_color_primary",
+              "background_color_secondary",
+              "select_text_color",
+              "text_color",
+              "logo",
+              "fav_icon",
+              "icon_color",
+              "icon_background_color",
+              "hide_video",
+              "sendgrid_token",
+              "sendgrid_email",
+              "sendgrid_domain_id",
+              "domain_verified",
+              "email_template_subject",
+              "email_template",
+              "coustum_css",
+              "coustum_js",
+              "loginpage_theme_name",
+              "strip_account_id",
+              "created_at",
+              "updated_at",
+              "tenant"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Unique identifier for the whitelabel domain"
+              },
+              "domain": {
+                "type": "string",
+                "description": "Domain name for the whitelabel"
+              },
+              "is_primary": {
+                "type": "boolean",
+                "description": "Indicates if this is the primary domain"
+              },
+              "activate": {
+                "type": "boolean",
+                "description": "Indicates if the domain is active"
+              },
+              "legal_name": {
+                "type": "string",
+                "description": "Legal name of the entity"
+              },
+              "address": {
+                "type": "string",
+                "description": "Address associated with the entity"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "Contact email address"
+              },
+              "subsription_type": {
+                "type": "string",
+                "description": "Type of subscription"
+              },
+              "subsription_id": {
+                "type": "string",
+                "description": "Unique identifier for the subscription"
+              },
+              "reselling_price": {
+                "type": "string",
+                "description": "Price for reselling"
+              },
+              "stripe_key": {
+                "type": "string",
+                "description": "Stripe API key for payments"
+              },
+              "btn_color": {
+                "type": "string",
+                "description": "Color for buttons in hex format"
+              },
+              "btn_hover_color": {
+                "type": "string",
+                "description": "Hover color for buttons in hex format"
+              },
+              "btn_text_color": {
+                "type": "string",
+                "description": "Text color for buttons in hex format"
+              },
+              "background_color_primary": {
+                "type": "string",
+                "description": "Primary background color in hex format"
+              },
+              "background_color_secondary": {
+                "type": "string",
+                "description": "Secondary background color in hex format"
+              },
+              "select_text_color": {
+                "type": "string",
+                "description": "Text color for select elements in hex format"
+              },
+              "text_color": {
+                "type": "string",
+                "description": "General text color in hex format"
+              },
+              "logo": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to the logo image"
+              },
+              "fav_icon": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to the favicon image"
+              },
+              "icon_color": {
+                "type": "string",
+                "description": "Color for icons in hex format"
+              },
+              "icon_background_color": {
+                "type": "string",
+                "description": "Background color for icons in hex format"
+              },
+              "hide_video": {
+                "type": "boolean",
+                "description": "Indicates if video content should be hidden"
+              },
+              "sendgrid_token": {
+                "type": "string",
+                "nullable": true,
+                "description": "SendGrid API token"
+              },
+              "sendgrid_email": {
+                "type": "string",
+                "format": "email",
+                "description": "SendGrid email address"
+              },
+              "sendgrid_domain_id": {
+                "type": "string",
+                "description": "SendGrid domain ID"
+              },
+              "domain_verified": {
+                "type": "boolean",
+                "description": "Indicates if the domain is verified"
+              },
+              "email_template_subject": {
+                "type": "string",
+                "description": "Subject line for email templates"
+              },
+              "email_template": {
+                "type": "string",
+                "description": "Content of the email template"
+              },
+              "coustum_css": {
+                "type": "string",
+                "description": "Custom CSS for the whitelabel"
+              },
+              "coustum_js": {
+                "type": "string",
+                "description": "Custom JavaScript for the whitelabel"
+              },
+              "loginpage_theme_name": {
+                "type": "string",
+                "description": "Name of the theme for the login page"
+              },
+              "strip_account_id": {
+                "type": "string",
+                "description": "Stripe account ID"
+              },
+              "text_hover_color": {
+                "type": "string",
+                "nullable": true,
+                "description": "Text hover color in hex format"
+              },
+              "logo_background_color": {
+                "type": "string",
+                "nullable": true,
+                "description": "Background color for the logo in hex format"
+              },
+              "layout_border_color": {
+                "type": "string",
+                "nullable": true,
+                "description": "Border color for the layout in hex format"
+              },
+              "button_border_color": {
+                "type": "string",
+                "nullable": true,
+                "description": "Border color for buttons in hex format"
+              },
+              "text_color_light": {
+                "type": "string",
+                "nullable": true,
+                "description": "Light text color in hex format"
+              },
+              "sidebar_tab_hover_color": {
+                "type": "string",
+                "nullable": true,
+                "description": "Hover color for sidebar tabs in hex format"
+              },
+              "razorpay_account_status": {
+                "type": "string",
+                "nullable": true,
+                "description": "Status of the Razorpay account"
+              },
+              "razorpay_product_config_id": {
+                "type": "string",
+                "nullable": true,
+                "description": "Razorpay product configuration ID"
+              },
+              "razorpay_account_id": {
+                "type": "string",
+                "nullable": true,
+                "description": "Razorpay account ID"
+              },
+              "business_type": {
+                "type": "string",
+                "nullable": true,
+                "description": "Type of business"
+              },
+              "business_category": {
+                "type": "string",
+                "nullable": true,
+                "description": "Category of the business"
+              },
+              "business_subcategory": {
+                "type": "string",
+                "nullable": true,
+                "description": "Subcategory of the business"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the whitelabel domain was created"
+              },
+              "updated_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the whitelabel domain was last updated"
+              },
+              "tenant": {
+                "type": "integer",
+                "description": "Unique identifier for the tenant"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the request"
+          }
+        }
+      },
+      "VerifyWhitelabelRequest": {
+        "type": "object",
+        "required": ["domain", "step"],
+        "properties": {
+          "domain": {
+            "type": "string",
+            "description": "Domain name for the whitelabel"
+          },
+          "step": {
+            "type": "string",
+            "description": "Verification step (e.g., email)"
+          }
+        }
+      },
+      "VerifyWhitelabelResponse": {
+        "type": "object",
+        "required": ["success", "status_code", "data", "message"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the verification was successful"
+          },
+          "status_code": {
+            "type": "integer",
+            "description": "HTTP status code of the response"
+          },
+          "data": {
+            "type": "object",
+            "required": ["verified", "ip"],
+            "properties": {
+              "verified": {
+                "type": "boolean",
+                "description": "Indicates if the domain is verified"
+              },
+              "ip": {
+                "type": "string",
+                "description": "IP address associated with the domain"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the verification"
           }
         }
       },

@@ -76,7 +76,15 @@
               "api-reference/dashboard/get-campaign-results",
               "api-reference/dashboard/get-quick-campaign-results"
             ]
-          }
+          },
+        {
+          "group":"Agency",
+          "pages":[
+            "api-reference/agency/get-whitelabel",
+            "api-reference/agency/update-whitelabel",
+            "api-reference/agency/verify-whitelabel"
+          ]
+        }
         ]
       }
     ],
