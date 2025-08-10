@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://app.closerx.ai"
+      "url": "https://app.closerx.ai/api"
     }
     ],
   "security": [
@@ -19,7 +19,249 @@
     }
   ],
   "paths": {
-    "/v2/dashboard_top_cards_data_v2": {
+    "/auth/login/":{
+     "post": {
+        "description": "Allows User to Log In the system",
+        "security":[],
+        "requestBody": {
+          "description": "Login Credentials",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/request-email/":{
+     "post": {
+        "description": "Allows User to Log In the system",
+        "security":[],
+        "requestBody": {
+          "description": "Login Credentials",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPassword"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForgotPasswordResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout/": {
+      "post": {
+        "description": "Allows User to Log Out of the system",
+        "requestBody": {
+          "description": "Access token for logout",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Logout response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/password-reset/{uidb64}/{token}/": {
+      "get": {
+        "description": "Verifies the password reset token for a user",
+        "security": [],
+        "parameters": [
+          {
+            "name": "uidb64",
+            "in": "path",
+            "description": "Base64 encoded user ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "description": "Password reset token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token verification response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResetVerifyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/password-reset-complete/": {
+      "post": {
+        "description": "Allows User to reset their password using a valid token",
+        "security": [],
+        "requestBody": {
+          "description": "User ID, token, and new password for password reset",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordResetCompleteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResetCompleteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/token/refresh/": {
+      "post": {
+        "description": "Allows User to refresh their access token",
+        "security": [],
+        "requestBody": {
+          "description": "Refresh token",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Token refresh response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshTokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dashboard_top_cards_data_v2/": {
       "get": {
         "description": "Returns the call success rate,average response time,ai accurary rate and total balance",
         "parameters": [
@@ -57,7 +299,7 @@
         }
       }
     },
-    "/dashboard_campaign_list": {
+    "/v2/dashboard_campaign_list/": {
       "get": {
         "description": "Returns the campaign distribution",
         "parameters": [
@@ -133,7 +375,7 @@
         }
       }
     },
-    "/v2/campaign-results": {
+    "/v2/campaign-results/": {
       "get": {
         "description": "Returns the campaign distribution",
         "parameters": [
@@ -171,7 +413,7 @@
         }
       }
     },
-    "/v2/quick-campaign-results": {
+    "/v2/quick-campaign-results/": {
       "get": {
         "description": "Returns the campaign distribution",
         "parameters": [
@@ -212,6 +454,320 @@
   },
   "components": {
     "schemas": {
+       "Login": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User's email address"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "description": "User's password"
+          }
+        }
+      },
+       "LoginResponse": {
+        "type": "object",
+        "required": ["success", "message", "data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the login was successful"
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the login request"
+          },
+          "data": {
+            "type": "object",
+            "required": ["user"],
+            "properties": {
+              "user": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "email",
+                  "first_name",
+                  "last_name",
+                  "profile_picture",
+                  "contact_number",
+                  "email_verified",
+                  "companies",
+                  "access_token",
+                  "refresh_token",
+                  "is_superadmin",
+                  "agent_exists",
+                  "subscription_status",
+                  "is_suspended",
+                  "ghl_connected",
+                  "term_condition_excepted",
+                  "twilio_type",
+                  "salesforce_connected",
+                  "snowie_connected",
+                  "telnyx_connected",
+                  "spreadsheet_connected",
+                  "login_domain"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique identifier for the user"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "User's email address"
+                  },
+                  "first_name": {
+                    "type": "string",
+                    "description": "User's first name"
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "description": "User's last name"
+                  },
+                  "profile_picture": {
+                    "type": "string",
+                    "description": "URL to the user's profile picture"
+                  },
+                  "contact_number": {
+                    "type": "string",
+                    "description": "User's contact phone number"
+                  },
+                  "email_verified": {
+                    "type": "boolean",
+                    "description": "Indicates if the user's email is verified"
+                  },
+                  "companies": {
+                    "type": "object",
+                    "required": ["user_type", "company_id", "company_name", "company_name_view"],
+                    "properties": {
+                      "user_type": {
+                        "type": "string",
+                        "description": "Type of user within the company"
+                      },
+                      "company_id": {
+                        "type": "integer",
+                        "description": "Unique identifier for the company"
+                      },
+                      "company_name": {
+                        "type": "string",
+                        "description": "Name of the company"
+                      },
+                      "company_name_view": {
+                        "type": "string",
+                        "description": "Display name of the company"
+                      }
+                    }
+                  },
+                  "access_token": {
+                    "type": "string",
+                    "description": "Access token for authentication"
+                  },
+                  "refresh_token": {
+                    "type": "string",
+                    "description": "Refresh token for renewing access"
+                  },
+                  "is_superadmin": {
+                    "type": "boolean",
+                    "description": "Indicates if the user is a superadmin"
+                  },
+                  "agent_exists": {
+                    "type": "boolean",
+                    "description": "Indicates if an agent exists for the user"
+                  },
+                  "subscription_status": {
+                    "type": "string",
+                    "description": "Status of the user's subscription"
+                  },
+                  "is_suspended": {
+                    "type": "boolean",
+                    "description": "Indicates if the user's account is suspended"
+                  },
+                  "ghl_connected": {
+                    "type": "boolean",
+                    "description": "Indicates if GoHighLevel is connected"
+                  },
+                  "term_condition_excepted": {
+                    "type": "boolean",
+                    "description": "Indicates if terms and conditions are accepted"
+                  },
+                  "twilio_type": {
+                    "type": "string",
+                    "description": "Type of Twilio integration"
+                  },
+                  "salesforce_connected": {
+                    "type": "boolean",
+                    "description": "Indicates if Salesforce is connected"
+                  },
+                  "snowie_connected": {
+                    "type": "boolean",
+                    "description": "Indicates if Snowie is connected"
+                  },
+                  "telnyx_connected": {
+                    "type": "boolean",
+                    "description": "Indicates if Telnyx is connected"
+                  },
+                  "spreadsheet_connected": {
+                    "type": "boolean",
+                    "description": "Indicates if spreadsheet integration is connected"
+                  },
+                  "login_domain": {
+                    "type": "string",
+                    "description": "Domain used for login"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+       "ForgotPassword": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User's email address"
+          }
+        }
+      },
+        "ForgotPasswordResponse": {
+        "type": "object",
+        "required": ["success", "status_code", "data", "message"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful"
+          },
+          "status_code": {
+            "type": "integer",
+            "description": "HTTP status code of the response"
+          },
+          "data": {
+            "type": "object",
+            "required": ["email"],
+            "properties": {
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "User's email address"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the request"
+          }
+        }
+      },
+      "LogoutRequest": {
+        "type": "object",
+        "required": ["access_token"],
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "description": "User's access token for authentication"
+          }
+        }
+      },
+      "LogoutResponse": {
+        "type": "object",
+        "required": ["success", "message", "data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the logout was successful"
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the logout request"
+          },
+          "data": {
+            "type": "object",
+            "description": "Empty object containing no additional data"
+          }
+        }
+      },
+       "PasswordResetVerifyResponse": {
+        "type": "object",
+        "required": ["success", "message", "data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the token verification was successful"
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the token verification"
+          },
+          "data": {
+            "type": "object",
+            "description": "Empty object containing no additional data"
+          }
+        }
+      },
+      "PasswordResetCompleteRequest": {
+        "type": "object",
+        "required": ["uidb64", "token", "password"],
+        "properties": {
+          "uidb64": {
+            "type": "string",
+            "description": "Base64 encoded user ID"
+          },
+          "token": {
+            "type": "string",
+            "description": "Password reset token"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "description": "New password for the user"
+          }
+        }
+      },
+      "PasswordResetCompleteResponse": {
+        "type": "object",
+        "required": ["success", "message", "data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the password reset was successful"
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the password reset request"
+          },
+          "data": {
+            "type": "object",
+            "description": "Empty object containing no additional data"
+          }
+        }
+      },
+      "RefreshTokenRequest": {
+        "type": "object",
+        "required": ["refresh"],
+        "properties": {
+          "refresh": {
+            "type": "string",
+            "description": "Refresh token for obtaining a new access token"
+          }
+        }
+      },
+      "RefreshTokenResponse": {
+        "type": "object",
+        "required": ["access"],
+        "properties": {
+          "access": {
+            "type": "string",
+            "description": "New access token"
+          }
+        }
+      },
       "DashboardData": {
         "type": "object",
         "required": [
@@ -473,6 +1029,378 @@
                   "items": {
                     "type": "integer"
                   }
+                }
+              }
+            }
+          }
+        }
+      },
+         "DashboardCampaignResult": {
+        "type": "object",
+        "required": [
+          "count",
+          "next",
+          "previous",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Total number of campaign results"
+          },
+          "next": {
+            "type": "string",
+            "nullable": true,
+            "description": "URL to the next page of results"
+          },
+          "previous": {
+            "type": "string",
+            "nullable": true,
+            "description": "URL to the previous page of results"
+          },
+          "results": {
+            "type": "array",
+            "description": "Array of campaign result objects",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "sid",
+                "full_name",
+                "contact_number",
+                "call_duration",
+                "status",
+                "appointment_booked",
+                "outcome",
+                "contact_id",
+                "direction",
+                "recording_url",
+                "transcription",
+                "transcription_text",
+                "notes",
+                "improvement_tags",
+                "credit_deduction",
+                "errors",
+                "calender_id",
+                "response_sentiment",
+                "created_at",
+                "updated_at",
+                "campaign"
+              ],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Unique identifier for the campaign result"
+                },
+                "sid": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Session ID"
+                },
+                "full_name": {
+                  "type": "string",
+                  "description": "Full name of the contact"
+                },
+                "contact_number": {
+                  "type": "string",
+                  "description": "Contact phone number"
+                },
+                "call_duration": {
+                  "type": "integer",
+                  "description": "Duration of the call in seconds"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "Status of the call"
+                },
+                "appointment_booked": {
+                  "type": "boolean",
+                  "description": "Indicates if an appointment was booked"
+                },
+                "outcome": {
+                  "type": "string",
+                  "description": "Outcome of the campaign"
+                },
+                "contact_id": {
+                  "type": "integer",
+                  "nullable": true,
+                  "description": "ID of the contact"
+                },
+                "direction": {
+                  "type": "string",
+                  "description": "Direction of the call (inbound/outbound)"
+                },
+                "recording_url": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "URL to the call recording"
+                },
+                "transcription": {
+                  "type": "array",
+                  "description": "Array of transcription data",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "transcription_text": {
+                  "type": "string",
+                  "description": "Full transcription text"
+                },
+                "notes": {
+                  "type": "string",
+                  "description": "Additional notes for the campaign"
+                },
+                "improvement_tags": {
+                  "type": "array",
+                  "description": "Array of tags for improvement",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "credit_deduction": {
+                  "type": "string",
+                  "description": "Credit deduction details"
+                },
+                "errors": {
+                  "type": "string",
+                  "description": "Any errors encountered"
+                },
+                "calender_id": {
+                  "type": "integer",
+                  "nullable": true,
+                  "description": "Calendar ID associated with the call"
+                },
+                "response_sentiment": {
+                  "type": "string",
+                  "description": "Sentiment of the response"
+                },
+                "created_at": {
+                  "type": "string",
+                  "description": "Timestamp when the result was created"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "description": "Timestamp when the result was last updated"
+                },
+                "campaign": {
+                  "type": "string",
+                  "description": "Name or ID of the campaign"
+                }
+              }
+            }
+          }
+        }
+      },
+      "DashboardQuickCampaignResult": {
+        "type": "object",
+        "required": [
+          "count",
+          "next",
+          "previous",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Total number of quick campaign results"
+          },
+          "next": {
+            "type": "string",
+            "nullable": true,
+            "description": "URL to the next page of results"
+          },
+          "previous": {
+            "type": "string",
+            "nullable": true,
+            "description": "URL to the previous page of results"
+          },
+          "results": {
+            "type": "array",
+            "description": "Array of quick campaign result objects",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "sid",
+                "contact_id",
+                "contact_number",
+                "email",
+                "first_name",
+                "last_name",
+                "company_name",
+                "industry",
+                "address",
+                "custom1",
+                "custom2",
+                "custom3",
+                "custom4",
+                "scheduling_charge",
+                "calender_id",
+                "appointment_booked",
+                "call_duration",
+                "status",
+                "improvement_tags",
+                "outcome",
+                "recording_url",
+                "transcription",
+                "transcription_text",
+                "notes",
+                "credit_deduction",
+                "errors",
+                "response_sentiment",
+                "triggered_by_crm",
+                "created_at",
+                "updated_at",
+                "quick_campaign"
+              ],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Unique identifier for the quick campaign result"
+                },
+                "sid": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Session ID"
+                },
+                "contact_id": {
+                  "type": "integer",
+                  "nullable": true,
+                  "description": "ID of the contact"
+                },
+                "contact_number": {
+                  "type": "string",
+                  "description": "Contact phone number"
+                },
+                "email": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Email address of the contact"
+                },
+                "first_name": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "First name of the contact"
+                },
+                "last_name": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Last name of the contact"
+                },
+                "company_name": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Name of the company"
+                },
+                "industry": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Industry of the contact"
+                },
+                "address": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Address of the contact"
+                },
+                "custom1": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Custom field 1"
+                },
+                "custom2": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Custom field 2"
+                },
+                "custom3": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Custom field 3"
+                },
+                "custom4": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Custom field 4"
+                },
+                "scheduling_charge": {
+                  "type": "string",
+                  "description": "Scheduling charge for the call"
+                },
+                "calender_id": {
+                  "type": "integer",
+                  "nullable": true,
+                  "description": "Calendar ID associated with the call"
+                },
+                "appointment_booked": {
+                  "type": "boolean",
+                  "description": "Indicates if an appointment was booked"
+                },
+                "call_duration": {
+                  "type": "integer",
+                  "description": "Duration of the call in seconds"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "Status of the call"
+                },
+                "improvement_tags": {
+                  "type": "array",
+                  "description": "Array of tags for improvement",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "outcome": {
+                  "type": "string",
+                  "description": "Outcome of the campaign"
+                },
+                "recording_url": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "URL to the call recording"
+                },
+                "transcription": {
+                  "type": "array",
+                  "description": "Array of transcription data",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "transcription_text": {
+                  "type": "string",
+                  "description": "Full transcription text"
+                },
+                "notes": {
+                  "type": "string",
+                  "description": "Additional notes for the campaign"
+                },
+                "credit_deduction": {
+                  "type": "string",
+                  "description": "Credit deduction details"
+                },
+                "errors": {
+                  "type": "string",
+                  "description": "Any errors encountered"
+                },
+                "response_sentiment": {
+                  "type": "string",
+                  "description": "Sentiment of the response"
+                },
+                "triggered_by_crm": {
+                  "type": "string",
+                  "description": "CRM system that triggered the campaign"
+                },
+                "created_at": {
+                  "type": "string",
+                  "description": "Timestamp when the result was created"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "description": "Timestamp when the result was last updated"
+                },
+                "quick_campaign": {
+                  "type": "string",
+                  "description": "Identifier for the quick campaign"
                 }
               }
             }

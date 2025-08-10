@@ -57,13 +57,24 @@
             ]
           },
           {
+            "group": "Authentication",
+            "pages": [
+              "api-reference/auth/login",
+              "api-reference/auth/forgot-password",
+              "api-reference/auth//reset-password",
+              "api-reference/auth/reset-password-complete",
+              "api-reference/auth/refresh",
+              "api-reference/auth/logout"
+            ]
+          },
+          {
             "group": "Dashboard Data",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/get-campaign-list",
-              "api-reference/endpoint/get-monthly-analytics",
-              "api-reference/endpoint/get-campaign-results",
-              "api-reference/endpoint/get-quick-campaign-results"
+              "api-reference/dashboard/get-top-cards",
+              "api-reference/dashboard/get-campaign-list",
+              "api-reference/dashboard/get-monthly-analytics",
+              "api-reference/dashboard/get-campaign-results",
+              "api-reference/dashboard/get-quick-campaign-results"
             ]
           }
         ]
@@ -105,18 +116,6 @@
       "label": "Dashboard",
       "href": "https://dashboard.mintlify.com"
     }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
   },
   "footer": {
     "socials": {
