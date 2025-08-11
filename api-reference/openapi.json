@@ -504,7 +504,7 @@
         "requestBody": {
           "description": "Whitelabel configuration data to update",
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/WhitelabelRequest"
               }
