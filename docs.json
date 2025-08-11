@@ -82,7 +82,13 @@
           "pages":[
             "api-reference/agency/get-whitelabel",
             "api-reference/agency/update-whitelabel",
-            "api-reference/agency/verify-whitelabel"
+            "api-reference/agency/verify-whitelabel",
+            "api-reference/agency/get-credit-price",
+            "api-reference/agency/change-credit-price",
+            "api-reference/agency/create-stripe-product",
+            "api-reference/agency/list-stripe-product",
+            "api-reference/agency/create-subscription-link",
+            "api-reference/agency/delete-stripe-product"
           ]
         }
         ]

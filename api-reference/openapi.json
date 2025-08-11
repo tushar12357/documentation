@@ -266,7 +266,7 @@
         "description": "Returns the call success rate,average response time,ai accurary rate and total balance",
         "parameters": [
           {
-            "name": "schema-name",
+            "name": "Company-Name",
             "in": "header",
             "description": "The name of the schema to be used for the request",
             "required":true,
@@ -304,7 +304,7 @@
         "description": "Returns the campaign distribution",
         "parameters": [
           {
-            "name": "schema-name",
+            "name": "Company-Name",
             "in": "header",
             "description": "The name of the schema to be used for the request",
             "required":true,
@@ -342,7 +342,7 @@
         "description": "Returns the call success rate,average response time,ai accurary rate and total balance",
         "parameters": [
           {
-            "name": "schema-name",
+            "name": "Company-Name",
             "in": "header",
             "description": "The name of the schema to be used for the request",
             "required":true,
@@ -380,7 +380,7 @@
         "description": "Returns the campaign distribution",
         "parameters": [
           {
-            "name": "schema-name",
+            "name": "Company-Name",
             "in": "header",
             "description": "The name of the schema to be used for the request",
             "required":true,
@@ -418,7 +418,7 @@
         "description": "Returns the campaign distribution",
         "parameters": [
           {
-            "name": "schema-name",
+            "name": "Company-Name",
             "in": "header",
             "description": "The name of the schema to be used for the request",
             "required":true,
@@ -456,7 +456,7 @@
         "description": "Retrieves the whitelabel domain configuration for the tenant",
         "parameters": [
           {
-            "name": "schema-name",
+            "name": "Company-Name",
             "in": "header",
             "description": "The name of the schema to be used for the request",
             "required": true,
@@ -492,7 +492,7 @@
         "description": "Updates the whitelabel domain configuration for the tenant",
         "parameters": [
           {
-            "name": "schema-name",
+            "name": "Company-Name",
             "in": "header",
             "description": "The name of the schema to be used for the request",
             "required": true,
@@ -541,7 +541,7 @@
         "description": "Verifies the whitelabel domain configuration for the tenant",
         "parameters": [
           {
-            "name": "schema-name",
+            "name": "Company-Name",
             "in": "header",
             "description": "The name of the schema to be used for the request",
             "required": true,
@@ -584,7 +584,275 @@
           }
         }
       }
-    }
+    },
+    "/change/agency/credit_price/": {
+      "get": {
+        "description": "Retrieves the credit price for the agency",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credit price response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditPriceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Updates the credit price for the agency",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Credit price to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditPriceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Credit price update response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditPriceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/create-stripe-product/": {
+      "post": {
+        "description": "Creates a new Stripe product and associated price",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Product details for creating a Stripe product",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStripeProductRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Stripe product creation response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateStripeProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list-stripe-products/": {
+      "get": {
+        "description": "Retrieves a list of Stripe products and their associated prices",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stripe products list response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListStripeProductsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/create-subscription-link/": {
+      "post": {
+        "description": "Creates a Stripe payment link for a subscription",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Price ID for creating the subscription payment link",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubscriptionLinkRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Subscription payment link creation response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateSubscriptionLinkResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/delete-stripe-products/{product_id}/": {
+      "delete": {
+        "description": "Hides or deactivates a Stripe product",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "path",
+            "description": "Unique identifier for the Stripe product to be hidden",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stripe product hide response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteStripeProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }                                   
   },
   "components": {
     "schemas": {
@@ -1984,6 +2252,251 @@
           "message": {
             "type": "string",
             "description": "Message describing the result of the verification"
+          }
+        }
+      },
+      "CreditPriceRequest": {
+        "type": "object",
+        "required": ["credit_price"],
+        "properties": {
+          "credit_price": {
+            "type": "number",
+            "format": "float",
+            "description": "The credit price for the agency"
+          }
+        }
+      },
+      "CreditPriceResponse": {
+        "type": "object",
+        "required": ["success", "errors", "response", "message"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful"
+          },
+          "errors": {
+            "type": "array",
+            "description": "List of errors, if any",
+            "items": {
+              "type": "string"
+            }
+          },
+          "response": {
+            "type": "object",
+            "required": ["credit_price"],
+            "properties": {
+              "credit_price": {
+                "type": "number",
+                "format": "float",
+                "description": "The credit price for the agency"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the request"
+          }
+        }
+      },
+       "CreateStripeProductRequest": {
+        "type": "object",
+        "required": ["product_name", "unit_amount", "currency", "product_description"],
+        "properties": {
+          "product_name": {
+            "type": "string",
+            "description": "Name of the Stripe product"
+          },
+          "unit_amount": {
+            "type": "integer",
+            "description": "Price amount in the smallest currency unit (e.g., cents for USD)"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code for the price (e.g., usd)"
+          },
+          "product_description": {
+            "type": "string",
+            "description": "Description of the Stripe product"
+          }
+        }
+      },
+      "CreateStripeProductResponse": {
+        "type": "object",
+        "required": ["success", "errors", "response", "message"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful"
+          },
+          "errors": {
+            "type": "array",
+            "description": "List of errors, if any",
+            "items": {
+              "type": "string"
+            }
+          },
+          "response": {
+            "type": "object",
+            "required": ["product_id", "product_name", "product_description", "price_id", "prices_amount", "prices_currency"],
+            "properties": {
+              "product_id": {
+                "type": "string",
+                "description": "Unique identifier for the created Stripe product"
+              },
+              "product_name": {
+                "type": "string",
+                "description": "Name of the created Stripe product"
+              },
+              "product_description": {
+                "type": "string",
+                "description": "Description of the created Stripe product"
+              },
+              "price_id": {
+                "type": "string",
+                "description": "Unique identifier for the created price"
+              },
+              "prices_amount": {
+                "type": "integer",
+                "description": "Price amount in the smallest currency unit"
+              },
+              "prices_currency": {
+                "type": "string",
+                "description": "Currency code for the price"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the request"
+          }
+        }
+      },
+       "ListStripeProductsResponse": {
+        "type": "object",
+        "required": ["success", "errors", "response", "message"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful"
+          },
+          "errors": {
+            "type": "array",
+            "description": "List of errors, if any",
+            "items": {
+              "type": "string"
+            }
+          },
+          "response": {
+            "type": "object",
+            "required": ["product_prices"],
+            "properties": {
+              "product_prices": {
+                "type": "array",
+                "description": "List of Stripe products and their prices",
+                "items": {
+                  "type": "object",
+                  "required": ["product_id", "product_name", "product_description", "prices_id", "prices_amount", "prices_currency"],
+                  "properties": {
+                    "product_id": {
+                      "type": "string",
+                      "description": "Unique identifier for the Stripe product"
+                    },
+                    "product_name": {
+                      "type": "string",
+                      "description": "Name of the Stripe product"
+                    },
+                    "product_description": {
+                      "type": "string",
+                      "description": "Description of the Stripe product"
+                    },
+                    "prices_id": {
+                      "type": "string",
+                      "description": "Unique identifier for the price"
+                    },
+                    "prices_amount": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "Price amount in the smallest currency unit"
+                    },
+                    "prices_currency": {
+                      "type": "string",
+                      "description": "Currency code for the price"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the request"
+          }
+        }
+      },
+      "CreateSubscriptionLinkRequest": {
+        "type": "object",
+        "required": ["price_id"],
+        "properties": {
+          "price_id": {
+            "type": "string",
+            "description": "Unique identifier for the Stripe price"
+          }
+        }
+      },
+      "CreateSubscriptionLinkResponse": {
+        "type": "object",
+        "required": ["success", "errors", "response", "message"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful"
+          },
+          "errors": {
+            "type": "array",
+            "description": "List of errors, if any",
+            "items": {
+              "type": "string"
+            }
+          },
+          "response": {
+            "type": "object",
+            "required": ["payment_link"],
+            "properties": {
+              "payment_link": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL for the Stripe payment link"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the request"
+          }
+        }
+      },
+       "DeleteStripeProductResponse": {
+        "type": "object",
+        "required": ["success", "errors", "response", "message"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful"
+          },
+          "errors": {
+            "type": "array",
+            "description": "List of errors, if any",
+            "items": {
+              "type": "string"
+            }
+          },
+          "response": {
+            "type": "object",
+            "description": "Empty object containing no additional data"
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the request"
           }
         }
       },
