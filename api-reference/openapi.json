@@ -852,7 +852,208 @@
           }
         }
       }
-    }                                   
+    },
+    "/your-credit-plans/": {
+      "get": {
+        "description": "Retrieves a list of available credit plans for the tenant",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credit plans list response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditPlansResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates a new credit plan for the tenant",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Details for creating a new credit plan",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCreditPlanRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Credit plan creation response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCreditPlanResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/your-credit-plans/{id}/": {
+      "delete": {
+        "description": "Deletes a specific credit plan by its ID",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier for the credit plan to be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Credit plan deleted successfully, no content returned"
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/purchased-themes/": {
+      "get": {
+        "description": "Retrieves a list of purchased themes for the tenant",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Purchased themes list response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchasedThemesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/create-checkout-session-theme/": {
+      "post": {
+        "description": "Creates a Stripe checkout session for purchasing a theme",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Checkout session creation response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCheckoutSessionThemeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }                              
   },
   "components": {
     "schemas": {
@@ -2497,6 +2698,194 @@
           "message": {
             "type": "string",
             "description": "Message describing the result of the request"
+          }
+        }
+      },
+      "CreditPlansResponse": {
+        "type": "array",
+        "description": "List of available credit plans",
+        "items": {
+          "type": "object",
+          "required": ["id", "name", "description", "amount", "credits", "currency", "discount", "features", "created_at", "updated_at"],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "Unique identifier for the credit plan"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the credit plan"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of the credit plan"
+            },
+            "amount": {
+              "type": "string",
+              "description": "Price of the credit plan"
+            },
+            "credits": {
+              "type": "string",
+              "description": "Number of credits included in the plan"
+            },
+            "currency": {
+              "type": "string",
+              "description": "Currency code for the price (e.g., usd)"
+            },
+            "discount": {
+              "type": "integer",
+              "description": "Discount percentage for the plan"
+            },
+            "features": {
+              "type": "object",
+              "description": "Features included in the credit plan",
+              "additionalProperties": {
+                "type": "string",
+                "description": "Description of a specific feature"
+              }
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp when the credit plan was created"
+            },
+            "updated_at": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp when the credit plan was last updated"
+            }
+          }
+        }
+      },
+      "CreateCreditPlanRequest": {
+        "type": "object",
+        "required": ["name", "description", "amount", "credits", "currency", "discount", "features"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the credit plan"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the credit plan"
+          },
+          "amount": {
+            "type": "integer",
+            "description": "Price of the credit plan"
+          },
+          "credits": {
+            "type": "integer",
+            "description": "Number of credits included in the plan"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code for the price (e.g., usd)"
+          },
+          "discount": {
+            "type": "integer",
+            "description": "Discount percentage for the plan"
+          },
+          "features": {
+            "type": "object",
+            "description": "Features included in the credit plan",
+            "additionalProperties": {
+              "type": "string",
+              "description": "Description of a specific feature"
+            }
+          }
+        }
+      },
+      "CreateCreditPlanResponse": {
+        "type": "object",
+        "required": ["id", "name", "description", "amount", "credits", "currency", "discount", "features", "created_at", "updated_at"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the credit plan"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the credit plan"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the credit plan"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Price of the credit plan"
+          },
+          "credits": {
+            "type": "string",
+            "description": "Number of credits included in the plan"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code for the price (e.g., usd)"
+          },
+          "discount": {
+            "type": "integer",
+            "description": "Discount percentage for the plan"
+          },
+          "features": {
+            "type": "object",
+            "description": "Features included in the credit plan",
+            "additionalProperties": {
+              "type": "string",
+              "description": "Description of a specific feature"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the credit plan was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the credit plan was last updated"
+          }
+        }
+      },
+      "PurchasedThemesResponse": {
+        "type": "array",
+        "description": "List of purchased themes",
+        "items": {
+          "type": "object",
+          "required": ["id", "name", "slug", "description", "preview_url"],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "Unique identifier for the theme"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the theme"
+            },
+            "slug": {
+              "type": "string",
+              "description": "Slug identifier for the theme"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of the theme"
+            },
+            "preview_url": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to preview the theme"
+            }
+          }
+        }
+      },
+      "CreateCheckoutSessionThemeResponse": {
+        "type": "object",
+        "required": ["checkout_url"],
+        "properties": {
+          "checkout_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL for the Stripe checkout session"
           }
         }
       },

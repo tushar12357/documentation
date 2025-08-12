@@ -88,7 +88,12 @@
             "api-reference/agency/create-stripe-product",
             "api-reference/agency/list-stripe-product",
             "api-reference/agency/create-subscription-link",
-            "api-reference/agency/delete-stripe-product"
+            "api-reference/agency/delete-stripe-product",
+            "api-reference/agency/get-credit-plans",
+            "api-reference/agency/create-credit-plans",
+            "api-reference/agency/delete-credit-plans",
+            "api-reference/agency/purchase-login-themes",
+            "api-reference/agency/get-purchased-themes"
           ]
         }
         ]
