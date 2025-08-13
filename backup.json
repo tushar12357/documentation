@@ -1,0 +1,51 @@
+{
+          "group":"Agency",
+          "pages":[
+            "api-reference/agency/get-whitelabel",
+            "api-reference/agency/update-whitelabel",
+            "api-reference/agency/verify-whitelabel",
+            "api-reference/agency/get-credit-price",
+            "api-reference/agency/change-credit-price",
+            "api-reference/agency/create-stripe-product",
+            "api-reference/agency/list-stripe-product",
+            "api-reference/agency/create-subscription-link",
+            "api-reference/agency/delete-stripe-product",
+            "api-reference/agency/get-credit-plans",
+            "api-reference/agency/create-credit-plans",
+            "api-reference/agency/delete-credit-plans",
+            "api-reference/agency/purchase-login-themes",
+            "api-reference/agency/get-purchased-themes"
+          ],
+        "pronunciation_dictionary": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "List of words/phrases with pronunciations for consistent synthesis. Set to null to remove.",
+            "nullable": true
+          },
+          
+          "vocab_specialization": {
+            "type": "string",
+            "enum": ["general", "medical"],
+            "description": "Vocabulary set for transcription (English only). Defaults to general.",
+            "example": "general"
+          },
+          "allow_user_dtmf": {
+            "type": "boolean",
+            "description": "Enables DTMF input processing. Defaults to true.",
+            "example": true
+          },
+          "user_dtmf_options": {
+            "type": "object",
+            "description": "DTMF options for the agent.",
+            "nullable": true
+          },
+          "denoising_mode": {
+            "type": "string",
+            "enum": ["noise-cancellation", "noise-and-background-speech-cancellation"],
+            "description": "Denoising mode for audio. Defaults to noise-cancellation.",
+            "example": "noise-cancellation"
+          }
+        }
+            

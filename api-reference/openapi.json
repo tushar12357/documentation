@@ -1053,7 +1053,380 @@
           }
         }
       }
-    }                              
+    },
+    "/v2/aicallagent-list/": {
+      "get": {
+        "description": "Retrieves a paginated list of AI call agents with optional search and sorting",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for pagination",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Search term to filter agents",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Field to sort by (prefix with '-' for descending order)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "-updated_at"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AI call agents list response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AICallAgentListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/create/": {
+      "post": {
+        "description": "Creates a new AI call agent with default settings",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AI call agent creation response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAgentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+     "/llm/update/{llm_id}/": {
+      "get": {
+        "description": "Retrieves the configuration of an existing LLM by its ID",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "llm_id",
+            "in": "path",
+            "description": "Unique identifier for the LLM to retrieve",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LLM retrieval response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateLLMResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "Updates the configuration of an existing LLM by its ID",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "llm_id",
+            "in": "path",
+            "description": "Unique identifier for the LLM to be updated",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "LLM configuration details to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLLMRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "LLM update response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateLLMResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/update/{agent_id}/": {
+      "patch": {
+        "description": "Updates the configuration of an existing AI call agent by its ID",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agent_id",
+            "in": "path",
+            "description": "Unique identifier for the AI call agent to be updated",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "16b980523634a6dc504898cda492e939"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Configuration details to update for the AI call agent",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAgentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "AI call agent update response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateAgentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Retrieves the configuration of an existing AI call agent by its ID",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agent_id",
+            "in": "path",
+            "description": "Unique identifier for the AI call agent to retrieve",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "16b980523634a6dc504898cda492e939"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AI call agent retrieval response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateAgentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes an existing AI call agent by its ID",
+        "parameters": [
+          {
+            "name": "Company-Name",
+            "in": "header",
+            "description": "The name of the schema to be used for the request",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agent_id",
+            "in": "path",
+            "description": "Unique identifier for the AI call agent to delete",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "16b980523634a6dc504898cda492e939"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AI call agent deletion response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "Indicates whether the deletion was successful",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Message describing the result of the deletion",
+                      "example": "deleted success"
+                    }
+                  },
+                  "required": ["success", "message"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }                     
   },
   "components": {
     "schemas": {
@@ -2886,6 +3259,1366 @@
             "type": "string",
             "format": "uri",
             "description": "URL for the Stripe checkout session"
+          }
+        }
+      },
+       "AICallAgentListResponse": {
+        "type": "object",
+        "required": ["total_count", "total_page", "Current_page_no", "next_page_number", "previous_page_number", "page_size", "data"],
+        "properties": {
+          "total_count": {
+            "type": "integer",
+            "description": "Total number of AI call agents"
+          },
+          "total_page": {
+            "type": "integer",
+            "description": "Total number of pages"
+          },
+          "Current_page_no": {
+            "type": "integer",
+            "description": "Current page number"
+          },
+          "next_page_number": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Next page number, null if no next page"
+          },
+          "previous_page_number": {
+            "type": "string",
+            "nullable": true,
+            "description": "Previous page number, null if no previous page"
+          },
+          "page_size": {
+            "type": "integer",
+            "description": "Number of agents per page"
+          },
+          "data": {
+            "type": "array",
+            "description": "List of AI call agents",
+            "items": {
+              "type": "object",
+              "required": [
+                "pk",
+                "agent_name",
+                "agent_id",
+                "voice_id",
+                "language",
+                "interruption_sensitivity",
+                "voicemail",
+                "voicemail_message",
+                "end_call_after_silence",
+                "max_call_duration",
+                "reminder_trigger",
+                "ambient_sound",
+                "analysis_data",
+                "llm",
+                "voice_speed",
+                "voice_temperature",
+                "volume",
+                "enable_backchannel",
+                "normalize_for_speech",
+                "enable_transcription_formatting",
+                "reminder_trigger_ms",
+                "reminder_max_count",
+                "boosted_keywords",
+                "ambient_sound_volume",
+                "voicemail_detection_timeout_ms",
+                "begin_message_delay_ms",
+                "updated_at",
+                "is_locked",
+                "calendar_id",
+                "inbound_appoitment",
+                "ring_duration_sec",
+                "stt_mode",
+                "backchannel_words",
+                "backchannel_frequency",
+                "call_scheduling",
+                "agent_crm_type",
+                "voicemail_option"
+              ],
+              "properties": {
+                "pk": {
+                  "type": "integer",
+                  "description": "Primary key for the AI call agent"
+                },
+                "agent_name": {
+                  "type": "string",
+                  "description": "Name of the AI call agent"
+                },
+                "agent_id": {
+                  "type": "string",
+                  "description": "Unique identifier for the AI call agent"
+                },
+                "voice_id": {
+                  "type": "string",
+                  "description": "Identifier for the voice used by the agent"
+                },
+                "language": {
+                  "type": "string",
+                  "description": "Language code or type (e.g., en-US, multi)"
+                },
+                "interruption_sensitivity": {
+                  "type": "string",
+                  "description": "Sensitivity level for interruptions"
+                },
+                "voicemail": {
+                  "type": "boolean",
+                  "description": "Indicates if voicemail is enabled"
+                },
+                "voicemail_message": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Voicemail message content"
+                },
+                "end_call_after_silence": {
+                  "type": "integer",
+                  "description": "Duration of silence before ending the call (in seconds)"
+                },
+                "max_call_duration": {
+                  "type": "integer",
+                  "description": "Maximum call duration (in minutes)"
+                },
+                "reminder_trigger": {
+                  "type": "integer",
+                  "description": "Time before triggering a reminder (in seconds)"
+                },
+                "ambient_sound": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Ambient sound setting"
+                },
+                "analysis_data": {
+                  "type": "array",
+                  "description": "Data for call analysis",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "llm": {
+                  "type": "integer",
+                  "description": "Identifier for the language model used"
+                },
+                "voice_speed": {
+                  "type": "number",
+                  "format": "float",
+                  "description": "Speed of the voice"
+                },
+                "voice_temperature": {
+                  "type": "number",
+                  "format": "float",
+                  "description": "Temperature setting for voice generation"
+                },
+                "volume": {
+                  "type": "number",
+                  "format": "float",
+                  "description": "Volume level for the voice"
+                },
+                "enable_backchannel": {
+                  "type": "boolean",
+                  "description": "Indicates if backchannel responses are enabled"
+                },
+                "normalize_for_speech": {
+                  "type": "boolean",
+                  "description": "Indicates if speech normalization is enabled"
+                },
+                "enable_transcription_formatting": {
+                  "type": "boolean",
+                  "description": "Indicates if transcription formatting is enabled"
+                },
+                "reminder_trigger_ms": {
+                  "type": "integer",
+                  "description": "Reminder trigger time in milliseconds"
+                },
+                "reminder_max_count": {
+                  "type": "integer",
+                  "description": "Maximum number of reminders"
+                },
+                "boosted_keywords": {
+                  "type": "array",
+                  "description": "List of keywords to boost in processing",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "ambient_sound_volume": {
+                  "type": "number",
+                  "format": "float",
+                  "description": "Volume level for ambient sound"
+                },
+                "voicemail_detection_timeout_ms": {
+                  "type": "integer",
+                  "description": "Timeout for voicemail detection in milliseconds"
+                },
+                "begin_message_delay_ms": {
+                  "type": "integer",
+                  "description": "Delay before starting message in milliseconds"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Timestamp when the agent was last updated"
+                },
+                "is_locked": {
+                  "type": "boolean",
+                  "description": "Indicates if the agent is locked"
+                },
+                "calendar_id": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Identifier for associated calendar"
+                },
+                "inbound_appoitment": {
+                  "type": "boolean",
+                  "description": "Indicates if inbound appointment scheduling is enabled"
+                },
+                "ring_duration_sec": {
+                  "type": "integer",
+                  "description": "Ring duration in seconds"
+                },
+                "stt_mode": {
+                  "type": "string",
+                  "description": "Speech-to-text mode (e.g., fast)"
+                },
+                "backchannel_words": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Words used for backchannel responses"
+                },
+                "backchannel_frequency": {
+                  "type": "number",
+                  "format": "float",
+                  "description": "Frequency of backchannel responses"
+                },
+                "call_scheduling": {
+                  "type": "boolean",
+                  "description": "Indicates if call scheduling is enabled"
+                },
+                "agent_crm_type": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Type of CRM integration for the agent"
+                },
+                "voicemail_option": {
+                  "type": "object",
+                  "description": "Voicemail options for the agent",
+                  "properties": {
+                    "action": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "description": "Type of voicemail action (e.g., hangup, prompt)"
+                        },
+                        "text": {
+                          "type": "string",
+                          "description": "Text for voicemail prompt, if applicable"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "CreateAgentResponse": {
+        "type": "object",
+        "required": ["success", "message", "data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful"
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the request"
+          },
+          "data": {
+            "type": "object",
+            "required": ["agent", "llm"],
+            "properties": {
+              "agent": {
+                "type": "object",
+                "required": [
+                  "pk",
+                  "agent_name",
+                  "agent_id",
+                  "voice_id",
+                  "language",
+                  "interruption_sensitivity",
+                  "voicemail",
+                  "voicemail_message",
+                  "end_call_after_silence",
+                  "max_call_duration",
+                  "reminder_trigger",
+                  "ambient_sound",
+                  "analysis_data",
+                  "llm",
+                  "voice_speed",
+                  "voice_temperature",
+                  "volume",
+                  "enable_backchannel",
+                  "normalize_for_speech",
+                  "enable_transcription_formatting",
+                  "reminder_trigger_ms",
+                  "reminder_max_count",
+                  "boosted_keywords",
+                  "ambient_sound_volume",
+                  "voicemail_detection_timeout_ms",
+                  "begin_message_delay_ms",
+                  "updated_at",
+                  "is_locked",
+                  "calendar_id",
+                  "inbound_appoitment",
+                  "ring_duration_sec",
+                  "stt_mode",
+                  "backchannel_words",
+                  "backchannel_frequency",
+                  "call_scheduling",
+                  "agent_crm_type",
+                  "voicemail_option"
+                ],
+                "properties": {
+                  "pk": {
+                    "type": "integer",
+                    "description": "Primary key for the AI call agent"
+                  },
+                  "agent_name": {
+                    "type": "string",
+                    "description": "Name of the AI call agent"
+                  },
+                  "agent_id": {
+                    "type": "string",
+                    "description": "Unique identifier for the AI call agent"
+                  },
+                  "voice_id": {
+                    "type": "string",
+                    "description": "Identifier for the voice used by the agent"
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "Language code or type (e.g., en-US, multi)"
+                  },
+                  "interruption_sensitivity": {
+                    "type": "string",
+                    "description": "Sensitivity level for interruptions"
+                  },
+                  "voicemail": {
+                    "type": "boolean",
+                    "description": "Indicates if voicemail is enabled"
+                  },
+                  "voicemail_message": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Voicemail message content"
+                  },
+                  "end_call_after_silence": {
+                    "type": "integer",
+                    "description": "Duration of silence before ending the call (in seconds)"
+                  },
+                  "max_call_duration": {
+                    "type": "integer",
+                    "description": "Maximum call duration (in minutes)"
+                  },
+                  "reminder_trigger": {
+                    "type": "integer",
+                    "description": "Time before triggering a reminder (in seconds)"
+                  },
+                  "ambient_sound": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Ambient sound setting"
+                  },
+                  "analysis_data": {
+                    "type": "array",
+                    "description": "Data for call analysis",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "llm": {
+                    "type": "integer",
+                    "description": "Identifier for the language model used"
+                  },
+                  "voice_speed": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Speed of the voice"
+                  },
+                  "voice_temperature": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Temperature setting for voice generation"
+                  },
+                  "volume": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Volume level for the voice"
+                  },
+                  "enable_backchannel": {
+                    "type": "boolean",
+                    "description": "Indicates if backchannel responses are enabled"
+                  },
+                  "normalize_for_speech": {
+                    "type": "boolean",
+                    "description": "Indicates if speech normalization is enabled"
+                  },
+                  "enable_transcription_formatting": {
+                    "type": "boolean",
+                    "description": "Indicates if transcription formatting is enabled"
+                  },
+                  "reminder_trigger_ms": {
+                    "type": "integer",
+                    "description": "Reminder trigger time in milliseconds"
+                  },
+                  "reminder_max_count": {
+                    "type": "integer",
+                    "description": "Maximum number of reminders"
+                  },
+                  "boosted_keywords": {
+                    "type": "array",
+                    "description": "List of keywords to boost in processing",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "ambient_sound_volume": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Volume level for ambient sound"
+                  },
+                  "voicemail_detection_timeout_ms": {
+                    "type": "integer",
+                    "description": "Timeout for voicemail detection in milliseconds"
+                  },
+                  "begin_message_delay_ms": {
+                    "type": "integer",
+                    "description": "Delay before starting message in milliseconds"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp when the agent was last updated"
+                  },
+                  "is_locked": {
+                    "type": "boolean",
+                    "description": "Indicates if the agent is locked"
+                  },
+                  "calendar_id": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Identifier for associated calendar"
+                  },
+                  "inbound_appoitment": {
+                    "type": "boolean",
+                    "description": "Indicates if inbound appointment scheduling is enabled"
+                  },
+                  "ring_duration_sec": {
+                    "type": "integer",
+                    "description": "Ring duration in seconds"
+                  },
+                  "stt_mode": {
+                    "type": "string",
+                    "description": "Speech-to-text mode (e.g., fast)"
+                  },
+                  "backchannel_words": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Words used for backchannel responses"
+                  },
+                  "backchannel_frequency": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Frequency of backchannel responses"
+                  },
+                  "call_scheduling": {
+                    "type": "boolean",
+                    "description": "Indicates if call scheduling is enabled"
+                  },
+                  "agent_crm_type": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Type of CRM integration for the agent"
+                  },
+                  "voicemail_option": {
+                    "type": "object",
+                    "description": "Voicemail options for the agent",
+                    "properties": {
+                      "action": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "description": "Type of voicemail action (e.g., hangup)"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "llm": {
+                "type": "object",
+                "required": [
+                  "pk",
+                  "model",
+                  "states",
+                  "s2s_model",
+                  "model_temperature",
+                  "general_prompt",
+                  "general_tools",
+                  "begin_message",
+                  "ghl_book_meeting",
+                  "price_set_per_model",
+                  "custom_message"
+                ],
+                "properties": {
+                  "pk": {
+                    "type": "integer",
+                    "description": "Primary key for the language model"
+                  },
+                  "model": {
+                    "type": "string",
+                    "description": "Name of the language model"
+                  },
+                  "states": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "State settings for the model"
+                  },
+                  "s2s_model": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Speech-to-speech model identifier"
+                  },
+                  "model_temperature": {
+                    "type": "string",
+                    "description": "Temperature setting for the model"
+                  },
+                  "general_prompt": {
+                    "type": "string",
+                    "description": "General prompt for the model"
+                  },
+                  "general_tools": {
+                    "type": "array",
+                    "description": "List of tools available to the model",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "begin_message": {
+                    "type": "string",
+                    "description": "Initial message for the model"
+                  },
+                  "ghl_book_meeting": {
+                    "type": "boolean",
+                    "description": "Indicates if meeting booking is enabled"
+                  },
+                  "price_set_per_model": {
+                    "type": "string",
+                    "description": "Price set for the model"
+                  },
+                  "custom_message": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Custom message for the model"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "UpdateLLMRequest": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "enum": [
+              "gpt-4o",
+              "gpt-4o-mini",
+              "gpt-4.1",
+              "gpt-4.1-mini",
+              "gpt-4.1-nano",
+              "claude-3.7-sonnet",
+              "claude-3.5-haiku",
+              "gemini-2.0-flash",
+              "gemini-2.0-flash-lite"
+            ],
+            "nullable": true,
+            "description": "Select the underlying text LLM. If not set, defaults to gpt-4o."
+          },
+          "s2s_model": {
+            "type": "string",
+            "enum": ["gpt-4o-realtime", "gpt-4o-mini-realtime"],
+            "nullable": true,
+            "description": "Select the underlying speech-to-speech model. Can only set this or model, not both."
+          },
+          "model_temperature": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Controls randomness of the response. Lower values are more deterministic, higher values are more random. Defaults to 0 if unset."
+          },
+          "model_high_priority": {
+            "type": "boolean",
+            "description": "Enables fast tier with high priority pool for lower latency. Defaults to false."
+          },
+          "general_prompt": {
+            "type": "string",
+            "nullable": true,
+            "description": "General prompt appended to system prompt regardless of agent state."
+          },
+          "general_tools": {
+            "type": "array",
+            "nullable": true,
+            "description": "List of tools the model may call (e.g., end call, transfer call, or custom tools).",
+            "items": {
+              "type": "object"
+            }
+          },
+          "begin_message": {
+            "type": "string",
+            "nullable": true,
+            "description": "First utterance said by the agent. If empty, agent waits for user to speak. If not set, LLM generates dynamically."
+          }
+        }
+      },
+      "UpdateLLMResponse": {
+        "type": "object",
+        "required": ["success", "message", "data", "prices"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful"
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the request"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "pk",
+              "model",
+              "states",
+              "s2s_model",
+              "model_temperature",
+              "general_prompt",
+              "general_tools",
+              "begin_message",
+              "ghl_book_meeting",
+              "price_set_per_model",
+              "custom_message"
+            ],
+            "properties": {
+              "pk": {
+                "type": "integer",
+                "description": "Primary key for the language model"
+              },
+              "model": {
+                "type": "string",
+                "description": "Name of the language model"
+              },
+              "states": {
+                "type": "string",
+                "nullable": true,
+                "description": "State settings for the model"
+              },
+              "s2s_model": {
+                "type": "string",
+                "nullable": true,
+                "description": "Speech-to-speech model identifier"
+              },
+              "model_temperature": {
+                "type": "string",
+                "description": "Temperature setting for the model"
+              },
+              "general_prompt": {
+                "type": "string",
+                "description": "General prompt for the model"
+              },
+              "general_tools": {
+                "type": "array",
+                "description": "List of tools available to the model",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "begin_message": {
+                "type": "string",
+                "description": "Initial message for the model"
+              },
+              "ghl_book_meeting": {
+                "type": "boolean",
+                "description": "Indicates if meeting booking is enabled"
+              },
+              "price_set_per_model": {
+                "type": "string",
+                "description": "Price set for the model"
+              },
+              "custom_message": {
+                "type": "string",
+                "nullable": true,
+                "description": "Custom message for the model"
+              }
+            }
+          },
+          "prices": {
+            "type": "object",
+            "description": "Pricing details for available models",
+            "properties": {
+              "gpt-5": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gpt-5 model"
+              },
+              "gpt-5-mini": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gpt-5-mini model"
+              },
+              "gpt-5-nano": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gpt-5-nano model"
+              },
+              "gpt-4o": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gpt-4o model"
+              },
+              "gpt-4.1": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gpt-4.1 model"
+              },
+              "gpt-4.1-mini": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gpt-4.1-mini model"
+              },
+              "gpt-4.1-nano": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gpt-4.1-nano model"
+              },
+              "gpt-4o-mini": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gpt-4o-mini model"
+              },
+              "gpt-4o-realtime": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gpt-4o-realtime model"
+              },
+              "gpt-4o-mini-realtime": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gpt-4o-mini-realtime model"
+              },
+              "claude-4o-sonnet": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for claude-4o-sonnet model"
+              },
+              "claude-3.7-sonnet": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for claude-3.7-sonnet model"
+              },
+              "claude-3.5-haiku": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for claude-3.5-haiku model"
+              },
+              "gemini-2.0-flash": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gemini-2.0-flash model"
+              },
+              "gemini-2.0-flash-lite": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gemini-2.0-flash-lite model"
+              },
+              "gemini-2.5-flash": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gemini-2.5-flash model"
+              },
+              "gemini-2.5-flash-lite": {
+                "type": "number",
+                "format": "float",
+                "description": "Price for gemini-2.5-flash-lite model"
+              }
+            }
+          }
+        }
+      },
+      "UpdateAgentRequest": {
+        "type": "object",
+        "properties": {
+          "agent_name": {
+            "type": "string",
+            "description": "The name of the agent, used for reference.",
+            "nullable": true,
+            "example": "Jarvis"
+          },
+          "voice_id": {
+            "type": "string",
+            "description": "Unique voice ID used for the agent.",
+            "example": "11labs-Adrian"
+          },
+          "voice_temperature": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2,
+            "description": "Controls voice stability for ElevenLabs voices. Lower is more stable, higher is more variant. Defaults to 1.",
+            "example": 1
+          },
+          "voice_speed": {
+            "type": "number",
+            "minimum": 0.5,
+            "maximum": 2,
+            "description": "Controls voice speed. Lower is slower, higher is faster. Defaults to 1.",
+            "example": 1
+          },
+          "volume": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2,
+            "description": "Controls agent volume. Lower is quieter, higher is louder. Defaults to 1.",
+            "example": 1
+          },
+          "responsiveness": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Controls agent responsiveness. Lower is slower, higher is faster. Defaults to 1.",
+            "example": 1
+          },
+          "interruption_sensitivity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Controls sensitivity to user interruptions. Lower is harder to interrupt, higher is easier. Defaults to 1.",
+            "example": 1
+          },
+          "enable_backchannel": {
+            "type": "boolean",
+            "description": "Enables backchannel responses (e.g., 'yeah', 'uh-huh'). Defaults to false.",
+            "example": true
+          },
+          "backchannel_frequency": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Controls backchannel frequency when enabled. Lower is less frequent, higher is more frequent. Defaults to 0.8.",
+            "example": 0.9
+          },
+          "backchannel_words": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of backchannel words. Defaults apply if not set.",
+            "nullable": true,
+            "example": ["yeah", "uh-huh"]
+          },
+          "reminder_trigger_ms": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Triggers reminder after user silence duration (ms). Defaults to 10000.",
+            "example": 10000
+          },
+          "reminder_max_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Maximum number of reminders for unresponsive user. Defaults to 1.",
+            "example": 2
+          },
+          "ambient_sound": {
+            "type": "string",
+            "enum": [
+              "coffee-shop",
+              "convention-hall",
+              "summer-outdoor",
+              "mountain-outdoor",
+              "static-noise",
+              "call-center"
+            ],
+            "description": "Ambient sound for realistic call experience. Set to null to remove.",
+            "nullable": true
+          },
+          "ambient_sound_volume": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2,
+            "description": "Controls ambient sound volume. Lower is quieter, higher is louder. Defaults to 1.",
+            "example": 1
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "en-US",
+              "en-IN",
+              "en-GB",
+              "en-AU",
+              "en-NZ",
+              "de-DE",
+              "es-ES",
+              "es-419",
+              "hi-IN",
+              "fr-FR",
+              "fr-CA",
+              "ja-JP",
+              "pt-PT",
+              "pt-BR",
+              "zh-CN",
+              "ru-RU",
+              "it-IT",
+              "ko-KR",
+              "nl-NL",
+              "nl-BE",
+              "pl-PL",
+              "tr-TR",
+              "th-TH",
+              "vi-VN",
+              "ro-RO",
+              "bg-BG",
+              "ca-ES",
+              "da-DK",
+              "fi-FI",
+              "el-GR",
+              "hu-HU",
+              "id-ID",
+              "no-NO",
+              "sk-SK",
+              "sv-SE",
+              "multi"
+            ],
+            "description": "Language and dialect for speech recognition. Defaults to en-US.",
+            "example": "en-US"
+          },
+          
+          "boosted_keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keywords to bias transcriber model. Set to null to remove.",
+            "nullable": true,
+            "example": ["retell", "kroger"]
+          },
+          
+          
+          "normalize_for_speech": {
+            "type": "boolean",
+            "description": "Normalizes text to spoken form for consistent synthesis.",
+            "example": true
+          },
+          "end_call_after_silence_ms": {
+            "type": "integer",
+            "minimum": 10000,
+            "description": "Ends call after user silence duration (ms). Defaults to 600000.",
+            "example": 600000
+          },
+          "max_call_duration_ms": {
+            "type": "integer",
+            "minimum": 60000,
+            "maximum": 7200000,
+            "description": "Maximum call duration (ms). Defaults to 3600000.",
+            "example": 3600000
+          },
+          "voicemail_option": {
+            "type": "object",
+            "description": "Voicemail detection settings. Set to null to disable.",
+            "nullable": true,
+            "properties": {
+              "action": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Type of voicemail action (e.g., static_text, hangup)",
+                    "example": "static_text"
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "Text for voicemail prompt, if applicable",
+                    "example": "Please give us a callback tomorrow at 10am."
+                  }
+                }
+              }
+            }
+          },
+          "post_call_analysis_data": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "Additional data to extract post-call. Available after call ends.",
+            "nullable": true
+          },
+          "ring_duration_ms": {
+            "type": "integer",
+            "minimum": 5000,
+            "maximum": 90000,
+            "description": "Ring duration for calls (ms). Defaults to 30000.",
+            "example": 30000
+          }
+        }
+      },
+      "UpdateAgentResponse": {
+        "type": "object",
+        "required": ["success", "message", "data", "voice_list", "ghl_data"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the result of the request",
+            "example": "get agent detail"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "pk",
+              "agent_name",
+              "agent_id",
+              "voice_id",
+              "language",
+              "interruption_sensitivity",
+              "voicemail",
+              "voicemail_message",
+              "end_call_after_silence",
+              "max_call_duration",
+              "reminder_trigger",
+              "ambient_sound",
+              "analysis_data",
+              "llm",
+              "voice_speed",
+              "voice_temperature",
+              "volume",
+              "enable_backchannel",
+              "normalize_for_speech",
+              "enable_transcription_formatting",
+              "reminder_trigger_ms",
+              "reminder_max_count",
+              "boosted_keywords",
+              "ambient_sound_volume",
+              "voicemail_detection_timeout_ms",
+              "begin_message_delay_ms",
+              "updated_at",
+              "is_locked",
+              "calendar_id",
+              "inbound_appoitment",
+              "ring_duration_sec",
+              "stt_mode",
+              "backchannel_words",
+              "backchannel_frequency",
+              "call_scheduling",
+              "agent_crm_type",
+              "voicemail_option"
+            ],
+            "properties": {
+              "pk": {
+                "type": "integer",
+                "description": "Primary key for the AI call agent",
+                "example": 521
+              },
+              "agent_name": {
+                "type": "string",
+                "description": "Name of the AI call agent",
+                "example": "add_agent_name"
+              },
+              "agent_id": {
+                "type": "string",
+                "description": "Unique identifier for the AI call agent",
+                "example": "agent_aa2c4c2895abe6ab7c0e89b607"
+              },
+              "voice_id": {
+                "type": "string",
+                "description": "Identifier for the voice used by the agent",
+                "example": "11labs-Marissa"
+              },
+              "language": {
+                "type": "string",
+                "description": "Language code or type (e.g., en-US, multi)",
+                "example": "en-US"
+              },
+              "interruption_sensitivity": {
+                "type": "string",
+                "description": "Sensitivity level for interruptions",
+                "example": "1.0"
+              },
+              "voicemail": {
+                "type": "boolean",
+                "description": "Indicates if voicemail is enabled",
+                "example": true
+              },
+              "voicemail_message": {
+                "type": "string",
+                "description": "Voicemail message content",
+                "nullable": true,
+                "example": null
+              },
+              "end_call_after_silence": {
+                "type": "integer",
+                "description": "Duration of silence before ending the call (in seconds)",
+                "example": 10
+              },
+              "max_call_duration": {
+                "type": "integer",
+                "description": "Maximum call duration (in minutes)",
+                "example": 10
+              },
+              "reminder_trigger": {
+                "type": "integer",
+                "description": "Time before triggering a reminder (in seconds)",
+                "example": 10
+              },
+              "ambient_sound": {
+                "type": "string",
+                "description": "Ambient sound setting",
+                "nullable": true,
+                "example": null
+              },
+              "analysis_data": {
+                "type": "array",
+                "description": "Data for call analysis",
+                "items": {
+                  "type": "string"
+                },
+                "example": []
+              },
+              "llm": {
+                "type": "integer",
+                "description": "Identifier for the language model used",
+                "example": 527
+              },
+              "voice_speed": {
+                "type": "number",
+                "format": "float",
+                "description": "Speed of the voice",
+                "example": 1.0
+              },
+              "voice_temperature": {
+                "type": "number",
+                "format": "float",
+                "description": "Temperature setting for voice generation",
+                "example": 1.0
+              },
+              "volume": {
+                "type": "number",
+                "format": "float",
+                "description": "Volume level for the voice",
+                "example": 1.0
+              },
+              "enable_backchannel": {
+                "type": "boolean",
+                "description": "Indicates if backchannel responses are enabled",
+                "example": true
+              },
+              "normalize_for_speech": {
+                "type": "boolean",
+                "description": "Indicates if speech normalization is enabled",
+                "example": false
+              },
+              "enable_transcription_formatting": {
+                "type": "boolean",
+                "description": "Indicates if transcription formatting is enabled",
+                "example": true
+              },
+              "reminder_trigger_ms": {
+                "type": "integer",
+                "description": "Reminder trigger time in milliseconds",
+                "example": 10000
+              },
+              "reminder_max_count": {
+                "type": "integer",
+                "description": "Maximum number of reminders",
+                "example": 1
+              },
+              "boosted_keywords": {
+                "type": "array",
+                "description": "List of keywords to boost in processing",
+                "items": {
+                  "type": "string"
+                },
+                "example": []
+              },
+              "ambient_sound_volume": {
+                "type": "number",
+                "format": "float",
+                "description": "Volume level for ambient sound",
+                "example": 1.0
+              },
+              "voicemail_detection_timeout_ms": {
+                "type": "integer",
+                "description": "Timeout for voicemail detection in milliseconds",
+                "example": 5000
+              },
+              "begin_message_delay_ms": {
+                "type": "integer",
+                "description": "Delay before starting message in milliseconds",
+                "example": 0
+              },
+              "updated_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the agent was last updated",
+                "example": "2025-08-13T09:41:44.564571Z"
+              },
+              "is_locked": {
+                "type": "boolean",
+                "description": "Indicates if the agent is locked",
+                "example": false
+              },
+              "calendar_id": {
+                "type": "string",
+                "description": "Identifier for associated calendar",
+                "nullable": true,
+                "example": null
+              },
+              "inbound_appoitment": {
+                "type": "boolean",
+                "description": "Indicates if inbound appointment scheduling is enabled",
+                "example": false
+              },
+              "ring_duration_sec": {
+                "type": "integer",
+                "description": "Ring duration in seconds",
+                "example": 30
+              },
+              "stt_mode": {
+                "type": "string",
+                "description": "Speech-to-text mode (e.g., fast)",
+                "example": "fast"
+              },
+              "backchannel_words": {
+                "type": "string",
+                "description": "Words used for backchannel responses",
+                "nullable": true,
+                "example": null
+              },
+              "backchannel_frequency": {
+                "type": "number",
+                "format": "float",
+                "description": "Frequency of backchannel responses",
+                "example": 0.8
+              },
+              "call_scheduling": {
+                "type": "boolean",
+                "description": "Indicates if call scheduling is enabled",
+                "example": false
+              },
+              "agent_crm_type": {
+                "type": "string",
+                "description": "Type of CRM integration for the agent",
+                "nullable": true,
+                "example": null
+              },
+              "voicemail_option": {
+                "type": "object",
+                "description": "Voicemail options for the agent",
+                "properties": {
+                  "action": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "description": "Type of voicemail action (e.g., hangup)",
+                        "example": "hangup"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "voice_list": {
+            "type": "array",
+            "description": "List of available voices for the agent",
+            "items": {
+              "type": "object",
+              "required": ["id", "voice_name", "voice_id", "avatar_url", "preview_audio_url", "created_at", "updated_at"],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Unique identifier for the voice",
+                  "example": 3
+                },
+                "voice_name": {
+                  "type": "string",
+                  "description": "Name of the voice",
+                  "example": "aicall_ryan"
+                },
+                "voice_id": {
+                  "type": "string",
+                  "description": "Unique identifier for the voice",
+                  "example": "custom_voice_937c75901acb54b42837d3dafa"
+                },
+                "avatar_url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "URL to the voice's avatar",
+                  "example": "https://retell-utils-public.s3.us-west-2.amazonaws.com/customvoice-icon.png"
+                },
+                "preview_audio_url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "URL to the voice's preview audio",
+                  "example": "https://retell-utils-public.s3.us-west-2.amazonaws.com/custom_voice_937c75901acb54b42837d3dafa.mp3"
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Timestamp when the voice was created",
+                  "example": "2025-08-01T16:31:51.688674Z"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Timestamp when the voice was last updated",
+                  "example": "2025-08-01T16:31:51.688683Z"
+                }
+              }
+            }
+          },
+          "ghl_data": {
+            "type": "object",
+            "required": ["ghl_connection", "ghl_book_meeting", "inbound_appoitment", "calendar_id"],
+            "properties": {
+              "ghl_connection": {
+                "type": "boolean",
+                "description": "Indicates if GoHighLevel is connected",
+                "example": true
+              },
+              "ghl_book_meeting": {
+                "type": "boolean",
+                "description": "Indicates if meeting booking is enabled",
+                "example": true
+              },
+              "inbound_appoitment": {
+                "type": "boolean",
+                "description": "Indicates if inbound appointment scheduling is enabled",
+                "example": false
+              },
+              "calendar_id": {
+                "type": "string",
+                "description": "Identifier for associated calendar",
+                "nullable": true,
+                "example": null
+              }
+            }
           }
         }
       },

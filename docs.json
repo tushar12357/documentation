@@ -76,26 +76,19 @@
               "api-reference/dashboard/get-campaign-results",
               "api-reference/dashboard/get-quick-campaign-results"
             ]
-          },
-        {
-          "group":"Agency",
-          "pages":[
-            "api-reference/agency/get-whitelabel",
-            "api-reference/agency/update-whitelabel",
-            "api-reference/agency/verify-whitelabel",
-            "api-reference/agency/get-credit-price",
-            "api-reference/agency/change-credit-price",
-            "api-reference/agency/create-stripe-product",
-            "api-reference/agency/list-stripe-product",
-            "api-reference/agency/create-subscription-link",
-            "api-reference/agency/delete-stripe-product",
-            "api-reference/agency/get-credit-plans",
-            "api-reference/agency/create-credit-plans",
-            "api-reference/agency/delete-credit-plans",
-            "api-reference/agency/purchase-login-themes",
-            "api-reference/agency/get-purchased-themes"
-          ]
-        }
+          } ,       
+          {
+            "group": "Agent",
+            "pages": [
+              "api-reference/agent/get-agents",
+              "api-reference/agent/create-blank-agent",
+              "api-reference/agent/get-agent",
+              "api-reference/agent/get-llm",
+              "api-reference/agent/update-agent",
+              "api-reference/agent/update-llm",
+              "api-reference/agent/delete-agent"
+            ]
+          }        
         ]
       }
     ],
