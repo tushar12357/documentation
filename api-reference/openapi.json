@@ -4212,7 +4212,7 @@
             },
             "description": "Keywords to bias transcriber model. Set to null to remove.",
             "nullable": true,
-            "example": ["retell", "kroger"]
+            "example": ["aicall", "kroger"]
           },
           
           
@@ -4566,17 +4566,11 @@
                   "description": "Unique identifier for the voice",
                   "example": "custom_voice_937c75901acb54b42837d3dafa"
                 },
-                "avatar_url": {
-                  "type": "string",
-                  "format": "uri",
-                  "description": "URL to the voice's avatar",
-                  "example": "https://retell-utils-public.s3.us-west-2.amazonaws.com/customvoice-icon.png"
-                },
                 "preview_audio_url": {
                   "type": "string",
                   "format": "uri",
                   "description": "URL to the voice's preview audio",
-                  "example": "https://retell-utils-public.s3.us-west-2.amazonaws.com/custom_voice_937c75901acb54b42837d3dafa.mp3"
+                  "example": "https://aicall-utils-public.s3.us-west-2.amazonaws.com/custom_voice_937c75901acb54b42837d3dafa.mp3"
                 },
                 "created_at": {
                   "type": "string",
