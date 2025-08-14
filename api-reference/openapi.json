@@ -3872,13 +3872,347 @@
             "description": "General prompt appended to system prompt regardless of agent state."
           },
           "general_tools": {
-            "type": "array",
-            "nullable": true,
-            "description": "List of tools the model may call (e.g., end call, transfer call, or custom tools).",
-            "items": {
-              "type": "object"
+    "type": "array",
+    "items": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "end_call",
+              "description": "The tool type to end the call."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the tool.",
+              "example": "end_call"
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the tool does.",
+              "example": "Terminates the ongoing call."
             }
           },
+          "required": ["type", "name", "description"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "call_transfer",
+              "description": "The tool type to transfer the call."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the tool.",
+              "example": "transfer_call1"
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the tool does.",
+              "example": "Transfers the call to another agent or number."
+            },
+            "transfer_destination": {
+              "type": "object",
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "predefined",
+                      "description": "Indicates a predefined phone number for transfer."
+                    },
+                    "number": {
+                      "type": "string",
+                      "description": "The phone number to transfer the call to in E.164 format.",
+                      "example": "+911111111111",
+                      "pattern": "^\\+[1-9]\\d{1,14}$"
+                    }
+                  },
+                  "required": ["type", "number"],
+                  "description": "Details for transferring to a predefined number."
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "inferred",
+                      "description": "Indicates dynamic routing for call transfer."
+                    },
+                    "prompt": {
+                      "type": "string",
+                      "description": "The prompt to determine the transfer destination.",
+                      "example": "If the user wants to reach support, transfer to +1 (925) 222-4452; if the user wants to reach sales, transfer to +1 (925) 1111-3444"
+                    }
+                  },
+                  "required": ["type", "prompt"],
+                  "description": "Details for dynamically determining the transfer destination."
+                }
+              ],
+              "description": "The destination details for the call transfer.",
+              "nullable": true
+            },
+            "transfer_option": {
+              "type": "object",
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "cold_transfer",
+                      "description": "Indicates a cold transfer."
+                    },
+                    "show_transferee_as_caller": {
+                      "type": "boolean",
+                      "description": "Whether to display the transferee's number as the caller ID.",
+                      "example": false
+                    }
+                  },
+                  "required": ["type", "show_transferee_as_caller"],
+                  "description": "Options for cold transfer."
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "warm_transfer",
+                      "description": "Indicates a warm transfer."
+                    },
+                    "public_handoff_option": {
+                      "type": "object",
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "prompt",
+                              "description": "Indicates a prompt-based handoff."
+                            },
+                            "prompt": {
+                              "type": "string",
+                              "description": "The prompt for the warm transfer handoff.",
+                              "example": "Please hold while I connect you to the support team."
+                            }
+                          },
+                          "required": ["type", "prompt"],
+                          "description": "Prompt-based handoff for warm transfer."
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "static_message",
+                              "description": "Indicates a static message handoff."
+                            },
+                            "message": {
+                              "type": "string",
+                              "description": "The static message for the warm transfer handoff.",
+                              "example": "Transferring your call now."
+                            }
+                          },
+                          "required": ["type", "message"],
+                          "description": "Static message handoff for warm transfer."
+                        }
+                      ],
+                      "description": "Handoff options for warm transfer."
+                    }
+                  },
+                  "required": ["type", "public_handoff_option"],
+                  "description": "Options for warm transfer."
+                }
+              ],
+              "description": "Options for the call transfer type.",
+              "nullable": true
+            }
+          },
+          "required": ["type", "name", "description", "transfer_destination", "transfer_option"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "book_appointment_cal",
+              "description": "The tool type to book an appointment in the calendar."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the tool.",
+              "example": "Book_Calendar"
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the tool does.",
+              "example": "Book Calendar Availability"
+            },
+            "cal_api_key": {
+              "type": "string",
+              "description": "The Cal.com API key for accessing the calendar.",
+              "example": "cal_api_1234567890"
+            },
+            "event_type_id": {
+              "type": "integer",
+              "description": "The ID of the event type to book in the calendar.",
+              "example": 12345
+            },
+            "timezone": {
+              "type": "string",
+              "description": "The timezone for the appointment.",
+              "example": "America/Los_Angeles"
+            }
+          },
+          "required": ["type", "name", "description", "cal_api_key", "event_type_id", "timezone"],
+          "description": "Configuration for booking an appointment in the calendar."
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "check_availability_cal",
+              "description": "The tool type to check calendar availability."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the tool.",
+              "example": "check_availability"
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the tool does.",
+              "example": "Checks available time slots in the calendar."
+            },
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "cal_api_key": {
+                  "type": "string",
+                  "description": "The Cal.com API key for accessing the calendar.",
+                  "example": "cal_api_1234567890"
+                },
+                "event_type_id": {
+                  "type": "integer",
+                  "description": "The ID of the event type to check for availability.",
+                  "example": 12345
+                },
+                "date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "The date to check for availability.",
+                  "example": "2025-08-15"
+                },
+                "timezone": {
+                  "type": "string",
+                  "description": "The timezone for the availability check.",
+                  "example": "America/Los_Angeles"
+                }
+              },
+              "required": ["cal_api_key", "event_type_id", "date", "timezone"],
+              "description": "Parameters required for checking calendar availability."
+            }
+          },
+          "required": ["type", "name", "description", "parameters"],
+          "description": "Configuration for checking calendar availability."
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "press_digit",
+              "description": "The tool type to press a digit during a call."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the tool.",
+              "example": "press_digit"
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the tool does.",
+              "example": "Simulates pressing a digit on the phone keypad."
+            },
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "digit": {
+                  "type": "string",
+                  "description": "The digit to press (0-9, *, #).",
+                  "example": "1"
+                }
+              },
+              "required": ["digit"],
+              "description": "Parameters required for pressing a digit.",
+              "nullable": true
+            }
+          },
+          "required": ["type", "name", "description"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "agent_swap",
+              "description": "The tool type to swap to another agent."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the tool.",
+              "example": "agent_transfer"
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the tool does.",
+              "example": "Swaps the current agent with another agent."
+            },
+            "agent_id": {
+              "type": "string",
+              "description": "The ID of the agent to swap to.",
+              "example": "agent_456"
+            },
+            "execution_message_description": {
+              "type": "string",
+              "description": "The message to be spoken during the agent swap execution, if enabled.",
+              "example": "Please hold while I transfer you to another agent.",
+              "nullable": true
+            },
+            "post_call_analysis_setting": {
+              "type": "string",
+              "enum": ["both_agents", "only_destination_agent"],
+              "description": "Determines which agents are included in post-call analysis.",
+              "example": "both_agents"
+            },
+            "speak_during_execution": {
+              "type": "boolean",
+              "description": "Whether to speak the execution message during the agent swap.",
+              "example": true
+            }
+          },
+          "required": [
+            "type",
+            "name",
+            "description",
+            "agent_id",
+            "post_call_analysis_setting",
+            "speak_during_execution"
+          ],
+          "description": "Configuration for swapping to another agent."
+        }
+      ],
+      "description": "Configuration for a single tool available to the model."
+    },
+    "description": "List of tools the model may call (e.g., end call, transfer call, or custom tools).",
+    "nullable": true
+  },
           "begin_message": {
             "type": "string",
             "nullable": true,
@@ -4256,14 +4590,127 @@
               }
             }
           },
-          "post_call_analysis_data": {
-            "type": "array",
-            "items": {
-              "type": "object"
+        
+  "analysis_data": {
+    "type": "array",
+    "items": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "string",
+              "description": "The data type of the analysis field, set to string."
             },
-            "description": "Additional data to extract post-call. Available after call ends.",
-            "nullable": true
+            "name": {
+              "type": "string",
+              "description": "The name of the analysis field.",
+              "examples": ["sentiment", "key_topic", "action_item"]
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the analysis field represents.",
+              "examples": ["Sentiment of the call", "Key topic discussed", "Action item assigned"]
+            },
+            "examples": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Example values for the analysis field.",
+              "nullable": true,
+              "examples": [
+                ["happy customer", "urgent issue"],
+                ["pricing", "product feedback"],
+                ["follow-up call", "send email"]
+              ]
+            }
           },
+          "required": ["type", "name", "description"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "enum",
+              "description": "The data type of the analysis field, set to enum."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the analysis field.",
+              "examples": ["sentiment", "status", "priority"]
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the analysis field represents.",
+              "examples": ["Sentiment of the call", "Status of the call", "Priority level"]
+            },
+            "choices": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Possible values for the analysis field.",
+              "nullable": true,
+              "examples": [
+                ["positive", "negative", "neutral"],
+                ["successful", "unsuccessful", "pending"],
+                ["high", "medium", "low"]
+              ]
+            }
+          },
+          "required": ["type", "name", "description"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "boolean",
+              "description": "The data type of the analysis field, set to boolean."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the analysis field.",
+              "examples": ["is_urgent", "is_resolved"]
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the analysis field represents.",
+              "examples": ["Whether the issue is urgent", "Whether the issue is resolved"]
+            }
+          },
+          "required": ["type", "name", "description"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "number",
+              "description": "The data type of the analysis field, set to number."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the analysis field.",
+              "examples": ["call_duration", "customer_rating"]
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the analysis field represents.",
+              "examples": ["Duration of the call in minutes", "Customer satisfaction rating"]
+            }
+          },
+          "required": ["type", "name", "description"]
+        }
+      ],
+      "description": "Configuration for a single post-call analysis field."
+    },
+    "description": "Additional data to extract post-call. Available after call ends.",
+    "nullable": true
+  },
           "ring_duration_ms": {
             "type": "integer",
             "minimum": 5000,
