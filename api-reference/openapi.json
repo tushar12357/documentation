@@ -3897,24 +3897,127 @@
           "required": ["type", "name", "description"]
         },
         {
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "call_transfer",
+      "description": "The tool type to transfer the call."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the tool, must not contain spaces.",
+      "example": "transfer_call1",
+      "pattern": "^[^\\s]+$"
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of what the tool does.",
+      "example": "Transfers the call to another agent or number."
+    },
+    "transfer_destination": {
+      "type": "object",
+      "oneOf": [
+        {
           "type": "object",
           "properties": {
             "type": {
               "type": "string",
-              "const": "call_transfer",
-              "description": "The tool type to transfer the call."
+              "const": "predefined",
+              "description": "Indicates a predefined phone number for transfer."
             },
-            "name": {
+            "number": {
               "type": "string",
-              "description": "The name of the tool.",
-              "example": "transfer_call1"
-            },
-            "description": {
+              "description": "The phone number to transfer the call to in E.164 format.",
+              "example": "+911111111111",
+              "pattern": "^\\+[1-9]\\d{1,14}$"
+            }
+          },
+          "required": ["type", "number"],
+          "description": "Details for transferring to a predefined number."
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
               "type": "string",
-              "description": "A description of what the tool does.",
-              "example": "Transfers the call to another agent or number."
+              "const": "inferred",
+              "description": "Indicates dynamic routing for call transfer."
+           
+
+ },
+            "prompt": {
+              "type": "string",
+              "description": "The prompt to determine the transfer destination.",
+              "example": "If the user wants to reach support, transfer to +1 (925) 222-4452; if the user wants to reach sales, transfer to +1 (925) 1111-3444"
+            }
+          },
+          "required": ["type", "prompt"],
+          "description": "Details for dynamically determining the transfer destination."
+        }
+      ],
+      "description": "The destination details for the call transfer.",
+      "nullable": true
+    },
+    "transfer_option": {
+      "type": "object",
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "cold_transfer",
+              "description": "Indicates a cold transfer."
             },
-            "transfer_destination": {
+            "show_transferee_as_caller": {
+              "type": "boolean",
+              "description": "Whether to display the transferee's number as the caller ID.",
+              "example": false
+            },
+            "agent_detection_timeout_ms": {
+              "type": "number",
+              "description": "Time in milliseconds to wait before considering the transfer failed.",
+              "example": 5000,
+              "minimum": 10000,
+              "maximum": 300000
+            },
+            "on_hold_music": {
+              "type": "string",
+              "description": "Music to play while the caller is being transferred.",
+              "enum": ["none", "ringtone", "relaxing_sound", "uplifting_beats"],
+              "example": "none"
+            },
+            "opt_out_human_detection": {
+              "type": "boolean",
+              "description": "Whether to skip human detection for the transfer.",
+              "example": false
+            },
+            "opt_out_initial_message": {
+              "type": "boolean",
+              "description": "Whether to skip the AI saying 'Hello' after connecting the call.",
+              "example": false
+            }
+          },
+          "required": [
+            "type",
+            "show_transferee_as_caller",
+            "agent_detection_timeout_ms",
+            "on_hold_music",
+            "opt_out_human_detection",
+            "opt_out_initial_message"
+          ],
+          "description": "Options for cold transfer."
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "warm_transfer",
+              "description": "Indicates a warm transfer."
+            },
+            "public_handoff_option": {
               "type": "object",
               "oneOf": [
                 {
@@ -3922,41 +4025,39 @@
                   "properties": {
                     "type": {
                       "type": "string",
-                      "const": "predefined",
-                      "description": "Indicates a predefined phone number for transfer."
-                    },
-                    "number": {
-                      "type": "string",
-                      "description": "The phone number to transfer the call to in E.164 format.",
-                      "example": "+911111111111",
-                      "pattern": "^\\+[1-9]\\d{1,14}$"
-                    }
-                  },
-                  "required": ["type", "number"],
-                  "description": "Details for transferring to a predefined number."
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": "string",
-                      "const": "inferred",
-                      "description": "Indicates dynamic routing for call transfer."
+                      "const": "prompt",
+                      "description": "Indicates a prompt-based handoff."
                     },
                     "prompt": {
                       "type": "string",
-                      "description": "The prompt to determine the transfer destination.",
-                      "example": "If the user wants to reach support, transfer to +1 (925) 222-4452; if the user wants to reach sales, transfer to +1 (925) 1111-3444"
+                      "description": "The prompt for the warm transfer public handoff.",
+                      "example": "Please hold while I connect you to the support team."
                     }
                   },
                   "required": ["type", "prompt"],
-                  "description": "Details for dynamically determining the transfer destination."
+                  "description": "Prompt-based public handoff for warm transfer."
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "static_message",
+                      "description": "Indicates a static message handoff."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "The static message for the warm transfer public handoff.",
+                      "example": "Transferring your call now."
+                    }
+                  },
+                  "required": ["type", "message"],
+                  "description": "Static message public handoff for warm transfer."
                 }
               ],
-              "description": "The destination details for the call transfer.",
-              "nullable": true
+              "description": "Public handoff options for warm transfer."
             },
-            "transfer_option": {
+            "private_handoff_option": {
               "type": "object",
               "oneOf": [
                 {
@@ -3964,77 +4065,86 @@
                   "properties": {
                     "type": {
                       "type": "string",
-                      "const": "cold_transfer",
-                      "description": "Indicates a cold transfer."
+                      "const": "prompt",
+                      "description": "Indicates a prompt-based private handoff."
                     },
-                    "show_transferee_as_caller": {
-                      "type": "boolean",
-                      "description": "Whether to display the transferee's number as the caller ID.",
-                      "example": false
+                    "prompt": {
+                      "type": "string",
+                      "description": "The prompt for the warm transfer private handoff.",
+                      "example": "This is a call regarding a support issue."
                     }
                   },
-                  "required": ["type", "show_transferee_as_caller"],
-                  "description": "Options for cold transfer."
+                  "required": ["type", "prompt"],
+                  "description": "Prompt-based private handoff for warm transfer."
                 },
                 {
                   "type": "object",
                   "properties": {
                     "type": {
                       "type": "string",
-                      "const": "warm_transfer",
-                      "description": "Indicates a warm transfer."
+                      "const": "static_message",
+                      "description": "Indicates a static message private handoff."
                     },
-                    "public_handoff_option": {
-                      "type": "object",
-                      "oneOf": [
-                        {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string",
-                              "const": "prompt",
-                              "description": "Indicates a prompt-based handoff."
-                            },
-                            "prompt": {
-                              "type": "string",
-                              "description": "The prompt for the warm transfer handoff.",
-                              "example": "Please hold while I connect you to the support team."
-                            }
-                          },
-                          "required": ["type", "prompt"],
-                          "description": "Prompt-based handoff for warm transfer."
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string",
-                              "const": "static_message",
-                              "description": "Indicates a static message handoff."
-                            },
-                            "message": {
-                              "type": "string",
-                              "description": "The static message for the warm transfer handoff.",
-                              "example": "Transferring your call now."
-                            }
-                          },
-                          "required": ["type", "message"],
-                          "description": "Static message handoff for warm transfer."
-                        }
-                      ],
-                      "description": "Handoff options for warm transfer."
+                    "message": {
+                      "type": "string",
+                      "description": "The static message for the warm transfer private handoff.",
+                      "example": "Support call incoming."
                     }
                   },
-                  "required": ["type", "public_handoff_option"],
-                  "description": "Options for warm transfer."
+                  "required": ["type", "message"],
+                  "description": "Static message private handoff for warm transfer."
                 }
               ],
-              "description": "Options for the call transfer type.",
-              "nullable": true
+              "description": "Private handoff options for warm transfer."
+            },
+            "agent_detection_timeout_ms": {
+              "type": "number",
+              "description": "Time in milliseconds to wait before considering the transfer failed.",
+              "example": 5000,
+              "minimum": 10000,
+              "maximum": 300000
+            },
+            "on_hold_music": {
+              "type": "string",
+              "description": "Music to play while the caller is being transferred.",
+              "enum": ["none", "ringtone", "relaxing_sound", "uplifting_beats"],
+              "example": "none"
+            },
+            "opt_out_human_detection": {
+              "type": "boolean",
+              "description": "Whether to skip human detection for the transfer.",
+              "example": false
+            },
+            "opt_out_initial_message": {
+              "type": "boolean",
+              "description": "Whether to skip the AI saying 'Hello' after connecting the call.",
+              "example": false
             }
           },
-          "required": ["type", "name", "description", "transfer_destination", "transfer_option"]
-        },
+          "required": [
+            "type",
+            "public_handoff_option",
+            "private_handoff_option",
+            "agent_detection_timeout_ms",
+            "on_hold_music",
+            "opt_out_human_detection",
+            "opt_out_initial_message"
+          ],
+          "description": "Options for warm transfer."
+        }
+      ],
+      "description": "Options for the call transfer type.",
+      "nullable": true
+    }
+  },
+  "required": [
+    "type",
+    "name",
+    "description",
+    "transfer_destination",
+    "transfer_option"
+  ]
+},
         {
           "type": "object",
           "properties": {
@@ -4196,6 +4306,196 @@
               "description": "Whether to speak the execution message during the agent swap.",
               "example": true
             }
+          },
+          "required": [
+            "type",
+            "name",
+            "description",
+            "agent_id",
+            "post_call_analysis_setting",
+            "speak_during_execution"
+          ],
+          "description": "Configuration for swapping to another agent."
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "extract_dynamic_variable",
+              "description": "The tool type to swap to another agent."
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the tool. Must be unique within all tools available to LLM at any given time. Must be consisted of a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64 (no space allowed)."
+            },
+            "description": {
+              "type": "string",
+              "description": "Describes what the tool does, sometimes can also include information about when to call the tool."
+                        },
+                        "variables":{
+                          "type": "array",
+    "items": {
+      "oneOf": [
+        {
+          "title":"string",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "string",
+              "description": "The data type of the analysis field, set to string."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the analysis field.",
+              "examples": ["sentiment", "key_topic", "action_item"]
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the analysis field represents.",
+              "examples": ["Sentiment of the call", "Key topic discussed", "Action item assigned"]
+            },
+            "examples": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Example values for the analysis field.",
+              "nullable": true,
+              "examples": [
+                ["happy customer", "urgent issue"],
+                ["pricing", "product feedback"],
+                ["follow-up call", "send email"]
+              ]
+            }
+          },
+          "required": ["type", "name", "description"]
+        },
+        {
+          "title":"enum",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "enum",
+              "description": "The data type of the analysis field, set to enum."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the analysis field.",
+              "examples": ["sentiment", "status", "priority"]
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the analysis field represents.",
+              "examples": ["Sentiment of the call", "Status of the call", "Priority level"]
+            },
+            "choices": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Possible values for the analysis field.",
+              "nullable": true,
+              "examples": [
+                ["positive", "negative", "neutral"],
+                ["successful", "unsuccessful", "pending"],
+                ["high", "medium", "low"]
+              ]
+            }
+          },
+          "required": ["type", "name", "description"]
+        },
+        {
+          "title":"boolean",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "boolean",
+              "description": "The data type of the analysis field, set to boolean."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the analysis field.",
+              "examples": ["is_urgent", "is_resolved"]
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the analysis field represents.",
+              "examples": ["Whether the issue is urgent", "Whether the issue is resolved"]
+            }
+          },
+          "required": ["type", "name", "description"]
+        },
+        {
+          "title":"number",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "number",
+              "description": "The data type of the analysis field, set to number."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the analysis field.",
+              "examples": ["call_duration", "customer_rating"]
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of what the analysis field represents.",
+              "examples": ["Duration of the call in minutes", "Customer satisfaction rating"]
+            }
+          },
+          "required": ["type", "name", "description"]
+        }
+      ],
+      "description": "Configuration for a single post-call analysis field."
+    }
+                        }
+          },
+          "required": [
+            "type",
+            "name",
+            "description",
+            "agent_id",
+            "post_call_analysis_setting",
+            "speak_during_execution"
+          ],
+          "description": "Configuration for swapping to another agent."
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "mcp"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the MCP tool."
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of the MCP tool."
+                        },
+            "mcp_id": {
+              "type": "string",
+              "description": "Unique id of the MCP."
+                        },
+          "input_schema": {
+    "type": "object",
+    "description": "The input schema of the MCP tool.",
+    "properties": {
+      "{key}": {
+        "type": "string",
+        "description": "Any property key under input_schema, represented as a string."
+      }
+    },
+    "child_attributes_hidden": true
+  }
           },
           "required": [
             "type",
@@ -4442,6 +4742,32 @@
             "description": "Controls sensitivity to user interruptions. Lower is harder to interrupt, higher is easier. Defaults to 1.",
             "example": 1
           },
+           "pronunciation_dictionary": {
+            "type": "array",
+            "description":"A list of words / phrases and their pronunciation to be used to guide the audio synthesize for consistent pronunciation. Currently only supported for English & 11labs voices. Set to null to remove pronunciation dictionary from this agent.",
+            "items": {
+              "type": "object",
+              "properties":{
+                "word":{
+                  "type":"string",
+                  "description":"The string of word / phrase to be annotated with pronunciation.",
+                  "example":"actually"
+                },
+                "alphabet":{
+                  "type":"string",
+                  "description":"The phonetic alphabet to be used for pronunciation.",
+                  "enum":["cmu","ipa"]
+
+                },
+                "phoneme":{
+                  "type":"string",
+                  "description":"Pronunciation of the word in the format of a IPA / CMU pronunciation.",
+                  "example":"ˈæktʃuəli"
+                }
+              }
+            },
+            "nullable": true
+          },
           "enable_backchannel": {
             "type": "boolean",
             "description": "Enables backchannel responses (e.g., 'yeah', 'uh-huh'). Defaults to false.",
@@ -4462,6 +4788,42 @@
             "description": "List of backchannel words. Defaults apply if not set.",
             "nullable": true,
             "example": ["yeah", "uh-huh"]
+          },
+          "vocab_specialization": {
+            "type": "string",
+            "enum": ["general", "medical"],
+            "description": "Vocabulary set for transcription (English only). Defaults to general.",
+            "example": "general"
+          },
+          "allow_user_dtmf": {
+            "type": "boolean",
+            "description": "If set to true, DTMF input will be accepted and processed. If false, any DTMF input will be ignored. Default to true.",
+            "example": true
+          },
+          "user_dtmf_options": {
+            "type": "object",
+            "description": "DTMF options for the agent.",
+            "properties":{
+              "digit_limit":{
+                "type":"number",
+                "description":"The maximum number of digits allowed in the user's DTMF (Dual-Tone Multi-Frequency) input per turn. Once this limit is reached, the input is considered complete and a response will be generated immediately."
+              },
+              "timeout_ms":{
+                "type":"number",
+                "description":"The time (in milliseconds) to wait for user DTMF input before timing out. The timer resets with each digit received."
+              },
+              "termination_key":{
+                "type":"string",
+                "description":"A single key that signals the end of DTMF input. Acceptable values include any digit (0–9), the pound/hash symbol (#), or the asterisk (*)."
+              }
+            },
+            "nullable": true
+          },
+          "denoising_mode": {
+            "type": "string",
+            "enum": ["noise-cancellation", "noise-and-background-speech-cancellation"],
+            "description": "Denoising mode for audio. Defaults to noise-cancellation.",
+            "example": "noise-cancellation"
           },
           "reminder_trigger_ms": {
             "type": "number",
@@ -4806,6 +5168,67 @@
                 "description": "Sensitivity level for interruptions",
                 "example": "1.0"
               },
+              "pronunciation_dictionary": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties":{
+                "word":{
+                  "type":"string",
+                  "description":"",
+                  "example":"hello"
+                },
+                "alphabet":{
+                  "type":"string",
+                  "description":"",
+                  "enum":["CMU","IPA"]
+
+                },
+                "phoneme":{
+                  "type":"string",
+                  "description":""
+                }
+              }
+            },
+            "description": "List of words/phrases with pronunciations for consistent synthesis. Set to null to remove.",
+            "nullable": true
+          },
+           "vocab_specialization": {
+            "type": "string",
+            "enum": ["general", "medical"],
+            "description": "Vocabulary set for transcription (English only). Defaults to general.",
+            "example": "general"
+          },
+          "allow_user_dtmf": {
+            "type": "boolean",
+            "description": "If set to true, DTMF input will be accepted and processed. If false, any DTMF input will be ignored. Default to true.",
+            "example": true
+          },
+          "user_dtmf_options": {
+            "type": "object",
+            "description": "DTMF options for the agent.",
+            "properties":{
+              "digit_limit":{
+                "type":"number",
+                "description":"The maximum number of digits allowed in the user's DTMF (Dual-Tone Multi-Frequency) input per turn. Once this limit is reached, the input is considered complete and a response will be generated immediately."
+              },
+              "timeout_ms":{
+                "type":"number",
+                "description":"The time (in milliseconds) to wait for user DTMF input before timing out. The timer resets with each digit received."
+              },
+              "termination_key":{
+                "type":"string",
+                "description":"A single key that signals the end of DTMF input. Acceptable values include any digit (0–9), the pound/hash symbol (#), or the asterisk (*)."
+              }
+            },
+            "nullable": true
+          },
+          "denoising_mode": {
+            "type": "string",
+            "enum": ["noise-cancellation", "noise-and-background-speech-cancellation"],
+            "description": "Denoising mode for audio. Defaults to noise-cancellation.",
+            "example": "noise-cancellation"
+          },
               "voicemail": {
                 "type": "boolean",
                 "description": "Indicates if voicemail is enabled",
