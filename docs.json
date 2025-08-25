@@ -88,7 +88,36 @@
               "api-reference/agent/update-llm",
               "api-reference/agent/delete-agent"
             ]
-          }        
+          },
+            {
+              "group": "Campaign",
+              "pages": [
+                "api-reference/campaign/get-campaign-list/",
+                "api-reference/campaign/create-campaign/",
+                "api-reference/campaign/create-quick-campaign/",
+                "api-reference/campaign/edit-campaign/",
+                "api-reference/campaign/daily-campaign-results/",
+                "api-reference/campaign/campaign-analytics/",
+                "api-reference/campaign/export-campaign/",
+                "api-reference/campaign/campaign-final-analysis/"
+              ]
+            },
+            {
+              "group": "Callbacks",
+              "pages": [
+                "api-reference/callbacks/scheduled-callbacks-voizerfreeaccount/",
+                "api-reference/callbacks/callback-history/"
+              ]
+            },
+            {
+              "group": "Contact",
+              "pages": [
+                "api-reference/contact/all-list/",
+                "api-reference/contact/filter-by-tags/",
+                "api-reference/contact/edit-contact/",
+                "api-reference/contact/delete-contact/"
+              ]
+            }        
         ]
       }
     ],
