@@ -1937,7 +1937,135 @@
       }
     }
   }
+},
+"/v2/campaign-final-analysis/{campaign_id}/": {
+  "get": {
+    "summary": "Get final campaign analysis by campaign ID",
+    "description": "Returns the final analysis data for a specific campaign by its campaign ID.",
+    "parameters": [
+      {
+        "name": "campaign_id",
+        "in": "path",
+        "required": true,
+        "description": "Unique campaign ID (e.g., quickcamp6cd8c4ce)",
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The name of the schema to be used for the request",
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Final campaign analysis data response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CampaignFinalAnalysis"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or input",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "Campaign not found"
+      }
+    }
+  }
+},
+"/scheduled-callbacks/agency/voizerfreeaccount/": {
+  "get": {
+    "summary": "Retrieve scheduled callbacks for the specified agency",
+    "description": "Fetches the list of scheduled callbacks for the agency 'voizerfreeaccount'.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy (company-wise DB separation)",
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successfully retrieved scheduled callbacks",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CallbackVoizerFreeAccount"
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request parameters",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "No scheduled callbacks found for the given agency"
+      }
+    }
+  }
+},
+"/v2/scheduled-callbacks/agency/": {
+  "get": {
+    "summary": "Retrieve scheduled callbacks for all agencies",
+    "description": "Fetches the list of scheduled callbacks for all agencies.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy (company-wise DB separation)",
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successfully retrieved scheduled callbacks",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CallbackHistory"
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request parameters",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "No scheduled callbacks found for the agencies"
+      }
+    }
+  }
 }
+
 
 
 
@@ -6593,7 +6721,304 @@
       }
     }
   }
+      },
+      "CampaignFinalAnalysis": {
+  "type": "object",
+  "properties": {
+    "status_counts": {
+      "type": "object",
+      "description": "Counts of each call status in the campaign (e.g., AGENT_HANGUP, DIAL_NO_ANSWER)",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "example": {
+        "AGENT_HANGUP": 1,
+        "DIAL_NO_ANSWER": 1
+      }
+    },
+    "outcome_counts": {
+      "type": "object",
+      "description": "Counts of each outcome classification (e.g., POSITIVE, NEGATIVE, UNKNOWN)",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "example": {
+        "NEGATIVE": 1,
+        "UNKNOWN": 1
+      }
+    },
+    "number_of_callbacks": {
+      "type": "object",
+      "description": "Details or count of scheduled callbacks if any (can be empty)",
+      "example": {}
+    },
+    "cumulative_user_hangups": {
+      "type": "array",
+      "description": "List of user IDs or identifiers who hung up the call (can be empty)",
+      "items": {
+        "type": "string"
+      },
+      "example": []
+    },
+    "response_sentiment_counts": {
+      "type": "object",
+      "description": "Count of response sentiments detected during the campaign",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "example": {
+        "NOT_DETECTED": 2
+      }
+    },
+    "improvement_tag_counts": {
+      "type": "object",
+      "description": "Counts of improvement tags used in the campaign",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "example": {
+        "NULL": 2
+      }
+    },
+    "analysis_dict": {
+      "type": "object",
+      "description": "Final summary and aggregated metrics of the campaign",
+      "properties": {
+        "total_appointment_booked": {
+          "type": "integer",
+          "description": "Total number of appointments booked in the campaign",
+          "example": 0
+        },
+        "total_calls": {
+          "type": "integer",
+          "description": "Total number of calls made",
+          "example": 2
+        },
+        "total_connected_calls": {
+          "type": "integer",
+          "description": "Total number of connected calls",
+          "example": 1
+        },
+        "booking_rate": {
+          "type": "number",
+          "format": "float",
+          "description": "Percentage of booked appointments from connected calls",
+          "example": 0.0
+        }
+      },
+      "required": [
+        "total_appointment_booked",
+        "total_calls",
+        "total_connected_calls",
+        "booking_rate"
+      ]
+    }
+  },
+  "required": [
+    "status_counts",
+    "outcome_counts",
+    "number_of_callbacks",
+    "cumulative_user_hangups",
+    "response_sentiment_counts",
+    "improvement_tag_counts",
+    "analysis_dict"
+  ]
+      },
+      "CallbackVoizerFreeAccount": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Indicates whether the request was successful"
+    },
+    "agency_id": {
+      "type": "string",
+      "description": "The unique ID of the agency (e.g., voizerfreeaccount)"
+    },
+    "scheduled_tasks": {
+      "type": "array",
+      "description": "List of scheduled tasks associated with the agency",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The unique ID of the scheduled task"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the scheduled task"
+          },
+          "task": {
+            "type": "string",
+            "description": "The task to be executed"
+          },
+          "args": {
+            "type": "string",
+            "description": "Arguments passed to the task (usually a list)"
+          },
+          "clocked": {
+            "type": "object",
+            "properties": {
+              "clocked_time": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The scheduled time of the task in UTC"
+              }
+            }
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Indicates whether the task is enabled or not"
+          }
+        },
+        "required": ["id", "name", "task", "clocked", "enabled"]
+      }
+    },
+    "quick_campaign_results": {
+      "type": "array",
+      "description": "List of results for the quick campaign, including errors or success information",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the quick campaign result"
+          },
+          "error": {
+            "type": "string",
+            "description": "Any error message if the result was not found or failed"
+          }
+        },
+        "required": ["id", "error"]
+      }
+    }
+  },
+  "required": ["success", "agency_id", "scheduled_tasks", "quick_campaign_results"]
+      },
+      "CallbackHistory": {
+  "type": "object",
+  "properties": {
+    "total_count": {
+      "type": "integer",
+      "description": "Total number of records available"
+    },
+    "total_page": {
+      "type": "integer",
+      "description": "Total number of pages available for pagination"
+    },
+    "current_page_no": {
+      "type": "integer",
+      "description": "The current page number"
+    },
+    "next_page_number": {
+      "type": "integer",
+      "description": "The page number for the next page, or null if no more pages are available"
+    },
+    "previous_page_number": {
+      "type": "integer",
+      "description": "The page number for the previous page, or null if on the first page"
+    },
+    "page_size": {
+      "type": "integer",
+      "description": "The number of items per page"
+    },
+    "data": {
+      "type": "array",
+      "description": "List of campaign data objects",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the campaign"
+          },
+          "status": {
+            "type": "string",
+            "description": "The current status of the campaign (e.g., 'completed', 'paused')"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the campaign"
+          },
+          "new_agent": {
+            "type": "string",
+            "description": "The name of the new agent assigned to the campaign"
+          },
+          "calling_number": {
+            "type": "string",
+            "description": "The phone number used for the campaign"
+          },
+          "direction": {
+            "type": "string",
+            "description": "The direction of the call, either 'Outbound' or 'Inbound'"
+          },
+          "status_choices": {
+            "type": "array",
+            "description": "Possible status choices for the campaign (e.g., 'dial_no_answer', 'agent_hangup')",
+            "items": {
+              "type": "string"
+            }
+          },
+          "number_rotation": {
+            "type": "boolean",
+            "description": "Indicates whether number rotation is enabled"
+          },
+          "calling_number_pool": {
+            "type": "array",
+            "description": "A pool of numbers used for calling (if applicable)",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rotate_number_after_calls": {
+            "type": "integer",
+            "description": "The number of calls after which the calling number is rotated"
+          },
+          "release_buyed_when": {
+            "type": "string",
+            "description": "Condition for releasing the purchased number, e.g., 'subscription_complete'"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp for when the campaign was last updated"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp for when the campaign was created"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "name",
+          "new_agent",
+          "calling_number",
+          "direction",
+          "status_choices",
+          "number_rotation",
+          "rotate_number_after_calls",
+          "release_buyed_when",
+          "updated_at",
+          "created_at"
+        ]
+      }
+    }
+  },
+  "required": [
+    "total_count",
+    "total_page",
+    "current_page_no",
+    "next_page_number",
+    "previous_page_number",
+    "page_size",
+    "data"
+  ]
 },
+
+
 
 
 

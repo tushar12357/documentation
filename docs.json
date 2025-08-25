@@ -101,9 +101,17 @@
                 "api-reference/campaign/type-filter/",
                 "api-reference/campaign/daily-campaign-results/",
                 "api-reference/campaign/campaign-analytics/",
-                "api-reference/campaign/export-campaign/"
+                "api-reference/campaign/export-campaign/",
+                "api-reference/campaign/campaign-final-analysis/"
               ]
-            }        
+            },
+            {
+              "group": "Callbacks",
+              "pages": [
+                "api-reference/callbacks/scheduled-callbacks-voizerfreeaccount/",
+                "api-reference/callbacks/callback-history/"
+              ]
+            }       
         ]
       }
     ],
