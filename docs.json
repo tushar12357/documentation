@@ -88,7 +88,22 @@
               "api-reference/agent/update-llm",
               "api-reference/agent/delete-agent"
             ]
-          }        
+          },
+            {
+              "group": "Campaign",
+              "pages": [
+                "api-reference/campaign/get-campaign-list/",
+                "api-reference/campaign/create-campaign/",
+                "api-reference/campaign/create-quick-campaign/",
+                "api-reference/campaign/actions/",
+                "api-reference/campaign/edit-campaign/",
+                "api-reference/campaign/status-filter/",
+                "api-reference/campaign/type-filter/",
+                "api-reference/campaign/daily-campaign-results/",
+                "api-reference/campaign/campaign-analytics/",
+                "api-reference/campaign/export-campaign/"
+              ]
+            }        
         ]
       }
     ],
