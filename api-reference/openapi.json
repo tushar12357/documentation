@@ -1506,83 +1506,103 @@
   }
 },
     "/campaign/": {
-      "post": {
-        "description": "Creates a new call campaign, including key campaign details such as Campaign Name, Selected AI Agent, Call Direction, Selected Phone Number, Number Rotation settings, Campaign Budget (in minutes), and Scheduling options.",
-        "parameters": [
-  {
-    "name": "Company-Name",
-    "in": "header",
-    "description": "The name of the schema to be used for the request",
-    "required": true,
-    "schema": {
-      "type": "string"
-    }
-  }
-  
-],
-        "responses": {
-          "200": {
-            "description": "Create Campaign data response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateCampaign"
-                }
+    "post": {
+      "summary": "Create a new call campaign",
+      "description": "Creates a new call campaign, including key campaign details such as Campaign Name, Selected AI Agent, Call Direction, Selected Phone Number, Number Rotation settings, Campaign Budget (in minutes), and Scheduling options.",
+      "parameters": [
+        {
+          "name": "Company-Name",
+          "in": "header",
+          "description": "The name of the schema to be used for the request",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateCampaignRequest"
+            }   
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Campaign created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCampaign"
               }
             }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+          }
+        },
+        "400": {
+          "description": "Unexpected error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
               }
             }
           }
         }
       }
-    },
+    }
+  },
     "/quick_campaign/": {
-      "post": {
-        "description": "Creates a new quick call campaign, including key campaign details such as Campaign Name, Selected AI Agent, Selected Phone Number, and Enable Number Rotation settings.",
-        "parameters": [
-  {
-    "name": "Company-Name",
-    "in": "header",
-    "description": "The name of the schema to be used for the request",
-    "required": true,
-    "schema": {
-      "type": "string"
-    }
-  }
-  
-],
-        "responses": {
-          "200": {
-            "description": "Create Quick Campaign data response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateQuickCampaign"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+  "post": {
+    "summary": "Create a new Quick Campaign",
+    "description": "Creates a new quick call campaign, including key campaign details such as Campaign Name, Selected AI Agent, Selected Phone Number, and Enable Number Rotation settings.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "description": "The name of the schema to be used for the request",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/CreateQuickCampaignRequest"
           }
         }
       }
     },
+    "responses": {
+      "200": {
+        "description": "Quick Campaign created successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateQuickCampaign"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or missing data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
     "/v2/camp-quickcamp/update/{campaign_id}/": {
   "patch": {
     "summary": "Edit Campaign or Perform Status Actions",
@@ -1749,7 +1769,7 @@
       }
     }
   }
-},
+    },
 "/v2/campaign-analytics/{campaign_id}/": {
   "get": {
     "summary": "Get campaign analytics by date",
@@ -1983,7 +2003,7 @@
     }
   }
 },
-"/scheduled-callbacks/agency/voizerfreeaccount/": {
+"/scheduled-callbacks/agency/{company_name}/": {
   "get": {
     "summary": "Retrieve scheduled callbacks for the specified agency",
     "description": "Fetches the list of scheduled callbacks for the agency 'voizerfreeaccount'.",
@@ -2064,7 +2084,200 @@
       }
     }
   }
+},
+"/v2/contact/": {
+  "get": {
+    "summary": "Retrieve contact list with optional search and pagination",
+    "description": "Fetches a paginated list of contacts. You can filter the results using a search query.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy (company-wise DB separation)",
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "description": "Page number for pagination",
+        "schema": { "type": "integer", "example": 1 }
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "description": "Search term to filter contacts by name, number, or other fields",
+        "schema": { "type": "string", "example": "john" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successfully retrieved contact list",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ContactList"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request parameters",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "No contacts found"
+      }
+    }
+  }
+},
+"/v2/tags/": {
+  "get": {
+    "summary": "Retrieve list of tags",
+    "description": "Fetches a list of all available tags in the system. This endpoint returns all tags without requiring any query parameters.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy (company-wise DB separation)",
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successfully retrieved list of tags",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Tag"
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or missing headers",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "No tags found"
+      }
+    }
+  }
+},
+"/v2/contact-detail/{id}/": {
+  "patch": {
+    "summary": "Update a contact",
+    "description": "Updates complete details of a specific contact by its unique ID.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Unique ID of the contact (e.g., 4465)",
+        "schema": { "type": "integer" }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy (company-wise DB separation)",
+        "schema": { "type": "string" }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/EditContactRequest"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Successfully updated contact details",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EditContact"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or missing headers",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "Contact not found"
+      }
+    }
+  },
+
+  "delete": {
+    "summary": "Delete a contact",
+    "description": "Deletes a contact by its unique ID.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Unique ID of the contact (e.g., 4465)",
+        "schema": { "type": "integer" }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy (company-wise DB separation)",
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "204": {
+        "description": "Contact successfully deleted (no content)"
+      },
+      "400": {
+        "description": "Invalid request or missing headers",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "Contact not found"
+      }
+    }
+  }
 }
+
+
+
+
+
+
 
 
 
@@ -6279,6 +6492,93 @@
     }
   }
       },
+      "CreateCampaignRequest": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the campaign to be created",
+        "example": "Summer Sales 2025"
+      },
+      "new_agent": {
+        "type": "integer",
+        "description": "ID of the agent assigned to the campaign",
+        "example": 123
+      },
+      "direction": {
+        "type": "string",
+        "description": "Direction of the campaign, either 'Inbound' or 'Outbound'",
+        "enum": ["Inbound", "Outbound"],
+        "example": "Outbound"
+      },
+      "calling_number": { 
+        "type": "string",
+        "description": "Phone number used for calls",
+        "example": "+18446020950"
+      },
+      "tags": {
+        "type": "array",
+        "description": "List of tag IDs to associate with the campaign",
+        "items": {
+          "type": "integer"
+        },
+        "example": [1, 2]
+      },
+      "enable_number_rotation": {
+        "type": "boolean",
+        "description": "Toggle to enable or disable number rotation for calls",
+        "example": false
+      },
+      "number_dict": {
+      "type": "object",
+      "description": "Whether number rotation is enabled",
+      "example": {}
+    },
+      "total_bugget": {
+        "type": "number",
+        "format": "float",
+        "description": "Total budget (in minutes) allocated for the campaign",
+        "example": 60
+      },
+      "start_date": {
+        "type": "string",
+        "format": "date",
+        "description": "Start date of the campaign in YYYY-MM-DD format",
+        "example": "2025-08-30"
+      },
+      "start_time": {
+        "type": "string",
+        "format": "time",
+        "description": "Start time of the campaign in HH:mm:ss format",
+        "example": "10:00:00"
+      },
+      "end_date": {
+        "type": "string",
+        "format": "date",
+        "description": "End date of the campaign in YYYY-MM-DD format",
+        "example": "2025-08-30"
+      },
+      "end_time": {
+        "type": "string",
+        "format": "time",
+        "description": "End time of the campaign in HH:mm:ss format",
+        "example": "17:00:00"
+      }
+    },
+    "required": [
+      "name",
+      "new_agent",
+      "direction",
+      "calling_number",
+      "tags",
+      "enable_number_rotation",
+      "total_bugget",
+      "start_date",
+      "start_time",
+      "end_date",
+      "end_time"
+    ]
+      },
       "CreateCampaign": {
     "type": "object",
     "properties": {
@@ -6376,6 +6676,50 @@
         }
       }
     }
+      },
+      "CreateQuickCampaignRequest": {
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the quick campaign",
+      "example": "Quick Follow-up Campaign"
+    },
+    "new_agent": {
+      "type": "integer",
+      "description": "ID of the AI agent assigned to the campaign",
+      "example": 123
+    },
+    "calling_number": {
+      "type": "string",
+      "description": "Phone number used for outbound calls",
+      "example": "+18446020950"
+    },
+    "enable_number_rotation": {
+      "type": "boolean",
+      "description": "Whether number rotation is enabled",
+      "example": false
+    },
+    "number_dict": {
+      "type": "object",
+      "description": "Whether number rotation is enabled",
+      "example": {}
+    },
+    
+    "direction": {
+      "type": "string",
+      "description": "Call direction",
+      "enum": ["Outbound", "Inbound"],
+      "example": "Outbound"
+    }
+  },
+  "required": [
+    "name",
+    "new_agent",
+    "calling_number",
+    "enable_number_rotation",
+    "direction"
+  ]
       },
       "CreateQuickCampaign": {
     "type": "object",
@@ -6482,53 +6826,131 @@
       "UpdateCampaignRequest": {
   "type": "object",
   "properties": {
-    "status": {
-      "type": "string",
-      "description": "Status to update the campaign to",
-      "enum": ["paused", "resumed", "completed"]
-    },
-    "new_agent": {
-      "type": "integer",
-      "description": "ID of the new agent assigned to the campaign"
-    },
-    "calling_number": {
-      "type": "string",
-      "description": "Phone number to be used for the campaign"
-    },
-    "start_date": {
-      "type": "string",
-      "format": "date",
-      "description": "Start date of the campaign (optional)"
-    },
-    "start_time": {
-      "type": "string",
-      "format": "time",
-      "description": "Start time of the campaign (optional)"
-    },
-    "end_time": {
-      "type": "string",
-      "format": "time",
-      "description": "End time of the campaign (optional)"
-    },
-    "total_bugget": {
-      "type": "number",
-      "format": "float",
-      "description": "Total budget for the campaign"
-    },
-    "saturday": {
+    "success": {
       "type": "boolean",
-      "description": "Whether the campaign runs on Saturday"
+      "description": "Indicates whether the update was successful",
+      "example": true
     },
-    "sunday": {
-      "type": "boolean",
-      "description": "Whether the campaign runs on Sunday"
+    "message": {
+      "type": "string",
+      "description": "Descriptive message for the API response",
+      "example": "Campaign updated successfully"
     },
-    "priority": {
-      "type": "integer",
-      "description": "Campaign priority"
+    "data": {
+      "type": "object",
+      "description": "Contains updated campaign information",
+      "properties": {
+        "campaign": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique campaign ID",
+              "example": "campc005bf8a"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the campaign",
+              "example": "Testing(amanEditCampaign)"
+            },
+            "direction": {
+              "type": "string",
+              "description": "Direction of the campaign (Inbound/Outbound)",
+              "example": "Inbound"
+            },
+            "agent": {
+              "type": ["string", "null"],
+              "description": "Agent assigned to the campaign",
+              "example": null
+            },
+            "new_agent": {
+              "type": ["integer", "null"],
+              "description": "New agent ID assigned to the campaign",
+              "example": 527
+            },
+            "contact_list": {
+              "type": ["string", "null"],
+              "description": "Associated contact list",
+              "example": null
+            },
+            "knowledge_base": {
+              "type": ["string", "null"],
+              "description": "Associated knowledge base (if any)",
+              "example": null
+            },
+            "calling_number": {
+              "type": "string",
+              "description": "Calling number used in campaign",
+              "example": "+911149816890"
+            },
+            "start_date": {
+              "type": ["string", "null"],
+              "format": "date",
+              "description": "Start date of the campaign",
+              "example": null
+            },
+            "start_time": {
+              "type": ["string", "null"],
+              "format": "time",
+              "description": "Start time of the campaign",
+              "example": null
+            },
+            "end_time": {
+              "type": ["string", "null"],
+              "format": "time",
+              "description": "End time of the campaign",
+              "example": null
+            },
+            "total_bugget": {
+              "type": "number",
+              "format": "float",
+              "description": "Total budget assigned",
+              "example": 158
+            },
+            "bugget_left": {
+              "type": "string",
+              "description": "Remaining budget (in string format)",
+              "example": "158.0000"
+            },
+            "saturday": {
+              "type": "boolean",
+              "description": "Whether the campaign runs on Saturdays",
+              "example": false
+            },
+            "sunday": {
+              "type": "boolean",
+              "description": "Whether the campaign runs on Sundays",
+              "example": false
+            },
+            "status": {
+              "type": "string",
+              "description": "Current campaign status",
+              "example": "active"
+            },
+            "priority": {
+              "type": "integer",
+              "description": "Campaign priority",
+              "example": 1
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Campaign creation timestamp",
+              "example": "2025-08-23T10:44:41.275526Z"
+            },
+            "updated_at": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Last update timestamp",
+              "example": "2025-08-23T18:16:15.772412Z"
+            }
+          },
+          "required": ["id", "name", "status"]
+        }
+      }
     }
   },
-  "required": ["status"]
+  "required": ["success", "message", "data"]
       },
       "UpdateCampaignResponse": {
   "type": "object",
@@ -7016,7 +7438,327 @@
     "page_size",
     "data"
   ]
-},
+      },
+      "ContactList": {
+  "type": "object",
+  "properties": {
+    "total_count": {
+      "type": "integer",
+      "description": "Total number of contacts available"
+    },
+    "total_page": {
+      "type": "integer",
+      "description": "Total number of pages for pagination"
+    },
+    "current_page_no": {
+      "type": "integer",
+      "description": "The current page number being viewed"
+    },
+    "next_page_number": {
+      "type": ["integer", "null"],
+      "description": "The next page number if available, otherwise null"
+    },
+    "previous_page_number": {
+      "type": ["integer", "null"],
+      "description": "The previous page number if available, otherwise null"
+    },
+    "page_size": {
+      "type": "integer",
+      "description": "The number of contacts per page"
+    },
+    "data": {
+      "type": "array",
+      "description": "List of contact objects for the current page",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique ID of the contact"
+          },
+          "contact_number": {
+            "type": "string",
+            "description": "Phone number of the contact"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address of the contact"
+          },
+          "first_name": {
+            "type": ["string", "null"],
+            "description": "First name of the contact"
+          },
+          "last_name": {
+            "type": ["string", "null"],
+            "description": "Last name of the contact"
+          },
+          "company_name": {
+            "type": ["string", "null"],
+            "description": "Company associated with the contact"
+          },
+          "industry": {
+            "type": ["string", "null"],
+            "description": "Industry the contact belongs to"
+          },
+          "custom1": {
+            "type": ["string", "null"],
+            "description": "Custom field 1"
+          },
+          "custom2": {
+            "type": ["string", "null"],
+            "description": "Custom field 2"
+          },
+          "custom3": {
+            "type": ["string", "null"],
+            "description": "Custom field 3"
+          },
+          "custom4": {
+            "type": ["string", "null"],
+            "description": "Custom field 4"
+          },
+          "isactive": {
+            "type": "boolean",
+            "description": "Indicates if the contact is active"
+          },
+          "address": {
+            "type": ["string", "null"],
+            "description": "Address of the contact"
+          },
+          "contact_id": {
+            "type": ["string", "null"],
+            "description": "External contact ID or integration ID"
+          },
+          "tags": {
+            "type": "array",
+            "description": "List of tags associated with the contact",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Unique ID of the tag"
+                },
+                "tag_name": {
+                  "type": "string",
+                  "description": "Name of the tag"
+                }
+              },
+              "required": ["id", "tag_name"]
+            }
+          }
+        },
+        "required": ["id", "contact_number", "isactive", "tags"]
+      }
+    }
+  },
+  "required": [
+    "total_count",
+    "total_page",
+    "current_page_no",
+    "next_page_number",
+    "previous_page_number",
+    "page_size",
+    "data"
+  ]
+      },
+      "Tag":{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier of the tag",
+      "example": 1
+    },
+    "tag_name": {
+      "type": "string",
+      "description": "Name of the tag",
+      "example": "Test campaign"
+    }
+  },
+  "required": ["id", "tag_name"]
+      },
+      "EditContactRequest": {
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string",
+      "description": "First name of the contact",
+      "example": "test123Edit"
+    },
+    "last_name": {
+      "type": "string",
+      "description": "Last name of the contact",
+      "example": "testEdit"
+    },
+    "contact_number": {
+      "type": "string",
+      "description": "Phone number of the contact (without country code)",
+      "example": "8570904784"
+    },
+    "country_code": {
+      "type": "string",
+      "description": "Country code for the contact number (in international format)",
+      "example": "+91"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address of the contact",
+      "example": "info@agencys.ai"
+    },
+    "company_name": {
+      "type": "string",
+      "description": "Name of the company the contact is associated with",
+      "example": "test"
+    },
+    "industry": {
+      "type": "string",
+      "description": "Industry type for the contact",
+      "example": "SaaS"
+    },
+    "tags": {
+      "type": "array",
+      "description": "List of tag names associated with the contact",
+      "items": {
+        "type": "string"
+      },
+      "example": ["salesforce", "real estate", "Test campaign"]
+    }
+  },
+  "required": [
+    "first_name",
+    "last_name",
+    "contact_number",
+    "country_code",
+    "email",
+    "tags"
+  ]
+      },
+      "EditContact": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Indicates whether the contact edit operation was successful",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "description": "A message describing the outcome of the request",
+      "example": "Success"
+    },
+    "data": {
+      "type": "object",
+      "description": "The updated contact object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique ID of the contact",
+          "example": 4465
+        },
+        "contact_number": {
+          "type": "string",
+          "description": "Phone number of the contact",
+          "example": "+918570904784"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the contact",
+          "example": "info@agencys.ai"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "First name of the contact",
+          "example": "test123edit"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name of the contact",
+          "example": "testedit"
+        },
+        "company_name": {
+          "type": "string",
+          "description": "Company associated with the contact",
+          "example": "test"
+        },
+        "industry": {
+          "type": ["string", "null"],
+          "description": "Industry the contact belongs to",
+          "example": null
+        },
+        "custom1": {
+          "type": ["string", "null"],
+          "description": "Custom field 1",
+          "example": null
+        },
+        "custom2": {
+          "type": ["string", "null"],
+          "description": "Custom field 2",
+          "example": null
+        },
+        "custom3": {
+          "type": ["string", "null"],
+          "description": "Custom field 3",
+          "example": null
+        },
+        "custom4": {
+          "type": ["string", "null"],
+          "description": "Custom field 4",
+          "example": null
+        },
+        "isactive": {
+          "type": "boolean",
+          "description": "Indicates if the contact is active",
+          "example": true
+        },
+        "address": {
+          "type": ["string", "null"],
+          "description": "Address of the contact",
+          "example": null
+        },
+        "contact_id": {
+          "type": ["string", "null"],
+          "description": "External contact ID or integration ID",
+          "example": "003au000008n5oiAAA"
+        },
+        "tags": {
+          "type": "array",
+          "description": "List of tags associated with the contact",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Unique ID of the tag",
+                "example": 56
+              },
+              "tag_name": {
+                "type": "string",
+                "description": "Name of the tag",
+                "example": "salesforce"
+              }
+            },
+            "required": ["id", "tag_name"]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "contact_number",
+        "email",
+        "first_name",
+        "last_name",
+        "company_name",
+        "isactive",
+        "contact_id",
+        "tags"
+      ]
+    }
+  },
+  "required": ["success", "message", "data"]
+      },
+
+
+
 
 
 
