@@ -95,13 +95,72 @@
                 "api-reference/campaign/get-campaign-list/",
                 "api-reference/campaign/create-campaign/",
                 "api-reference/campaign/create-quick-campaign/",
-                "api-reference/campaign/actions/",
                 "api-reference/campaign/edit-campaign/",
-                "api-reference/campaign/status-filter/",
-                "api-reference/campaign/type-filter/",
                 "api-reference/campaign/daily-campaign-results/",
                 "api-reference/campaign/campaign-analytics/",
-                "api-reference/campaign/export-campaign/"
+                "api-reference/campaign/export-campaign/",
+                "api-reference/campaign/campaign-final-analysis/"
+              ]
+            },
+            {
+              "group": "Callbacks",
+              "pages": [
+                "api-reference/callbacks/scheduled-callbacks-voizerfreeaccount/",
+                "api-reference/callbacks/callback-history/"
+              ]
+            },
+            {
+              "group": "Contact",
+              "pages": [
+                "api-reference/contact/all-list/",
+                "api-reference/contact/filter-by-tags/",
+                "api-reference/contact/edit-contact/",
+                "api-reference/contact/delete-contact/",
+                "api-reference/contact/contact-profile/",
+                "api-reference/contact/bulk-delete-contact/",
+                "api-reference/contact/bulk-create-contact/",
+                "api-reference/contact/import-from-crm-leadconnect/",
+                "api-reference/contact/import-from-crm-salesforce/",
+                "api-reference/contact/transfer-contacts/",
+                "api-reference/contact/add-contact/"
+              ]
+            },
+            {
+              "group": "Phone_Number",
+              "pages": [
+                "api-reference/phonenumber/twillo-user/",
+                "api-reference/phonenumber/twillo-new-number/",
+                "api-reference/phonenumber/twillo-buy-number/",
+                "api-reference/phonenumber/twillo-register/",
+                "api-reference/phonenumber/twillo-get/",
+                "api-reference/phonenumber/twillo-buy-caller-id/",
+                "api-reference/phonenumber/add-caller-id/",
+                "api-reference/phonenumber/contact-list/",
+                "api-reference/phonenumber/start-verification/",
+                "api-reference/phonenumber/verification-status/",
+                "api-reference/phonenumber/contact-delete/",
+                "api-reference/phonenumber/telynx-register-add/",
+                "api-reference/phonenumber/telynx-register-get/",
+                "api-reference/phonenumber/telynx-register-number/",
+                "api-reference/phonenumber/telynx-purchased-number-list/",
+                "api-reference/phonenumber/telynx-delete-number/",
+                "api-reference/phonenumber/custom-telephony-add-contact/"
+              ]
+            },
+            {
+              "group": "Integrations",
+              "pages": [
+                "api-reference/integrations/ghl-connect-user/",
+                "api-reference/integrations/salesforce-callback/",
+                "api-reference/integrations/webcall/",
+                "api-reference/integrations/get-api-key/",
+                "api-reference/integrations/webhook-active-list/",
+                "api-reference/integrations/webhook-active-stats/",
+                "api-reference/integrations/webhook-register/",
+                "api-reference/integrations/webhook-edit/",
+                "api-reference/integrations/webhook-delete/",
+                "api-reference/integrations/list-all-agents/"
+                
               ]
             }        
         ]
