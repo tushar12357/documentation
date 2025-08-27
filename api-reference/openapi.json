@@ -9757,8 +9757,7 @@
             "type": "object",
             "properties": {
               "phone_number": {
-                "type": "string",
-                "example": "+17755939489"
+                "type": "string"
               }
             }
           },
@@ -9847,8 +9846,7 @@
           },
           "phone_number": {
             "type": "string",
-            "description": "The Twilio phone number",
-            "example": "+15076371471"
+            "description": "The Twilio phone number"
           },
           "nickname": {
             "type": "string",
@@ -10565,8 +10563,7 @@
       "example": "your-company-name"
     },
     "twilio_sid": {
-      "type": "string",
-      "example": "ACXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      "type": "string"
     },
     "twilio_token": {
       "type": "string",
