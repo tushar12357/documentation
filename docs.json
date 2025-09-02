@@ -128,23 +128,22 @@
             {
               "group": "Phone_Number",
               "pages": [
+                "api-reference/phonenumber/twillo-get/",
+                "api-reference/phonenumber/twillo-register/",
                 "api-reference/phonenumber/twillo-user/",
                 "api-reference/phonenumber/twillo-new-number/",
                 "api-reference/phonenumber/twillo-buy-number/",
-                "api-reference/phonenumber/twillo-register/",
-                "api-reference/phonenumber/twillo-get/",
                 "api-reference/phonenumber/twillo-buy-caller-id/",
                 "api-reference/phonenumber/add-caller-id/",
-                "api-reference/phonenumber/contact-list/",
                 "api-reference/phonenumber/start-verification/",
                 "api-reference/phonenumber/verification-status/",
-                "api-reference/phonenumber/contact-delete/",
-                "api-reference/phonenumber/telynx-register-add/",
                 "api-reference/phonenumber/telynx-register-get/",
+                "api-reference/phonenumber/telynx-register-add/",
                 "api-reference/phonenumber/telynx-register-number/",
                 "api-reference/phonenumber/telynx-purchased-number-list/",
-                "api-reference/phonenumber/telynx-delete-number/",
-                "api-reference/phonenumber/custom-telephony-add-contact/"
+                "api-reference/phonenumber/custom-telephony-add-contact/",
+                "api-reference/phonenumber/contact-list/",
+                "api-reference/phonenumber/contact-delete/"
               ]
             },
             {
@@ -160,9 +159,30 @@
                 "api-reference/integrations/webhook-edit/",
                 "api-reference/integrations/webhook-delete/",
                 "api-reference/integrations/list-all-agents/"
-                
               ]
-            }        
+            },
+            {
+              "group": "Billing & Subscription",
+              "pages": [
+                "api-reference/billing/current-plan/",
+                "api-reference/billing/add-new-card/",
+                "api-reference/billing/make-default-card/",
+                "api-reference/billing/delete-card/",
+                "api-reference/billing/transaction-history/",
+                "api-reference/billing/download-invoice/",
+                "api-reference/billing/payment-methods/",
+                "api-reference/billing/get-active-subscription/",
+                "api-reference/billing/update-subscription/"
+              ]
+            },
+            {
+              "group": "Credits",
+              "pages": [
+                "api-reference/credits/campaign-stats/",
+                "api-reference/credits/add-credits/",
+                "api-reference/credits/paypal-add-credits/"
+              ]
+            }         
         ]
       }
     ],

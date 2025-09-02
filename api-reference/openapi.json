@@ -3961,7 +3961,478 @@
       }
     }
   }
-}
+},
+"/fetch-prices/": {
+    "get": {
+      "summary": "Current Plan",
+      "description": "Fetches current active subscription plan details along with available pricing options.",
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved pricing and subscription information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FetchPricesResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+},
+"/transaction_history/": {
+    "get": {
+      "summary": "Transaction History",
+      "description": "Retrieves a list of all transactions including manual credits, subscriptions, and payments.",
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved transaction history",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionHistoryResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/list-cards/": {
+    "get": {
+      "summary": "List Cards",
+      "description": "Retrieves a list of saved payment methods (cards) for the authenticated user.",
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved list of saved cards",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListCardsResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request or missing Stripe customer ID",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+"/download-stripe-invoice/": {
+    "post": {
+      "summary": "Download Invoice",
+      "description": "Generates and returns the Stripe invoice download URL for the given invoice ID.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/DownloadInvoiceRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully generated invoice PDF URL",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DownloadInvoiceResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid invoice ID or request body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+},
+"/v2/campaign-stats/": {
+    "get": {
+      "summary": "Campaign Stats",
+      "description": "Retrieves statistics related to active campaigns, quick campaigns, total credits used, and call durations.",
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved campaign statistics",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CampaignStatsResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+},
+  "/add_credits/": {
+    "post": {
+      "summary": "Add Stripe Credits",
+      "description": "Creates a Stripe payment link to purchase custom credits using a specified payment method.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AddCreditsRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Stripe payment link successfully created",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddCreditsResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request parameters or payment error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/add_paypal_credits/": {
+    "post": {
+      "summary": "Add PayPal Credits",
+      "description": "Creates a PayPal payment link to purchase custom credits using a specified PayPal account.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AddPaypalCreditsRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "PayPal payment link successfully created",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddPaypalCreditsResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request parameters or PayPal error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/change-plan/": {
+    "post": {
+      "summary": "Change Plan",
+      "description": "Changes the user's current subscription plan to a new plan. This may trigger billing updates and subscription adjustments.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ChangePlanRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Subscription plan successfully changed",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePlanResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request parameters or plan change error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/update-subscription/{id}": {
+    "patch": {
+      "summary": "Update Subscription",
+      "description": "Updates fields of an existing user subscription. This may include billing cycle, status, auto-renewal settings, etc.",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "The unique ID of the subscription to update.",
+          "schema": {
+            "type": "string",
+            "example": "sub_67890"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UpdateSubscriptionRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Subscription successfully updated",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubscriptionResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request parameters or update failure",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/add-new-card/": {
+    "post": {
+      "summary": "Add New Card",
+      "description": "Adds a new payment card to the user's account. The card may be saved for future transactions and can be set as the default payment method.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AddNewCardRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Card added successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNewCardResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid card details or failed to add card",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/set-default/{id}": {
+    "patch": {
+      "summary": "Set Default",
+      "description": "Sets a specific card or payment method as the default for the user.",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the card or payment method to set as default.",
+          "schema": {
+            "type": "string",
+            "example": "card_abc123"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SetDefaultRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Card successfully set as default",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetDefaultResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request or card not found",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/delete-card/{id}": {
+    "delete": {
+      "summary": "Delete Card",
+      "description": "Deletes a saved payment card from the user's account using the card ID.",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "The unique ID of the card to be deleted.",
+          "schema": {
+            "type": "string",
+            "example": "card_abc123"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Card successfully deleted",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteCardResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid card ID or card not found",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/get-active-subscription/": {
+    "get": {
+      "summary": "Active Subscription",
+      "description": "Returns the current user's active subscription status, including plan details, billing info, and available pricing options.",
+      "responses": {
+        "200": {
+          "description": "Subscription information retrieved successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActiveSubscriptionResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request or user not found",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
 
 
 
@@ -10790,6 +11261,688 @@
     }
   }
 },
+"FetchPricesResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": []
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "has_subscription": {
+                "type": "boolean",
+                "example": true
+              },
+              "active_subscription": {
+                "type": "object",
+                "properties": {
+                  "plan": {
+                    "type": ["string", "null"],
+                    "example": null
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "active"
+                  },
+                  "next_billing": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2025-09-14T18:45:46Z"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "format": "float",
+                    "example": 97.0
+                  },
+                  "features": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "price_id": {
+                    "type": "string"
+                  },
+                  "payment_gateway": {
+                    "type": "string",
+                    "example": "stripe"
+                  }
+                }
+              },
+              "prices": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "price_id": {
+                      "type": "string"
+                    },
+                    "amount": {
+                      "type": "number",
+                      "format": "float",
+                      "example": 297.0
+                    },
+                    "currency": {
+                      "type": "string",
+                      "example": "usd"
+                    },
+                    "product_name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": ["string", "null"],
+                      "example": null
+                    },
+                    "interval": {
+                      "type": "string",
+                      "example": "month"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "All Prices"
+          }
+        }
+},
+"TransactionHistoryResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Transaction History"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "object_id": {
+                  "type": ["string", "null"],
+                  "example": "mi2rsRoS"
+                },
+                "payment_amount": {
+                  "type": "string",
+                  "example": "99.00"
+                },
+                "payment_type": {
+                  "type": "string",
+                  "example": "subscription"
+                },
+                "credits": {
+                  "type": ["string", "null"],
+                  "example": "1000.00"
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "usd"
+                },
+                "payment_status": {
+                  "type": "string",
+                  "example": "paid"
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2025-08-01T11:59:24.382629Z"
+                },
+                "invoice_id": {
+                  "type": ["string", "null"],
+                  "example": "5v6Ae11"
+                }
+              }
+            }
+          },
+          "total_transactions": {
+            "type": "integer",
+            "example": 9
+          },
+          "total_pages": {
+            "type": "integer",
+            "example": 1
+          },
+          "current_page": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+},
+"ListCardsResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": []
+          },
+          "response": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "display_brand": {
+                  "type": "string",
+                  "description": "Card brand (e.g., Visa, MasterCard)",
+                  "example": "visa"
+                },
+                "exp_month": {
+                  "type": "integer",
+                  "description": "Card expiration month",
+                  "example": 9
+                },
+                "exp_year": {
+                  "type": "integer",
+                  "description": "Card expiration year",
+                  "example": 2032
+                },
+                "last4": {
+                  "type": "string",
+                  "description": "Last 4 digits of the card",
+                  "example": "99999"
+                },
+                "customer": {
+                  "type": "string",
+                  "description": "Stripe customer ID",
+                  "example": "z45j888B"
+                },
+                "id": {
+                  "type": "string",
+                  "description": "Stripe payment method ID",
+                  "example": "88GE"
+                },
+                "default": {
+                  "type": "boolean",
+                  "description": "Whether this card is the default payment method",
+                  "example": true
+                }
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "Cards List"
+          }
+        }
+      },
+"DownloadInvoiceRequest": {
+        "type": "object",
+        "required": ["invoice_id"],
+        "properties": {
+          "invoice_id": {
+            "type": "string",
+            "description": "The Stripe invoice ID to generate the download link for",
+            "example": "h5v6Ae11"
+          }
+        }
+},
+"DownloadInvoiceResponse": {
+        "type": "object",
+        "properties": {
+          "invoice_pdf_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Direct PDF URL of the Stripe invoice"
+          }
+        }
+},
+"CampaignStatsResponse": {
+        "type": "object",
+        "properties": {
+          "active_campaign_count": {
+            "type": "integer",
+            "description": "Number of currently active campaigns",
+            "example": 1
+          },
+          "active_quick_campaign_count": {
+            "type": "integer",
+            "description": "Number of currently active quick campaigns",
+            "example": 7
+          },
+          "total_credit_deducted": {
+            "type": "number",
+            "format": "float",
+            "description": "Total number of credits deducted across campaigns",
+            "example": 285
+          },
+          "total_call_duration": {
+            "type": "integer",
+            "description": "Total call duration in seconds",
+            "example": 72
+          },
+          "credit": {
+            "type": "number",
+            "format": "float",
+            "description": "Total available credit",
+            "example": 67.5813
+          }
+        }
+},
+"AddCreditsRequest": {
+        "type": "object",
+        "required": ["custom_credits", "custom_amount", "payment_method"],
+        "properties": {
+          "custom_credits": {
+            "type": "integer",
+            "description": "Number of credits the user wants to purchase",
+            "example": 1000
+          },
+          "custom_amount": {
+            "type": "number",
+            "format": "float",
+            "description": "Amount to be paid for the credits (in dollars)",
+            "example": 99
+          },
+          "payment_method": {
+            "type": "string",
+            "description": "Payment gateway used for transaction",
+            "example": "stripe"
+          }
+        }
+      },
+      "AddCreditsResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "integer",
+                "description": "Total amount in smallest currency unit (e.g., cents)",
+                "example": 9900
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Stripe payment URL to complete the transaction"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "User's email associated with the transaction",
+                "example": "abc@gmail.com"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "Stripe Payment Link for credit purchase created"
+          }
+        }
+      },
+      "AddPaypalCreditsRequest": {
+    "type": "object",
+    "required": ["amount", "currency", "user_id"],
+    "properties": {
+      "amount": {
+        "type": "number",
+        "format": "float",
+        "example": 25.00,
+        "description": "The amount of credits (in currency) the user wants to purchase."
+      },
+      "currency": {
+        "type": "string",
+        "example": "USD",
+        "description": "The currency in which the payment will be made."
+      },
+      "user_id": {
+        "type": "string",
+        "example": "user_12345",
+        "description": "The ID of the user purchasing the credits."
+      }
+    }
+  },
+  "AddPaypalCreditsResponse": {
+    "type": "object",
+    "properties": {
+      "payment_link": {
+        "type": "string",
+        "format": "uri",
+        "example": "https://xyz.com/abc?token=123",
+        "description": "The PayPal payment link the user should be redirected to."
+      },
+      "status": {
+        "type": "string",
+        "example": "pending",
+        "description": "The status of the payment link generation."
+      }
+    }
+  },
+  "ChangePlanRequest": {
+    "type": "object",
+    "required": ["user_id", "new_plan_id"],
+    "properties": {
+      "user_id": {
+        "type": "string",
+        "example": "user_12345",
+        "description": "The ID of the user whose plan is being changed."
+      },
+      "new_plan_id": {
+        "type": "string",
+        "example": "premium_monthly",
+        "description": "The ID of the new subscription plan."
+      },
+      "current_plan_id": {
+        "type": "string",
+        "example": "basic_monthly",
+        "description": "The ID of the current subscription plan (optional, may be validated internally)."
+      },
+      "prorate": {
+        "type": "boolean",
+        "example": true,
+        "description": "Whether to prorate the billing for the plan change."
+      }
+    }
+  },
+  "ChangePlanResponse": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "example": "success",
+        "description": "Status of the plan change operation."
+      },
+      "new_plan_id": {
+        "type": "string",
+        "example": "premium_monthly",
+        "description": "ID of the new active plan."
+      },
+      "effective_date": {
+        "type": "string",
+        "format": "date-time",
+        "example": "2025-09-02T12:00:00Z",
+        "description": "Date and time when the new plan becomes effective."
+      }
+    }
+  },
+  "UpdateSubscriptionRequest": {
+    "type": "object",
+    "required": ["user_id"],
+    "properties": {
+      "user_id": {
+        "type": "string",
+        "example": "user_12345",
+        "description": "The ID of the user whose subscription is being updated."
+      },
+      "auto_renew": {
+        "type": "boolean",
+        "example": false,
+        "description": "Toggle for auto-renewal setting."
+      },
+      "billing_cycle": {
+        "type": "string",
+        "example": "monthly",
+        "description": "New billing cycle if being changed. Accepted values: 'monthly', 'yearly'."
+      },
+      "status": {
+        "type": "string",
+        "example": "paused",
+        "description": "Set subscription status. Example values: 'active', 'paused', 'cancelled'."
+      }
+    }
+  },
+  "UpdateSubscriptionResponse": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "example": "success",
+        "description": "Status of the subscription update operation."
+      },
+      "subscription_id": {
+        "type": "string",
+        "example": "sub_67890",
+        "description": "ID of the updated subscription."
+      },
+      "updated_fields": {
+        "type": "object",
+        "example": {
+          "auto_renew": false,
+          "billing_cycle": "monthly"
+        },
+        "description": "The fields that were updated in the subscription."
+      }
+    }
+  },
+  "AddNewCardRequest": {
+    "type": "object",
+    "required": ["user_id", "card_number", "exp_month", "exp_year", "cvc"],
+    "properties": {
+      "user_id": {
+        "type": "string",
+        "example": "user_12345",
+        "description": "The ID of the user adding the card."
+      },
+      "card_number": {
+        "type": "string",
+        "example": "4242424242424242",
+        "description": "The card number."
+      },
+      "exp_month": {
+        "type": "integer",
+        "example": 12,
+        "description": "Card expiry month (1-12)."
+      },
+      "exp_year": {
+        "type": "integer",
+        "example": 2027,
+        "description": "Card expiry year (4-digit)."
+      },
+      "cvc": {
+        "type": "string",
+        "example": "123",
+        "description": "Card CVC/CVV security code."
+      },
+      "is_default": {
+        "type": "boolean",
+        "example": true,
+        "description": "Whether this card should be set as the default payment method."
+      }
+    }
+  },
+  "AddNewCardResponse": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "example": "success",
+        "description": "Status of the card addition request."
+      },
+      "card_id": {
+        "type": "string",
+        "example": "card_abc123",
+        "description": "The unique ID of the newly added card."
+      },
+      "is_default": {
+        "type": "boolean",
+        "example": true,
+        "description": "Whether this card is set as the default."
+      }
+    }
+  },
+  "SetDefaultRequest": {
+    "type": "object",
+    "required": ["user_id"],
+    "properties": {
+      "user_id": {
+        "type": "string",
+        "example": "user_12345",
+        "description": "The ID of the user for whom the card will be set as default."
+      }
+    }
+  },
+  "SetDefaultResponse": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "example": "success",
+        "description": "Indicates whether the default setting was successful."
+      },
+      "default_card_id": {
+        "type": "string",
+        "example": "card_abc123",
+        "description": "The ID of the card now set as the default."
+      }
+    }
+  },
+  "DeleteCardResponse": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "example": "success",
+        "description": "Indicates that the card was deleted successfully."
+      },
+      "deleted_card_id": {
+        "type": "string",
+        "example": "card_22923",
+        "description": "The ID of the card that was deleted."
+      }
+    }
+  },
+  "ActiveSubscriptionResponse": {
+    "type": "object",
+    "properties": {
+      "success": {
+        "type": "boolean",
+        "example": true,
+        "description": "Indicates whether the request was successful."
+      },
+      "errors": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "example": [],
+        "description": "List of errors if any occurred."
+      },
+      "response": {
+        "type": "object",
+        "properties": {
+          "has_subscription": {
+            "type": "boolean",
+            "example": true,
+            "description": "Whether the user has an active subscription."
+          },
+          "active_subscription": {
+            "type": "object",
+            "properties": {
+              "plan": {
+                "type": ["string", "null"],
+                "example": null,
+                "description": "Name of the current plan. Can be null."
+              },
+              "status": {
+                "type": "string",
+                "example": "active",
+                "description": "Status of the current subscription."
+              },
+              "next_billing": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2025-09-14T18:45:46Z",
+                "description": "Date and time of the next billing cycle."
+              },
+              "amount": {
+                "type": "number",
+                "example": 997.0,
+                "description": "Billing amount of the current plan."
+              },
+              "features": {
+                "type": "string",
+                "example": "",
+                "description": "Features included in the plan (if any)."
+              },
+              "price_id": {
+                "type": "string",
+                "example": "NhFBDI6",
+                "description": "Stripe price ID associated with the plan."
+              },
+              "payment_gateway": {
+                "type": "string",
+                "example": "stripe",
+                "description": "Payment gateway used for this subscription."
+              }
+            }
+          },
+          "prices": {
+            "type": "array",
+            "description": "List of available pricing plans.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "price_id": {
+                  "type": "string",
+                  "example": "HgHjFwt",
+                  "description": "Unique ID of the price."
+                },
+                "amount": {
+                  "type": "number",
+                  "example": 297.0,
+                  "description": "Price amount."
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "usd",
+                  "description": "Currency of the price."
+                },
+                "product_name": {
+                  "type": "string",
+                  "example": "xyz.com (AI Calling Plan) 7-Day Free Trial",
+                  "description": "Name of the product associated with this price."
+                },
+                "description": {
+                  "type": ["string", "null"],
+                  "example": null,
+                  "description": "Additional description of the plan (if any)."
+                },
+                "interval": {
+                  "type": "string",
+                  "example": "month",
+                  "description": "Billing interval (e.g., month, year)."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+      
 
 
 
