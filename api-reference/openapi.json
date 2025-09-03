@@ -1426,7 +1426,3059 @@
           }
         }
       }
-    }                     
+    },
+
+    "/v2/camp-quickcamp/": {
+  "get": {
+    "description": "Fetches call campaign data, including status, agent details, calling numbers, and campaign performance metrics.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "description": "The name of the schema to be used for the request",
+        "required": true,
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "description": "The search term used to filter results",
+        "required": false,
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "description": "The status of the campaign (e.g., running, paused, completed)",
+        "required": false,
+        "schema": { 
+          "type": "string",
+          "enum": ["running", "paused", "completed"]
+        }
+      },
+      {
+        "name": "direction",
+        "in": "query",
+        "description": "The direction of the call (e.g., Outbound or Inbound)",
+        "required": false,
+        "schema": { 
+          "type": "string",
+          "enum": ["Outbound", "Inbound"]
+        }
+      },
+      {
+        "name": "sort_by",
+        "in": "query",
+        "description": "The field by which the results should be sorted (e.g., name, date)",
+        "required": false,
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "description": "The page number to retrieve results from (for pagination)",
+        "required": false,
+        "schema": { "type": "integer" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Get Quick Campaign data response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CampaignData"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Unexpected error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+    "/campaign/": {
+    "post": {
+      "summary": "Create a new call campaign",
+      "description": "Creates a new call campaign, including key campaign details such as Campaign Name, Selected AI Agent, Call Direction, Selected Phone Number, Number Rotation settings, Campaign Budget (in minutes), and Scheduling options.",
+      "parameters": [
+        {
+          "name": "Company-Name",
+          "in": "header",
+          "description": "The name of the schema to be used for the request",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateCampaignRequest"
+            }   
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Campaign created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCampaign"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Unexpected error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+    "/quick_campaign/": {
+  "post": {
+    "summary": "Create a new Quick Campaign",
+    "description": "Creates a new quick call campaign, including key campaign details such as Campaign Name, Selected AI Agent, Selected Phone Number, and Enable Number Rotation settings.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "description": "The name of the schema to be used for the request",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/CreateQuickCampaignRequest"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Quick Campaign created successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateQuickCampaign"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or missing data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+    "/v2/camp-quickcamp/update/{campaign_id}/": {
+  "patch": {
+    "summary": "Edit Campaign or Perform Status Actions",
+    "description": "This endpoint allows editing campaign details like name, agent, budget, calling number, as well as performing actions like pause, resume, or complete the campaign.",
+    "parameters": [
+      {
+        "name": "campaign_id",
+        "in": "path",
+        "required": true,
+        "description": "The ID of the campaign to be updated",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The name of the schema to be used for the request",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/UpdateCampaignRequest"
+          },
+          "examples": {
+            "EditCampaign": {
+  "summary": "Edit campaign details",
+  "value": {
+    "name": "string",                   
+    "new_agent": "number",               
+    "calling_number": "string",       
+    "total_bugget": "number",         
+    "priority": "number",             
+    "status": "string"   
+  }
+},
+            "PauseCampaign": {
+              "summary": "Pause campaign",
+              "value": {
+                "status": "paused"
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Campaign updated successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UpdateCampaignResponse"
+            },
+            "examples": {
+              "EditCampaignResponse": {
+                "summary": "Edit campaign response",
+                "value": {
+                  "success": true,
+                  "message": "Campaign updated successfully",
+                  "data": {
+                    "campaign": {
+  "id": "string",
+  "name": "string",
+  "direction": "string",
+  "agent": "null | string",
+  "new_agent": "number",
+  "contact_list": "null | string",
+  "knowledge_base": "null | string",
+  "calling_number": "string",
+  "start_date": "null | string",
+  "start_time": "null | string",
+  "end_time": "null | string",
+  "total_bugget": "number",
+  "bugget_left": "string",
+  "saturday": "boolean",
+  "sunday": "boolean",
+  "status": "string",
+  "priority": "number",
+  "created_at": "string",
+  "updated_at": "string"
+}
+
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+    },
+    "/v2/graph/daily-campaign-results/{campaign_id}/": {
+  "get": {
+    "summary": "Get daily campaign result data",
+    "description": "Returns hourly data for credit deductions and campaign results for a given campaign on a specific date.",
+    "parameters": [
+      {
+        "name": "campaign_id",
+        "in": "path",
+        "required": true,
+        "description": "Unique ID of the campaign (e.g., campc005bf8a)",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The name of the schema to be used for the request",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Hourly analytics data of the campaign for a specific day",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/DailyCampaignGraph"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid input or unexpected error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Campaign not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+    },
+"/v2/campaign-analytics/{campaign_id}/": {
+  "get": {
+    "summary": "Get campaign analytics by date",
+    "description": "Returns paginated campaign analytics for a specific campaign and date range.",
+    "parameters": [
+      {
+        "name": "campaign_id",
+        "in": "path",
+        "required": true,
+        "description": "Unique campaign ID (e.g., campc005bf8a)",
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The name of the schema to be used for the request",
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Page number for pagination"
+      },
+      {
+        "name": "sort_by",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Sort the results by a specific field"
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Search term for filtering"
+      },
+      {
+        "name": "outcome",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filter by outcome of the campaign"
+      },
+      {
+        "name": "date",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Specific date for which data is required"
+      },
+      {
+        "name": "from_date",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Start date for range filtering"
+      },
+      {
+        "name": "to_date",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "End date for range filtering"
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Campaign analytics data response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CampaignAnalytics"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or input",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "Campaign not found"
+      }
+    }
+  }
+},
+"/v2/export/campaign/{campaign_id}/": {
+  "get": {
+    "summary": "Export campaign data as downloadable file",
+    "description": "Exports campaign data (e.g. analytics or logs) as a downloadable ZIP or Excel file.",
+    "parameters": [
+      {
+        "name": "campaign_id",
+        "in": "path",
+        "required": true,
+        "description": "The unique ID of the campaign (e.g., quickcamp2062236c)",
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy (company-wise DB separation)",
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" }
+      },
+      {
+        "name": "sort_by",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "outcome",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "date",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" }
+      },
+      {
+        "name": "from_date",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" }
+      },
+      {
+        "name": "to_date",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Downloadable campaign export file (ZIP, CSV, or Excel)",
+        "content": {
+          "application/zip": {
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          },
+          "application/octet-stream": {
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request parameters",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "Campaign not found"
+      }
+    }
+  }
+},
+"/v2/campaign-final-analysis/{campaign_id}/": {
+  "get": {
+    "summary": "Get final campaign analysis by campaign ID",
+    "description": "Returns the final analysis data for a specific campaign by its campaign ID.",
+    "parameters": [
+      {
+        "name": "campaign_id",
+        "in": "path",
+        "required": true,
+        "description": "Unique campaign ID (e.g., quickcamp6cd8c4ce)",
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The name of the schema to be used for the request",
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Final campaign analysis data response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CampaignFinalAnalysis"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or input",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "Campaign not found"
+      }
+    }
+  }
+},
+"/scheduled-callbacks/agency/{company_name}/": {
+  "get": {
+    "summary": "Retrieve scheduled callbacks for the specified agency",
+    "description": "Fetches the list of scheduled callbacks for the agency 'voizerfreeaccount'.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy (company-wise DB separation)",
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successfully retrieved scheduled callbacks",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CallbackVoizerFreeAccount"
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request parameters",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "No scheduled callbacks found for the given agency"
+      }
+    }
+  }
+},
+"/v2/scheduled-callbacks/agency/": {
+  "get": {
+    "summary": "Retrieve scheduled callbacks for all agencies",
+    "description": "Fetches the list of scheduled callbacks for all agencies.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy (company-wise DB separation)",
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successfully retrieved scheduled callbacks",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CallbackHistory"
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request parameters",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "No scheduled callbacks found for the agencies"
+      }
+    }
+  }
+},
+"/v2/contact/": {
+  "get": {
+    "summary": "Retrieve contact list with optional search and pagination",
+    "description": "Fetches a paginated list of contacts. You can filter the results using a search query.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy (company-wise DB separation)",
+        "schema": { "type": "string" }
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "description": "Page number for pagination",
+        "schema": { "type": "integer", "example": 1 }
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "description": "Search term to filter contacts by name, number, or other fields",
+        "schema": { "type": "string", "example": "john" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successfully retrieved contact list",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ContactList"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request parameters",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "No contacts found"
+      }
+    }
+  },
+  "post": {
+    "summary": "Create a new contact",
+    "description": "Creates a new contact with personal, company, and tag information.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy",
+        "schema": { "type": "string" }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/CreateContactRequest"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Contact created successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateContactResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid input or missing fields",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/tags/": {
+  "get": {
+    "summary": "Retrieve list of tags",
+    "description": "Fetches a list of all available tags in the system. This endpoint returns all tags without requiring any query parameters.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy (company-wise DB separation)",
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successfully retrieved list of tags",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Tag"
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or missing headers",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "No tags found"
+      }
+    }
+  }
+},
+"/v2/contact-detail/{id}/": {
+  "patch": {
+    "summary": "Update a contact",
+    "description": "Updates complete details of a specific contact by its unique ID.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Unique ID of the contact (e.g., 4465)",
+        "schema": { "type": "integer" }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy (company-wise DB separation)",
+        "schema": { "type": "string" }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/EditContactRequest"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Successfully updated contact details",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EditContact"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or missing headers",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "Contact not found"
+      }
+    }
+  },
+
+  "delete": {
+    "summary": "Delete a contact",
+    "description": "Deletes a contact by its unique ID.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Unique ID of the contact (e.g., 4465)",
+        "schema": { "type": "integer" }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "The schema name for multi-tenancy (company-wise DB separation)",
+        "schema": { "type": "string" }
+      }
+    ],
+    "responses": {
+      "204": {
+        "description": "Contact successfully deleted (no content)"
+      },
+      "400": {
+        "description": "Invalid request or missing headers",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "404": {
+        "description": "Contact not found"
+      }
+    }
+  }
+},
+"/v2/contact-profile/": {
+  "get": {
+    "summary": "Fetch contact profile by phone number",
+    "description": "Retrieves a contact's associated campaign and quick campaign results based on their contact number.",
+    "parameters": [
+      {
+        "name": "contact_number",
+        "in": "query",
+        "required": true,
+        "description": "Contact number in E.164 format (e.g., +919779673180)",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successfully fetched contact profile results",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ContactProfileResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid contact number or missing header",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+  "/v2/contact-delete-bulk/": {
+    "delete": {
+      "summary": "Bulk delete contacts",
+      "description": "Deletes contacts in bulk using contact IDs or tag filters.",
+      "parameters": [
+        {
+          "name": "ids",
+          "in": "query",
+          "required": false,
+          "description": "Comma-separated list of contact IDs",
+          "schema": {
+            "type": "string",
+            "example": "4501,4499,4500"
+          }
+        },
+        {
+          "name": "tags",
+          "in": "query",
+          "required": false,
+          "description": "Comma-separated list of tag IDs",
+          "schema": {
+            "type": "string",
+            "example": "12,15"
+          }
+        },
+        {
+          "name": "Company-Name",
+          "in": "header",
+          "required": true,
+          "description": "Schema name for multi-tenancy",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Contacts deleted successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkDeleteContactResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request or missing parameters",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Error" }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/v2/bulk/create/contacts/": {
+  "post": {
+    "summary": "Bulk create contacts",
+    "description": "Creates contacts in bulk with associated tags. Accepts an array of contact objects and a list of tags.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "contact": {
+                "type": "array",
+                "description": "List of contacts to be created",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "phone": {
+                      "type": "string",
+                      "example": "+9821985448"
+                    }
+                  },
+                  "required": ["phone"]
+                }
+              },
+              "tags": {
+                "type": "array",
+                "description": "Tags to associate with contacts",
+                "items": {
+                  "type": "string",
+                  "example": "Test campaign"
+                }
+              }
+            },
+            "required": ["contact", "tags"]
+          },
+          "example": {
+            "contact": [
+              { "phone": "+9821985448" }
+            ],
+            "tags": ["Test campaign"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Bulk contact creation started successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/BulkCreateContactResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or missing data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/importcrm/": {
+  "get": {
+    "summary": "Start CRM Import",
+    "description": "Initiates the CRM import task and returns a task ID and status message.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "CRM import task initiated",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ImportCRMResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or missing parameters",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/salesforce/contacts/": {
+  "get": {
+    "summary": "Import Salesforce Contacts",
+    "description": "Fetches and imports contacts from the connected Salesforce account.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Salesforce contacts imported successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SalesforceContactImportResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or missing configuration",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/send-contacts-to-crms/": {
+  "post": {
+    "summary": "Send Contacts to CRMs",
+    "description": "Triggers the export of contacts from Salesforce to another CRM (e.g., GHL).",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+  "required": true,
+  "content": {
+    "application/json": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "is_salesforce_to_ghl_task": {
+            "type": "boolean",
+            "description": "Flag to start the Salesforce to GHL export task",
+            "example": true
+          },
+          "ghl_to_salesforce": {
+            "type": "boolean",
+            "description": "Flag to start the GHL to Salesforce export task",
+            "example": false
+          }
+        },
+        "required": ["is_salesforce_to_ghl_task", "is_ghl_to_salesforce"]
+      },
+      "example": {
+        "is_salesforce_to_ghl_task": true,
+        "is_ghl_to_salesforce": true
+      }
+    }
+  }
+},
+    "responses": {
+      "200": {
+        "description": "Export task started successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SendContactsToCRMsResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or missing data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/twilio/user/number/": {
+  "post": {
+    "summary": "Fetch Twilio Phone Numbers",
+    "description": "Retrieves a list of phone numbers associated with the provided Twilio SID and Auth Token.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/TwilioUserNumberRequest"
+          }
+
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Twilio numbers fetched successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TwilioUserNumberResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid credentials or request body",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/twilio/new/number/": {
+  "post": {
+    "summary": "Search New Twilio Phone Numbers",
+    "description": "Retrieves available Twilio numbers based on search parameters like country, number slice, and slice filter.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/TwilioNewNumberRequest"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Available Twilio numbers fetched successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TwilioNewNumberResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or credentials",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/twilio/buy/number/": {
+  "post": {
+    "summary": "Twilio Buy Number",
+    "description": "Buys a Twilio number using provided credentials, phone number and optional friendly name.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/TwilioBuyNumberRequest"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Contact number added successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TwilioBuyNumberResponse"
+            },
+            "example": {
+              "success": true,
+              "message": "contact number added",
+              "data": {}
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid SID, token, or phone number",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/agency/twilio/register/": {
+  "post": {
+    "summary": "Twilio Register",
+    "description": "Registers Twilio credentials (SID and Token) for the agency account.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/TwilioRegisterRequest"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Twilio SID and token updated successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TwilioRegisterResponse"
+            },
+            "example": {
+              "success": true,
+              "message": "twilio sid and twilio token updated sucessfully",
+              "data": {}
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid Twilio SID or Token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "get": {
+    "summary": "Get Twilio Credentials",
+    "description": "Fetches the Twilio SID and token for the specified company schema.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Twilio credentials fetched successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TwilioRegisterGetResponse"
+            },
+            "example": {
+              "success": true,
+              "message": "twilio sid and twilio token updated"
+
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Missing or invalid company schema",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/twilio/post/callerids/": {
+  "post": {
+    "summary": "Telnyx Buy Caller ID",
+    "description": "Registers a new caller ID number along with optional SIP credentials and friendly name.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/TelnyxBuyCallerIDRequest"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Caller ID saved successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TelnyxBuyCallerIDResponse"
+            },
+            "example": {
+              "success": true,
+              "message": "Caller ID saved successfully"
+
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid input or missing fields",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+
+"/v2/twilio/fetch/callerids/": {
+  "post": {
+    "summary": "Fetch Twilio Caller IDs",
+    "description": "Fetches existing verified caller IDs from Twilio along with their friendly names and SIDs.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/TwilioFetchCallerIDsRequest"
+          }
+
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Caller IDs retrieved successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TwilioFetchCallerIDsResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid credentials or request data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/twilio/contact/": {
+  "get": {
+    "summary": "Get Twilio Contact Numbers",
+    "description": "Retrieves a list of Twilio contact numbers with additional metadata such as nickname and status.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Twilio contact numbers retrieved successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TwilioContactListResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or missing parameters",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/start-verification/": {
+  "post": {
+    "summary": "Start Phone Number Verification",
+    "description": "Initiates a verification process for a phone number using Twilio's caller ID validation.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/StartVerificationRequest"
+          },
+          "example": {
+  "phone_number": "string",
+  "friendly_name": "string",
+  "sid": "string",
+  "auth": "string"
+}
+
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Verification initiated successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/StartVerificationResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or Twilio credentials",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/verification-status/": {
+  "get": {
+    "summary": "Get Verification Status",
+    "description": "Retrieves the verification status for a specific phone number based on Twilio caller ID validation.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "phone_number",
+        "in": "query",
+        "required": true,
+        "description": "The phone number to check verification status for (URL encoded)",
+        "schema": {
+          "type": "string",
+          "example": "+919999728776"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Verification status retrieved successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/VerificationStatusResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Missing or invalid phone number",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/twilio/contact/{id}/": {
+  "delete": {
+    "summary": "Delete Contact",
+    "description": "Deletes a Twilio contact based on the provided contact ID.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Unique identifier of the Twilio contact to be deleted",
+        "schema": {
+          "type": "integer",
+          "example": 60
+        }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Contact deleted successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/DeleteTwilioContactResponse"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Contact not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid contact ID",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/register/telynx/": {
+  "post": {
+    "summary": "Telnyx Register",
+    "description": "Registers the Telnyx API key for the current company/tenant.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/TelnyxRegisterRequest"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Telnyx API key registered successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TelnyxRegisterResponse"
+            },
+            "example": {
+              "success": false,
+              "errors": [],
+              "response": "voizerfreeaccount",
+              "message": "Telnyx API key updated successfully"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid or missing Telnyx API key",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "get": {
+  "summary": "Get Telnyx Registration Info",
+  "description": "Fetches the Telnyx API key and visibility settings for the current company/tenant.",
+  "parameters": [
+    {
+      "name": "Company-Name",
+      "in": "header",
+      "required": true,
+      "description": "Schema name for multi-tenancy",
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "Telnyx API key info retrieved successfully",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/TelnyxRegisterGetResponse"
+          }
+        }
+      }
+    },
+    "400": {
+      "description": "Missing or invalid Company-Name header",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/Error"
+          }
+        }
+      }
+    }
+  }
+}
+
+},
+
+"/v2/register/telynx/number/": {
+  "post": {
+    "summary": "Telnyx Register Number",
+    "description": "Registers a new number with Telnyx using the given phone number, country code, and friendly name.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/TelnyxRegisterNumberRequest"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Number registered successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TelnyxRegisterNumberResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Failed to register number",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TelnyxRegisterNumberError"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/telnyx/numbers-combined/": {
+  "get": {
+    "summary": "Telnyx Purchased Number List (Combined)",
+    "description": "Retrieves both purchased and available Telnyx numbers based on filters like country code and number slice options.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "country_code",
+        "in": "query",
+        "required": true,
+        "description": "Country code for filtering phone numbers",
+        "schema": {
+          "type": "string",
+          "example": "US"
+        }
+      },
+      {
+        "name": "number_slice",
+        "in": "query",
+        "required": false,
+        "description": "Custom substring used to match numbers (e.g. area code or prefix)",
+        "schema": {
+          "type": "string",
+          "example": "21"
+        }
+      },
+      {
+        "name": "number_slice_filter",
+        "in": "query",
+        "required": false,
+        "description": "Filter type used for the number slice (e.g. 'first_part' or 'last_part')",
+        "schema": {
+          "type": "string",
+          "enum": ["first_part", "last_part"],
+          "example": "first_part"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Purchased and available Telnyx numbers retrieved successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TelnyxCombinedNumbersResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid query or country code",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/add/contact/": {
+  "post": {
+    "summary": "Custom Add Contact",
+    "description": "Adds a new custom contact with SIP trunk credentials and other optional fields.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/CustomAddContactRequest"
+          },
+          "example": {
+  "phone_number": "string",
+  "termination_uri": "string",
+  "sip_trunk_auth_username": "string",
+  "sip_trunk_auth_password": "string",
+  "nickname": "string",
+  "source_of_origin": "string"
+}
+
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Contact created successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CustomAddContactResponse"
+            },
+            "example": {
+              "success": true,
+              "message": "contact created",
+              "data": {
+                "pk": "integer",
+  "phone_number": "string",
+  "termination_uri": "string",
+  "sip_trunk_auth_username": "string",
+  "sip_trunk_auth_password": "string",
+  "nickname": "string",
+  "source_of_origin": "string",
+  "phone_number_sid": "string | null",
+  "verification_status": "string | null",
+  "in_used_by_agent": "string",
+  "is_auto_buyed": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid contact data or schema missing",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/ghl/connect/user/": {
+  "post": {
+    "summary": "Lead Connect User",
+    "description": "Initiates the connection process to GHL (Go High Level) using OAuth `code` and `state` values returned after user authorization.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/GHLConnectUserRequest"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "GHL connection successful",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GHLConnectUserResponse"
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized or invalid token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GHLUnauthorizedError"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/agency/api_key/": {
+  "get": {
+    "summary": "Fetch GHL Agency API Key",
+    "description": "Retrieves the GHL agency API key associated with the authenticated account.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Agency API key retrieved successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AgencyAPIKeyResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Missing or invalid request data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/salesforce/callback/": {
+  "post": {
+    "summary": "Salesforce OAuth Callback",
+    "description": "Handles the OAuth callback from Salesforce by consuming the returned `code` and `state`.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/SalesforceCallbackRequest"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Salesforce connection successful",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SalesforceCallbackResponse"
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized or invalid code/state",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SalesforceUnauthorizedError"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/snowie/callback/": {
+  "post": {
+    "summary": "Snowie OAuth Callback",
+    "description": "Handles the OAuth callback from Snowie by consuming the returned `code` only.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/SnowieCallbackRequest"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Snowie connection successful",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SnowieCallbackResponse"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/webhooks/register/": {
+  "post": {
+    "summary": "Register Webhook",
+    "description": "Registers a new webhook with the provided URL, description, agent(s), and subscribed event(s).",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/RegisterWebhookRequest"
+          },
+          "example": {
+            "webhook_url": "https://webhook.site/abcdef123456",
+            "description": "This is a test webhook to capture call start and end events.",
+            "agent_ids": ["549"],
+            "events_to_subscribe": ["call.started", "call.ended"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Webhook registered successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RegisterWebhookResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid data or missing fields",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/webhooks/{id}/": {
+  "put": {
+    "summary": "Webhook Edit",
+    "description": "Updates an existing webhook using the provided ID with new URL, description, subscribed events, and selected agents.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "The ID of the webhook to update",
+        "schema": {
+          "type": "integer",
+          "example": 25
+        }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/EditWebhookRequest"
+          },
+          "example": {
+            "webhook_url": "https://webhook.site/abcdefgh123456789",
+            "description": "This edited is a test webhook to capture call start and end events.",
+            "agent_ids": ["570"],
+            "events_to_subscribe": ["call.started", "call.ended"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Webhook updated successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EditWebhookResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid webhook ID or payload",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Webhook not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "delete": {
+    "summary": "Webhook Delete",
+    "description": "Deletes a webhook based on the provided ID.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "The ID of the webhook to delete",
+        "schema": {
+          "type": "integer",
+          "example": 25
+        }
+      },
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Webhook deleted successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/DeleteWebhookResponse"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Webhook not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/webhooks/": {
+  "get": {
+    "summary": "Get Webhook List",
+    "description": "Retrieves a list of all registered webhooks along with their URLs, descriptions, subscribed events, and associated agents.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Webhook list retrieved successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GetWebhookListResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/active-webhook-stats/": {
+  "get": {
+    "summary": "Get Active Webhook Stats",
+    "description": "Returns analytics for active webhooks, including total count, average response time, and total hit count.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Active webhook stats retrieved successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ActiveWebhookStatsResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/v2/list-all-agent/": {
+  "get": {
+    "summary": "List All Agents",
+    "description": "Retrieves all configured agents with their full configuration and metadata.",
+    "parameters": [
+      {
+        "name": "Company-Name",
+        "in": "header",
+        "required": true,
+        "description": "Schema name for multi-tenancy",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "List of agents retrieved successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ListAllAgentsResponse"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/fetch-prices/": {
+    "get": {
+      "summary": "Current Plan",
+      "description": "Fetches current active subscription plan details along with available pricing options.",
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved pricing and subscription information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FetchPricesResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+},
+"/transaction_history/": {
+    "get": {
+      "summary": "Transaction History",
+      "description": "Retrieves a list of all transactions including manual credits, subscriptions, and payments.",
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved transaction history",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionHistoryResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/list-cards/": {
+    "get": {
+      "summary": "List Cards",
+      "description": "Retrieves a list of saved payment methods (cards) for the authenticated user.",
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved list of saved cards",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListCardsResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request or missing Stripe customer ID",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+"/download-stripe-invoice/": {
+    "post": {
+      "summary": "Download Invoice",
+      "description": "Generates and returns the Stripe invoice download URL for the given invoice ID.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/DownloadInvoiceRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully generated invoice PDF URL",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DownloadInvoiceResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid invoice ID or request body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+},
+"/v2/campaign-stats/": {
+    "get": {
+      "summary": "Campaign Stats",
+      "description": "Retrieves statistics related to active campaigns, quick campaigns, total credits used, and call durations.",
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved campaign statistics",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CampaignStatsResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+},
+  "/add_credits/": {
+    "post": {
+      "summary": "Add Stripe Credits",
+      "description": "Creates a Stripe payment link to purchase custom credits using a specified payment method.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AddCreditsRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Stripe payment link successfully created",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddCreditsResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request parameters or payment error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/add_paypal_credits/": {
+    "post": {
+      "summary": "Add PayPal Credits",
+      "description": "Creates a PayPal payment link to purchase custom credits using a specified PayPal account.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AddPaypalCreditsRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "PayPal payment link successfully created",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddPaypalCreditsResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request parameters or PayPal error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/change-plan/": {
+    "post": {
+      "summary": "Change Plan",
+      "description": "Changes the user's current subscription plan to a new plan. This may trigger billing updates and subscription adjustments.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ChangePlanRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Subscription plan successfully changed",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePlanResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request parameters or plan change error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/update-subscription/{id}": {
+    "patch": {
+      "summary": "Update Subscription",
+      "description": "Updates fields of an existing user subscription. This may include billing cycle, status, auto-renewal settings, etc.",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "The unique ID of the subscription to update.",
+          "schema": {
+            "type": "string",
+            "example": "sub_67890"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UpdateSubscriptionRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Subscription successfully updated",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubscriptionResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request parameters or update failure",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/add-new-card/": {
+    "post": {
+      "summary": "Add New Card",
+      "description": "Adds a new payment card to the user's account. The card may be saved for future transactions and can be set as the default payment method.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AddNewCardRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Card added successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNewCardResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid card details or failed to add card",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/set-default/{id}": {
+    "patch": {
+      "summary": "Set Default",
+      "description": "Sets a specific card or payment method as the default for the user.",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the card or payment method to set as default.",
+          "schema": {
+            "type": "string",
+            "example": "card_abc123"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SetDefaultRequest"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Card successfully set as default",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetDefaultResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request or card not found",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/delete-card/{id}": {
+    "delete": {
+      "summary": "Delete Card",
+      "description": "Deletes a saved payment card from the user's account using the card ID.",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "The unique ID of the card to be deleted.",
+          "schema": {
+            "type": "string",
+            "example": "card_abc123"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Card successfully deleted",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteCardResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid card ID or card not found",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/get-active-subscription/": {
+    "get": {
+      "summary": "Active Subscription",
+      "description": "Returns the current user's active subscription status, including plan details, billing info, and available pricing options.",
+      "responses": {
+        "200": {
+          "description": "Subscription information retrieved successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActiveSubscriptionResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request or user not found",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+
+
   },
   "components": {
     "schemas": {
@@ -4520,7 +7572,7 @@
           }
         }
       },
-      "UpdateLLMResponse": {
+      "UpdateLLMResponse":{
         "type": "object",
         "required": ["success", "message", "data", "prices"],
         "properties": {
@@ -4532,74 +7584,50 @@
             "type": "string",
             "description": "Message describing the result of the request"
           },
-          "data": {
+          "default_dynamic_variables": {
             "type": "object",
-            "required": [
-              "pk",
-              "model",
-              "states",
-              "s2s_model",
-              "model_temperature",
-              "general_prompt",
-              "general_tools",
-              "begin_message",
-              "ghl_book_meeting",
-              "price_set_per_model",
-              "custom_message"
-            ],
-            "properties": {
-              "pk": {
-                "type": "integer",
-                "description": "Primary key for the language model"
-              },
-              "model": {
-                "type": "string",
-                "description": "Name of the language model"
-              },
-              "states": {
-                "type": "string",
-                "nullable": true,
-                "description": "State settings for the model"
-              },
-              "s2s_model": {
-                "type": "string",
-                "nullable": true,
-                "description": "Speech-to-speech model identifier"
-              },
-              "model_temperature": {
-                "type": "string",
-                "description": "Temperature setting for the model"
-              },
-              "general_prompt": {
-                "type": "string",
-                "description": "General prompt for the model"
-              },
-              "general_tools": {
-                "type": "array",
-                "description": "List of tools available to the model",
-                "items": {
-                  "type": "object"
-                }
-              },
-              "begin_message": {
-                "type": "string",
-                "description": "Initial message for the model"
-              },
-              "ghl_book_meeting": {
-                "type": "boolean",
-                "description": "Indicates if meeting booking is enabled"
-              },
-              "price_set_per_model": {
-                "type": "string",
-                "description": "Price set for the model"
-              },
-              "custom_message": {
-                "type": "string",
-                "nullable": true,
-                "description": "Custom message for the model"
-              }
-            }
+            "additionalProperties": { "type": "string" },
+            "description": "A dictionary of default dynamic variables used in the model"
           },
+          
+          "data": {
+  "type": "object",
+  "required": [
+    "pk",
+    "model",
+    "states",
+    "s2s_model",
+    "model_temperature",
+    "general_prompt",
+    "general_tools",
+    "begin_message",
+    "ghl_book_meeting",
+    "price_set_per_model",
+    "custom_message",
+    "default_dynamic_variables"
+  ],
+  "properties": {
+    "pk": { "type": "integer" },
+    "model": { "type": "string" },
+    "states": { "type": "string", "nullable": true },
+    "s2s_model": { "type": "string", "nullable": true },
+    "model_temperature": { "type": "string" },
+    "general_prompt": { "type": "string" },
+    "general_tools": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "begin_message": { "type": "string" },
+    "ghl_book_meeting": { "type": "boolean" },
+    "price_set_per_model": { "type": "string" },
+    "custom_message": { "type": "string", "nullable": true },
+    "default_dynamic_variables": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "A dictionary of default dynamic variables used in the model"
+    }
+  }
+},
           "prices": {
             "type": "object",
             "description": "Pricing details for available models",
@@ -5486,6 +8514,3522 @@
           }
         }
       },
+      "CampaignItem": {
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the campaign",
+      "example": "campdece6857"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the campaign",
+      "example": "Rell (test)"
+    },
+    "direction": {
+      "type": "string",
+      "description": "Direction of the call campaign",
+      "example": "Outbound"
+    },
+    "new_agent": {
+      "type": ["string", "null"],
+      "description": "Assigned agent name",
+      "example": "Financial"
+    },
+    "contact_list": {
+      "type": ["string", "null"],
+      "description": "Reference to the contact list used in the campaign",
+      "example": null
+    },
+    "knowledge_base": {
+      "type": ["string", "null"],
+      "description": "Knowledge base linked to the campaign",
+      "example": null
+    },
+    "calling_number": {
+      "type": "string",
+      "description": "Primary phone number used for the campaign",
+      "example": "+18446020950"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the campaign",
+      "example": "paused"
+    },
+    "total_bugget": {
+      "type": "number",
+      "description": "Total budget assigned to the campaign",
+      "example": 60
+    },
+    "bugget_left": {
+      "type": "string",
+      "description": "Remaining budget as a string value",
+      "example": "60.0000"
+    },
+    "status_choices": {
+      "type": "array",
+      "description": "Possible status options for the campaign",
+      "items": {
+        "type": "string"
+      },
+      "example": ["active", "paused", "completed"]
+    },
+    "calling_number_pool": {
+      "type": "array",
+      "description": "List of available calling numbers",
+      "items": {
+        "type": "string"
+      },
+      "example": ["+17023600026", "+17023600027"]
+    },
+    "rotate_number_after_calls": {
+      "type": "integer",
+      "description": "Number of calls after which the number is rotated",
+      "example": 1
+    },
+    "release_buyed_when": {
+      "type": "string",
+      "description": "Defines when to release purchased numbers",
+      "example": "subscription_complete"
+    },
+    "number_rotation": {
+      "type": "boolean",
+      "description": "Whether number rotation is enabled",
+      "example": false
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp",
+      "example": "2025-08-23T10:54:50.133959Z"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last updated timestamp",
+      "example": "2025-08-23T15:53:15.089678Z"
+    }
+  }
+      },
+      "CampaignData": {
+  "type": "object",
+  "properties": {
+    "total_count": {
+      "type": "number",
+      "description": "Total number of matching campaigns",
+      "example": 257
+    },
+    "total_page": {
+      "type": "number",
+      "description": "Total number of pages",
+      "example": 6
+    },
+    "Current_page_no": {
+      "type": "number",
+      "description": "Current page number",
+      "example": 1
+    },
+    "next_page_number": {
+      "type": ["number", "null"],
+      "description": "Next page number if available",
+      "example": 2
+    },
+    "previous_page_number": {
+      "type": ["number", "null"],
+      "description": "Previous page number if available",
+      "example": null
+    },
+    "page_size": {
+      "type": "number",
+      "description": "Number of items per page",
+      "example": 50
+    },
+    "data": {
+      "type": "array",
+      "description": "List of campaign items",
+      "items": {
+        "$ref": "#/components/schemas/CampaignItem"
+      }
+    }
+  }
+      },
+      "CreateCampaignRequest": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the campaign to be created",
+        "example": "Summer Sales 2025"
+      },
+      "new_agent": {
+        "type": "integer",
+        "description": "ID of the agent assigned to the campaign",
+        "example": 123
+      },
+      "direction": {
+        "type": "string",
+        "description": "Direction of the campaign, either 'Inbound' or 'Outbound'",
+        "enum": ["Inbound", "Outbound"],
+        "example": "Outbound"
+      },
+      "calling_number": { 
+        "type": "string",
+        "description": "Phone number used for calls",
+        "example": "+18446020950"
+      },
+      "tags": {
+        "type": "array",
+        "description": "List of tag IDs to associate with the campaign",
+        "items": {
+          "type": "integer"
+        },
+        "example": [1, 2]
+      },
+      "enable_number_rotation": {
+        "type": "boolean",
+        "description": "Toggle to enable or disable number rotation for calls",
+        "example": false
+      },
+      "number_dict": {
+      "type": "object",
+      "description": "Whether number rotation is enabled",
+      "example": {}
+    },
+      "total_bugget": {
+        "type": "number",
+        "format": "float",
+        "description": "Total budget (in minutes) allocated for the campaign",
+        "example": 60
+      },
+      "start_date": {
+        "type": "string",
+        "format": "date",
+        "description": "Start date of the campaign in YYYY-MM-DD format",
+        "example": "2025-08-30"
+      },
+      "start_time": {
+        "type": "string",
+        "format": "time",
+        "description": "Start time of the campaign in HH:mm:ss format",
+        "example": "10:00:00"
+      },
+      "end_date": {
+        "type": "string",
+        "format": "date",
+        "description": "End date of the campaign in YYYY-MM-DD format",
+        "example": "2025-08-30"
+      },
+      "end_time": {
+        "type": "string",
+        "format": "time",
+        "description": "End time of the campaign in HH:mm:ss format",
+        "example": "17:00:00"
+      }
+    },
+    "required": [
+      "name",
+      "new_agent",
+      "direction",
+      "calling_number",
+      "tags",
+      "enable_number_rotation",
+      "total_bugget",
+      "start_date",
+      "start_time",
+      "end_date",
+      "end_time"
+    ]
+      },
+      "CreateCampaign": {
+    "type": "object",
+    "properties": {
+      "success": {
+        "type": "boolean",
+        "description": "Indicates whether the campaign was created successfully",
+        "example": true
+      },
+      "message": {
+        "type": "string",
+        "description": "A message confirming the status of the campaign creation",
+        "example": "campaign created successfully"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "campaign": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the campaign",
+                "example": "Rell (test)"
+              },
+              "new_agent": {
+                "type": "integer",
+                "description": "Unique ID of the agent selected for the campaign",
+                "example": 527
+              },
+              "direction": {
+                "type": "string",
+                "description": "The call direction (either 'Outbound' or 'Inbound')",
+                "example": "Outbound"
+              },
+              "contact_list": {
+                "type": "object",
+                "description": "The contact list associated with the campaign (if available)",
+                "example": null
+              },
+              "knowledge_base": {
+                "type": "object",
+                "description": "The knowledge base associated with the campaign (if available)",
+                "example": null
+              },
+              "calling_number": {
+                "type": "string",
+                "description": "The calling number assigned to the campaign",
+                "example": "+18446020950"
+              },
+              "start_date": {
+                "type": "string",
+                "format": "date",
+                "description": "The start date of the campaign",
+                "example": "2025-08-24"
+              },
+              "start_time": {
+                "type": "string",
+                "format": "time",
+                "description": "The start time of the campaign",
+                "example": "11:00:00"
+              },
+              "end_time": {
+                "type": "string",
+                "format": "time",
+                "description": "The end time of the campaign",
+                "example": "12:30:00"
+              },
+              "saturday": {
+                "type": "boolean",
+                "description": "Indicates if the campaign is scheduled for Saturdays",
+                "example": false
+              },
+              "sunday": {
+                "type": "boolean",
+                "description": "Indicates if the campaign is scheduled for Sundays",
+                "example": false
+              },
+              "total_bugget": {
+                "type": "number",
+                "description": "Total budget of the campaign in minutes",
+                "example": 60
+              },
+              "bugget_left": {
+                "type": "string",
+                "description": "Remaining budget in minutes for the campaign",
+                "example": "60.0000"
+              },
+              "tags": {
+                "type": "array",
+                "description": "List of tags associated with the campaign",
+                "example": [1]
+              }
+            }
+          }
+        }
+      }
+    }
+      },
+      "CreateQuickCampaignRequest": {
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the quick campaign",
+      "example": "Quick Follow-up Campaign"
+    },
+    "new_agent": {
+      "type": "integer",
+      "description": "ID of the AI agent assigned to the campaign",
+      "example": 123
+    },
+    "calling_number": {
+      "type": "string",
+      "description": "Phone number used for outbound calls",
+      "example": "+18446020950"
+    },
+    "enable_number_rotation": {
+      "type": "boolean",
+      "description": "Whether number rotation is enabled",
+      "example": false
+    },
+    "number_dict": {
+      "type": "object",
+      "description": "Whether number rotation is enabled",
+      "example": {}
+    },
+    
+    "direction": {
+      "type": "string",
+      "description": "Call direction",
+      "enum": ["Outbound", "Inbound"],
+      "example": "Outbound"
+    }
+  },
+  "required": [
+    "name",
+    "new_agent",
+    "calling_number",
+    "enable_number_rotation",
+    "direction"
+  ]
+      },
+      "CreateQuickCampaign": {
+    "type": "object",
+    "properties": {
+      "success": {
+        "type": "boolean",
+        "description": "Indicates whether the quick campaign was created successfully",
+        "example": true
+      },
+      "message": {
+        "type": "string",
+        "description": "A message confirming the status of the quick campaign creation",
+        "example": "quick campaign created"
+      },
+      "data": {
+        "type": "object",
+        "properties": {
+          "quick_campaign": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the quick campaign",
+                "example": "quickcamp25fdd9d6"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the quick campaign",
+                "example": "ja(test)"
+              },
+              "calling_number": {
+                "type": "string",
+                "description": "The calling number assigned to the quick campaign",
+                "example": "+15076371471"
+              },
+              "status": {
+                "type": "string",
+                "description": "The current status of the campaign (e.g., 'running', 'paused')",
+                "example": "running"
+              },
+              "direction": {
+                "type": "string",
+                "description": "The call direction for the quick campaign (either 'Outbound' or 'Inbound')",
+                "example": "Outbound"
+              },
+              "is_rescheduled": {
+                "type": "boolean",
+                "description": "Indicates whether the campaign is rescheduled",
+                "example": false
+              },
+              "number_rotation": {
+                "type": "boolean",
+                "description": "Indicates whether number rotation is enabled for the quick campaign",
+                "example": false
+              },
+              "rotate_number_after_calls": {
+                "type": "number",
+                "description": "Number of calls after which to rotate the calling number",
+                "example": 1
+              },
+              "release_buyed_when": {
+                "type": "string",
+                "description": "Specifies when the purchased numbers should be released",
+                "example": "never"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the quick campaign was created",
+                "example": "2025-08-23T12:42:49.768952Z"
+              },
+              "updated_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Timestamp when the quick campaign was last updated",
+                "example": "2025-08-23T12:42:49.768961Z"
+              },
+              "agent": {
+                "type": "object",
+                "description": "The agent assigned to the quick campaign (if available)",
+                "example": null
+              },
+              "new_agent": {
+                "type": "integer",
+                "description": "Unique ID of the agent selected for the quick campaign",
+                "example": 542
+              },
+              "knowledge_base": {
+                "type": "object",
+                "description": "The knowledge base associated with the quick campaign (if available)",
+                "example": null
+              },
+              "calling_number_pool": {
+                "type": "array",
+                "description": "List of calling numbers available for the quick campaign",
+                "example": []
+              }
+            }
+          }
+        }
+      }
+    }
+      },
+      "UpdateCampaignRequest": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Indicates whether the update was successful",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "description": "Descriptive message for the API response",
+      "example": "Campaign updated successfully"
+    },
+    "data": {
+      "type": "object",
+      "description": "Contains updated campaign information",
+      "properties": {
+        "campaign": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique campaign ID",
+              "example": "campc005bf8a"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the campaign",
+              "example": "Testing(amanEditCampaign)"
+            },
+            "direction": {
+              "type": "string",
+              "description": "Direction of the campaign (Inbound/Outbound)",
+              "example": "Inbound"
+            },
+            "agent": {
+              "type": ["string", "null"],
+              "description": "Agent assigned to the campaign",
+              "example": null
+            },
+            "new_agent": {
+              "type": ["integer", "null"],
+              "description": "New agent ID assigned to the campaign",
+              "example": 527
+            },
+            "contact_list": {
+              "type": ["string", "null"],
+              "description": "Associated contact list",
+              "example": null
+            },
+            "knowledge_base": {
+              "type": ["string", "null"],
+              "description": "Associated knowledge base (if any)",
+              "example": null
+            },
+            "calling_number": {
+              "type": "string",
+              "description": "Calling number used in campaign",
+              "example": "+911149816890"
+            },
+            "start_date": {
+              "type": ["string", "null"],
+              "format": "date",
+              "description": "Start date of the campaign",
+              "example": null
+            },
+            "start_time": {
+              "type": ["string", "null"],
+              "format": "time",
+              "description": "Start time of the campaign",
+              "example": null
+            },
+            "end_time": {
+              "type": ["string", "null"],
+              "format": "time",
+              "description": "End time of the campaign",
+              "example": null
+            },
+            "total_bugget": {
+              "type": "number",
+              "format": "float",
+              "description": "Total budget assigned",
+              "example": 158
+            },
+            "bugget_left": {
+              "type": "string",
+              "description": "Remaining budget (in string format)",
+              "example": "158.0000"
+            },
+            "saturday": {
+              "type": "boolean",
+              "description": "Whether the campaign runs on Saturdays",
+              "example": false
+            },
+            "sunday": {
+              "type": "boolean",
+              "description": "Whether the campaign runs on Sundays",
+              "example": false
+            },
+            "status": {
+              "type": "string",
+              "description": "Current campaign status",
+              "example": "active"
+            },
+            "priority": {
+              "type": "integer",
+              "description": "Campaign priority",
+              "example": 1
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Campaign creation timestamp",
+              "example": "2025-08-23T10:44:41.275526Z"
+            },
+            "updated_at": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Last update timestamp",
+              "example": "2025-08-23T18:16:15.772412Z"
+            }
+          },
+          "required": ["id", "name", "status"]
+        }
+      }
+    }
+  },
+  "required": ["success", "message", "data"]
+      },
+      "UpdateCampaignResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true,
+      "description": "Whether the update was successful"
+    },
+    "message": {
+      "type": "string",
+      "example": "Campaign updated successfully",
+      "description": "Descriptive message about the result"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "campaign": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string", "example": "campc005bf8a" },
+            "name": { "type": "string", "example": "TesTing(aman)" },
+            "direction": { "type": "string", "example": "Inbound" },
+            "agent": { "type": ["integer", "null"], "example": null },
+            "new_agent": { "type": ["integer", "null"], "example": 527 },
+            "contact_list": { "type": ["string", "null"], "example": null },
+            "knowledge_base": { "type": ["string", "null"], "example": null },
+            "calling_number": { "type": "string", "example": "+15076371471" },
+            "start_date": { "type": ["string", "null"], "format": "date", "example": null },
+            "start_time": { "type": ["string", "null"], "format": "time", "example": null },
+            "end_time": { "type": ["string", "null"], "format": "time", "example": null },
+            "total_bugget": { "type": "number", "format": "float", "example": 58 },
+            "bugget_left": { "type": "string", "example": "58.0000" },
+            "saturday": { "type": "boolean", "example": false },
+            "sunday": { "type": "boolean", "example": false },
+            "status": { "type": "string", "example": "paused" },
+            "priority": { "type": "integer", "example": 1 },
+            "created_at": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2025-08-23T10:44:41.275526Z"
+            },
+            "updated_at": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2025-08-23T17:47:12.678754Z"
+            }
+          }
+        }
+      }
+    }
+  }
+      },
+      "DailyCampaignGraph": {
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the campaign analytics",
+      "example": "2025-08-23"
+    },
+    "hours": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "description": "Hourly time intervals (0–23)",
+      "example": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+    },
+    "credit_deductions": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "description": "Credits used per hour",
+      "example": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "credit_deductions_change": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "description": "Change in credit usage compared to the previous period",
+      "example": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "campaign_results": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "description": "Campaign results per hour",
+      "example": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "campaign_results_change": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "description": "Change in campaign results compared to the previous period",
+      "example": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    }
+  }
+      },
+      "CampaignAnalytics": {
+  "type": "object",
+  "properties": {
+    "total_count": {
+      "type": "integer",
+      "description": "Total number of analytics records",
+      "example": 1
+    },
+    "total_page": {
+      "type": "integer",
+      "description": "Total number of pages",
+      "example": 1
+    },
+    "current_page_no": {
+      "type": "integer",
+      "description": "Current page number",
+      "example": 1
+    },
+    "next_page_number": {
+      "type": ["integer", "null"],
+      "description": "Next page number if available",
+      "example": null
+    },
+    "previous_page_number": {
+      "type": ["integer", "null"],
+      "description": "Previous page number if available",
+      "example": null
+    },
+    "page_size": {
+      "type": "integer",
+      "description": "Number of records per page",
+      "example": 10
+    },
+    "data": {
+      "type": "array",
+      "description": "List of campaign analytics data",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 5157 },
+          "calling_number": { "type": "string", "example": "+911149816890" },
+          "sid": { "type": "string", "example": "call_4be2700848d9cf0cbcb525393d8" },
+          "contact_id": { "type": ["string", "null"], "example": null },
+          "contact_number": { "type": "string", "example": "+918570904784" },
+          "email": { "type": ["string", "null"], "example": null },
+          "first_name": { "type": ["string", "null"], "example": null },
+          "last_name": { "type": ["string", "null"], "example": null },
+          "company_name": { "type": ["string", "null"], "example": null },
+          "industry": { "type": ["string", "null"], "example": null },
+          "address": { "type": ["string", "null"], "example": null },
+          "custom1": { "type": ["string", "null"], "example": null },
+          "custom2": { "type": ["string", "null"], "example": null },
+          "custom3": { "type": ["string", "null"], "example": null },
+          "custom4": { "type": ["string", "null"], "example": null },
+          "scheduling_charge": { "type": "string", "example": "0.0000" },
+          "calender_id": { "type": ["string", "null"], "example": null },
+          "appointment_booked": { "type": "boolean", "example": false },
+          "call_duration": { "type": "integer", "example": 0 },
+          "status": { "type": "string", "example": "dial_no_answer" },
+          "improvement_tags": {
+            "type": "array",
+            "items": { "type": "string" },
+            "example": []
+          },
+          "outcome": { "type": "string", "example": "Unknown" },
+          "recording_url": { "type": ["string", "null"], "example": null },
+          "recording_file": { "type": ["string", "null"], "example": null },
+          "transcription": {
+            "type": "array",
+            "items": { "type": "string" },
+            "example": []
+          },
+          "transcription_text": { "type": "string", "example": "" },
+          "notes": { "type": "string", "example": "" },
+          "credit_deduction": { "type": "string", "example": "0.0000" },
+          "errors": { "type": "string", "example": "" },
+          "response_sentiment": { "type": "string", "example": "NOT_DETECTED" },
+          "triggered_by_crm": { "type": "string", "example": "GHL" },
+          "dynamic_variables": { "type": ["string", "null"], "example": null },
+          "extract_dynamic_variables": { "type": ["string", "null"], "example": null },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-08-08T20:04:34.718079Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-08-08T20:09:11.544410Z"
+          },
+          "quick_campaign": {
+            "type": "string",
+            "example": "quickcamp2062236c"
+          }
+        }
+      }
+    }
+  }
+      },
+      "CampaignFinalAnalysis": {
+  "type": "object",
+  "properties": {
+    "status_counts": {
+      "type": "object",
+      "description": "Counts of each call status in the campaign (e.g., AGENT_HANGUP, DIAL_NO_ANSWER)",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "example": {
+        "AGENT_HANGUP": 1,
+        "DIAL_NO_ANSWER": 1
+      }
+    },
+    "outcome_counts": {
+      "type": "object",
+      "description": "Counts of each outcome classification (e.g., POSITIVE, NEGATIVE, UNKNOWN)",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "example": {
+        "NEGATIVE": 1,
+        "UNKNOWN": 1
+      }
+    },
+    "number_of_callbacks": {
+      "type": "object",
+      "description": "Details or count of scheduled callbacks if any (can be empty)",
+      "example": {}
+    },
+    "cumulative_user_hangups": {
+      "type": "array",
+      "description": "List of user IDs or identifiers who hung up the call (can be empty)",
+      "items": {
+        "type": "string"
+      },
+      "example": []
+    },
+    "response_sentiment_counts": {
+      "type": "object",
+      "description": "Count of response sentiments detected during the campaign",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "example": {
+        "NOT_DETECTED": 2
+      }
+    },
+    "improvement_tag_counts": {
+      "type": "object",
+      "description": "Counts of improvement tags used in the campaign",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "example": {
+        "NULL": 2
+      }
+    },
+    "analysis_dict": {
+      "type": "object",
+      "description": "Final summary and aggregated metrics of the campaign",
+      "properties": {
+        "total_appointment_booked": {
+          "type": "integer",
+          "description": "Total number of appointments booked in the campaign",
+          "example": 0
+        },
+        "total_calls": {
+          "type": "integer",
+          "description": "Total number of calls made",
+          "example": 2
+        },
+        "total_connected_calls": {
+          "type": "integer",
+          "description": "Total number of connected calls",
+          "example": 1
+        },
+        "booking_rate": {
+          "type": "number",
+          "format": "float",
+          "description": "Percentage of booked appointments from connected calls",
+          "example": 0.0
+        }
+      },
+      "required": [
+        "total_appointment_booked",
+        "total_calls",
+        "total_connected_calls",
+        "booking_rate"
+      ]
+    }
+  },
+  "required": [
+    "status_counts",
+    "outcome_counts",
+    "number_of_callbacks",
+    "cumulative_user_hangups",
+    "response_sentiment_counts",
+    "improvement_tag_counts",
+    "analysis_dict"
+  ]
+      },
+      "CallbackVoizerFreeAccount": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Indicates whether the request was successful"
+    },
+    "agency_id": {
+      "type": "string",
+      "description": "The unique ID of the agency (e.g., voizerfreeaccount)"
+    },
+    "scheduled_tasks": {
+      "type": "array",
+      "description": "List of scheduled tasks associated with the agency",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The unique ID of the scheduled task"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the scheduled task"
+          },
+          "task": {
+            "type": "string",
+            "description": "The task to be executed"
+          },
+          "args": {
+            "type": "string",
+            "description": "Arguments passed to the task (usually a list)"
+          },
+          "clocked": {
+            "type": "object",
+            "properties": {
+              "clocked_time": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The scheduled time of the task in UTC"
+              }
+            }
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Indicates whether the task is enabled or not"
+          }
+        },
+        "required": ["id", "name", "task", "clocked", "enabled"]
+      }
+    },
+    "quick_campaign_results": {
+      "type": "array",
+      "description": "List of results for the quick campaign, including errors or success information",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the quick campaign result"
+          },
+          "error": {
+            "type": "string",
+            "description": "Any error message if the result was not found or failed"
+          }
+        },
+        "required": ["id", "error"]
+      }
+    }
+  },
+  "required": ["success", "agency_id", "scheduled_tasks", "quick_campaign_results"]
+      },
+      "CallbackHistory": {
+  "type": "object",
+  "properties": {
+    "total_count": {
+      "type": "integer",
+      "description": "Total number of records available"
+    },
+    "total_page": {
+      "type": "integer",
+      "description": "Total number of pages available for pagination"
+    },
+    "current_page_no": {
+      "type": "integer",
+      "description": "The current page number"
+    },
+    "next_page_number": {
+      "type": "integer",
+      "description": "The page number for the next page, or null if no more pages are available"
+    },
+    "previous_page_number": {
+      "type": "integer",
+      "description": "The page number for the previous page, or null if on the first page"
+    },
+    "page_size": {
+      "type": "integer",
+      "description": "The number of items per page"
+    },
+    "data": {
+      "type": "array",
+      "description": "List of campaign data objects",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the campaign"
+          },
+          "status": {
+            "type": "string",
+            "description": "The current status of the campaign (e.g., 'completed', 'paused')"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the campaign"
+          },
+          "new_agent": {
+            "type": "string",
+            "description": "The name of the new agent assigned to the campaign"
+          },
+          "calling_number": {
+            "type": "string",
+            "description": "The phone number used for the campaign"
+          },
+          "direction": {
+            "type": "string",
+            "description": "The direction of the call, either 'Outbound' or 'Inbound'"
+          },
+          "status_choices": {
+            "type": "array",
+            "description": "Possible status choices for the campaign (e.g., 'dial_no_answer', 'agent_hangup')",
+            "items": {
+              "type": "string"
+            }
+          },
+          "number_rotation": {
+            "type": "boolean",
+            "description": "Indicates whether number rotation is enabled"
+          },
+          "calling_number_pool": {
+            "type": "array",
+            "description": "A pool of numbers used for calling (if applicable)",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rotate_number_after_calls": {
+            "type": "integer",
+            "description": "The number of calls after which the calling number is rotated"
+          },
+          "release_buyed_when": {
+            "type": "string",
+            "description": "Condition for releasing the purchased number, e.g., 'subscription_complete'"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp for when the campaign was last updated"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp for when the campaign was created"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "name",
+          "new_agent",
+          "calling_number",
+          "direction",
+          "status_choices",
+          "number_rotation",
+          "rotate_number_after_calls",
+          "release_buyed_when",
+          "updated_at",
+          "created_at"
+        ]
+      }
+    }
+  },
+  "required": [
+    "total_count",
+    "total_page",
+    "current_page_no",
+    "next_page_number",
+    "previous_page_number",
+    "page_size",
+    "data"
+  ]
+      },
+      "ContactList": {
+  "type": "object",
+  "properties": {
+    "total_count": {
+      "type": "integer",
+      "description": "Total number of contacts available"
+    },
+    "total_page": {
+      "type": "integer",
+      "description": "Total number of pages for pagination"
+    },
+    "current_page_no": {
+      "type": "integer",
+      "description": "The current page number being viewed"
+    },
+    "next_page_number": {
+      "type": ["integer", "null"],
+      "description": "The next page number if available, otherwise null"
+    },
+    "previous_page_number": {
+      "type": ["integer", "null"],
+      "description": "The previous page number if available, otherwise null"
+    },
+    "page_size": {
+      "type": "integer",
+      "description": "The number of contacts per page"
+    },
+    "data": {
+      "type": "array",
+      "description": "List of contact objects for the current page",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique ID of the contact"
+          },
+          "contact_number": {
+            "type": "string",
+            "description": "Phone number of the contact"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address of the contact"
+          },
+          "first_name": {
+            "type": ["string", "null"],
+            "description": "First name of the contact"
+          },
+          "last_name": {
+            "type": ["string", "null"],
+            "description": "Last name of the contact"
+          },
+          "company_name": {
+            "type": ["string", "null"],
+            "description": "Company associated with the contact"
+          },
+          "industry": {
+            "type": ["string", "null"],
+            "description": "Industry the contact belongs to"
+          },
+          "custom1": {
+            "type": ["string", "null"],
+            "description": "Custom field 1"
+          },
+          "custom2": {
+            "type": ["string", "null"],
+            "description": "Custom field 2"
+          },
+          "custom3": {
+            "type": ["string", "null"],
+            "description": "Custom field 3"
+          },
+          "custom4": {
+            "type": ["string", "null"],
+            "description": "Custom field 4"
+          },
+          "isactive": {
+            "type": "boolean",
+            "description": "Indicates if the contact is active"
+          },
+          "address": {
+            "type": ["string", "null"],
+            "description": "Address of the contact"
+          },
+          "contact_id": {
+            "type": ["string", "null"],
+            "description": "External contact ID or integration ID"
+          },
+          "tags": {
+            "type": "array",
+            "description": "List of tags associated with the contact",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Unique ID of the tag"
+                },
+                "tag_name": {
+                  "type": "string",
+                  "description": "Name of the tag"
+                }
+              },
+              "required": ["id", "tag_name"]
+            }
+          }
+        },
+        "required": ["id", "contact_number", "isactive", "tags"]
+      }
+    }
+  },
+  "required": [
+    "total_count",
+    "total_page",
+    "current_page_no",
+    "next_page_number",
+    "previous_page_number",
+    "page_size",
+    "data"
+  ]
+      },
+      "Tag":{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier of the tag",
+      "example": 1
+    },
+    "tag_name": {
+      "type": "string",
+      "description": "Name of the tag",
+      "example": "Test campaign"
+    }
+  },
+  "required": ["id", "tag_name"]
+      },
+      "EditContactRequest": {
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string",
+      "description": "First name of the contact",
+      "example": "test123Edit"
+    },
+    "last_name": {
+      "type": "string",
+      "description": "Last name of the contact",
+      "example": "testEdit"
+    },
+    "contact_number": {
+      "type": "string",
+      "description": "Phone number of the contact (without country code)",
+      "example": "8570904784"
+    },
+    "country_code": {
+      "type": "string",
+      "description": "Country code for the contact number (in international format)",
+      "example": "+91"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address of the contact",
+      "example": "info@agencys.ai"
+    },
+    "company_name": {
+      "type": "string",
+      "description": "Name of the company the contact is associated with",
+      "example": "test"
+    },
+    "industry": {
+      "type": "string",
+      "description": "Industry type for the contact",
+      "example": "SaaS"
+    },
+    "tags": {
+      "type": "array",
+      "description": "List of tag names associated with the contact",
+      "items": {
+        "type": "string"
+      },
+      "example": ["salesforce", "real estate", "Test campaign"]
+    }
+  },
+  "required": [
+    "first_name",
+    "last_name",
+    "contact_number",
+    "country_code",
+    "email",
+    "tags"
+  ]
+      },
+      "EditContact": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Indicates whether the contact edit operation was successful",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "description": "A message describing the outcome of the request",
+      "example": "Success"
+    },
+    "data": {
+      "type": "object",
+      "description": "The updated contact object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique ID of the contact",
+          "example": 4465
+        },
+        "contact_number": {
+          "type": "string",
+          "description": "Phone number of the contact",
+          "example": "+918570904784"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the contact",
+          "example": "info@agencys.ai"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "First name of the contact",
+          "example": "test123edit"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name of the contact",
+          "example": "testedit"
+        },
+        "company_name": {
+          "type": "string",
+          "description": "Company associated with the contact",
+          "example": "test"
+        },
+        "industry": {
+          "type": ["string", "null"],
+          "description": "Industry the contact belongs to",
+          "example": null
+        },
+        "custom1": {
+          "type": ["string", "null"],
+          "description": "Custom field 1",
+          "example": null
+        },
+        "custom2": {
+          "type": ["string", "null"],
+          "description": "Custom field 2",
+          "example": null
+        },
+        "custom3": {
+          "type": ["string", "null"],
+          "description": "Custom field 3",
+          "example": null
+        },
+        "custom4": {
+          "type": ["string", "null"],
+          "description": "Custom field 4",
+          "example": null
+        },
+        "isactive": {
+          "type": "boolean",
+          "description": "Indicates if the contact is active",
+          "example": true
+        },
+        "address": {
+          "type": ["string", "null"],
+          "description": "Address of the contact",
+          "example": null
+        },
+        "contact_id": {
+          "type": ["string", "null"],
+          "description": "External contact ID or integration ID",
+          "example": "003au000008n5oiAAA"
+        },
+        "tags": {
+          "type": "array",
+          "description": "List of tags associated with the contact",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Unique ID of the tag",
+                "example": 56
+              },
+              "tag_name": {
+                "type": "string",
+                "description": "Name of the tag",
+                "example": "salesforce"
+              }
+            },
+            "required": ["id", "tag_name"]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "contact_number",
+        "email",
+        "first_name",
+        "last_name",
+        "company_name",
+        "isactive",
+        "contact_id",
+        "tags"
+      ]
+    }
+  },
+  "required": ["success", "message", "data"]
+      },
+      "ContactProfileResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "campaign_results": {
+      "type": "array",
+      "description": "List of campaign results associated with this contact",
+      "items": {
+        "type": "object"
+      },
+      "example": []
+    },
+    "quick_campaign_results": {
+      "type": "array",
+      "description": "List of quick campaign results associated with this contact",
+      "items": {
+        "type": "object"
+      },
+      "example": []
+    }
+  }
+      },
+      "BulkDeleteContactResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Indicates if the deletion was successful",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "description": "Descriptive message about the deletion outcome",
+      "example": "Deleted 3 contacts"
+    }
+  }
+      },
+      "BulkCreateContactResponse": {
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "string",
+      "example": "Bulk upload process started. Check status later."
+    },
+    "task_id": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Contacts uploaded successfully!"
+        },
+        "created": {
+          "type": "integer",
+          "description": "Number of new contacts created",
+          "example": 0
+        },
+        "updated": {
+          "type": "integer",
+          "description": "Number of existing contacts updated",
+          "example": 1
+        },
+        "failed_rows": {
+          "type": "array",
+          "description": "Rows that failed during the upload",
+          "items": {
+            "type": "object"
+          },
+          "example": []
+        }
+      }
+    }
+  }
+},
+"ImportCRMResponse": {
+  "type": "object",
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "description": "Unique task ID of the CRM import process",
+      "example": "bac14e1c-b9ee-48a8-bbb1-311682f7ab93"
+    },
+    "status": {
+      "type": "string",
+      "description": "Status message of the import task",
+      "example": "Import task has been started."
+    }
+  }
+},
+"SalesforceContactImportResponse": {
+  "type": "object",
+  "properties": {
+    "respone": {
+      "type": "object",
+      "properties": {
+        "total_imported": {
+          "type": "integer",
+          "description": "Total number of Salesforce contacts imported",
+          "example": 0
+        },
+        "imported": {
+          "type": "array",
+          "description": "List of imported Salesforce contact entries",
+          "items": {
+            "type": "object"
+          },
+          "example": []
+        }
+      }
+    }
+  }
+},
+"SendContactsToCRMsResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "errors": {
+      "type": "array",
+      "description": "List of any errors encountered during the task start",
+      "items": {
+        "type": "string"
+      },
+      "example": []
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Status message of the task",
+          "example": "Salesforce → GHL task started."
+        }
+      }
+    },
+    "message": {
+      "type": "string",
+      "description": "General message about the request",
+      "example": "Export task has been started."
+    }
+  }
+},
+"CreateContactRequest": {
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "example": "" },
+    "first_name": { "type": "string", "example": "Amandeep (testingg)" },
+    "last_name": { "type": "string", "example": "Singhh" },
+    "contact_number": { "type": "string", "example": "+919999728776" },
+    "email": { "type": "string", "example": "amanhxe@gmal.com" },
+    "company_name": { "type": "string", "example": "softvel" },
+    "industry": { "type": "string", "example": "IT" },
+    "custom1": { "type": ["string", "null"], "example": null },
+    "custom2": { "type": ["string", "null"], "example": null },
+    "custom3": { "type": ["string", "null"], "example": null },
+    "custom4": { "type": ["string", "null"], "example": null },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag_name": { "type": "string", "example": "agent_hangup" }
+        },
+        "required": ["tag_name"]
+      }
+    }
+  },
+  "required": ["first_name", "last_name", "contact_number"]
+},
+"CreateContactResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "example": "Success"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer", "example": 4503 },
+        "contact_number": { "type": "string", "example": "+919999728776" },
+        "email": { "type": "string", "example": "amanhxe@gmal.com" },
+        "first_name": { "type": "string", "example": "Amandeep (testingg)" },
+        "last_name": { "type": "string", "example": "Singhh" },
+        "company_name": { "type": "string", "example": "softvel" },
+        "industry": { "type": "string", "example": "IT" },
+        "custom1": { "type": ["string", "null"], "example": null },
+        "custom2": { "type": ["string", "null"], "example": null },
+        "custom3": { "type": ["string", "null"], "example": null },
+        "custom4": { "type": ["string", "null"], "example": null },
+        "isactive": { "type": "boolean", "example": true },
+        "address": { "type": ["string", "null"], "example": null },
+        "contact_id": { "type": ["string", "null"], "example": null },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "integer", "example": 14 },
+              "tag_name": { "type": "string", "example": "agent_hangup" }
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"TwilioUserNumberRequest": {
+  "type": "object",
+  "properties": {
+    "twilio_sid": {
+      "type": "string",
+      "description": "Twilio Account SID"
+    },
+    "auth_token": {
+      "type": "string",
+      "description": "Twilio Auth Token"
+    }
+  },
+  "required": ["twilio_sid", "auth_token"]
+},
+"TwilioUserNumberResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "example": "Data found"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "numbers": {
+          "type": "array",
+          "description": "List of Twilio phone numbers",
+          "items": {
+            "type": "object",
+            "properties": {
+              "phone_number": {
+                "type": "string",
+                "example": "+16504498873"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"TwilioNewNumberRequest": {
+  "type": "object",
+  "properties": {
+    "twilio_sid": {
+      "type": "string",
+      "description": "Twilio Account SID"
+    },
+    "auth_token": {
+      "type": "string",
+      "description": "Twilio Auth Token"
+    },
+    "country": {
+      "type": "string",
+      "description": "Country code for phone number search (e.g., US, IN)",
+      "example": "US"
+    },
+    "number_slice": {
+      "type": "string",
+      "description": "Substring of number to match (optional)",
+      "example": ""
+    },
+    "number_slice_filter": {
+      "type": "string",
+      "description": "Where to apply number slice — can be 'first_part', 'middle_part', or 'last_part'",
+      "example": "first_part"
+    }
+  },
+  "required": ["twilio_sid", "auth_token", "country", "number_slice_filter"]
+},
+"TwilioNewNumberResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "example": "Data found"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "numbers": {
+          "type": "array",
+          "description": "List of available Twilio numbers",
+          "items": {
+            "type": "object",
+            "properties": {
+              "phone_number": {
+                "type": "string"
+              }
+            }
+          },
+          "example": [
+            { "phone_number": "+17755939489" },
+            { "phone_number": "+19034209780" }
+          ]
+        }
+      }
+    }
+  }
+},
+"TwilioFetchCallerIDsRequest": {
+  "type": "object",
+  "properties": {
+    "account_sid": {
+      "type": "string",
+      "description": "Twilio Account SID"
+    },
+    "auth_token": {
+      "type": "string",
+      "description": "Twilio Auth Token"
+    }
+  },
+  "required": ["account_sid", "auth_token"]
+},
+"TwilioFetchCallerIDsResponse": {
+  "type": "object",
+  "properties": {
+    "caller_ids": {
+      "type": "array",
+      "description": "List of verified caller IDs from Twilio",
+      "items": {
+        "type": "object",
+        "properties": {
+          "phone_number": {
+            "type": "string",
+            "description": "The verified Twilio phone number",
+            "example": "+919821985448"
+          },
+          "friendly_name": {
+            "type": "string",
+            "description": "The friendly name set for the number",
+            "example": "abc"
+          },
+          "sid": {
+            "type": "string",
+            "description": "The SID of the verified caller ID"
+          }
+        }
+      },
+      "example": [
+        {
+          "phone_number": "+919821985448",
+          "friendly_name": "avc"
+        },
+        {
+          "phone_number": "+918570904784",
+          "friendly_name": "jkl"
+        }
+      ]
+    }
+  }
+},
+"TwilioContactListResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "example": "contact data"
+    },
+    "data": {
+      "type": "array",
+      "description": "List of Twilio contact numbers",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pk": {
+            "type": "integer",
+            "description": "Primary key or unique ID of the contact",
+            "example": 60
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "The Twilio phone number"
+          },
+          "nickname": {
+            "type": "string",
+            "description": "A friendly name or label for the number",
+            "example": "test"
+          },
+          "source_of_origin": {
+            "type": ["string", "null"],
+            "description": "Where the contact originated from",
+            "example": null
+          },
+          "phone_number_sid": {
+            "type": ["string", "null"],
+            "description": "The Twilio SID associated with the number",
+            "example": null
+          },
+          "verification_status": {
+            "type": ["string", "null"],
+            "description": "Verification status of the number",
+            "example": null
+          },
+          "in_used_by_agent": {
+            "type": "string",
+            "description": "Agent currently using this number (if any)",
+            "example": "none"
+          }
+        }
+      }
+    }
+  }
+},
+"StartVerificationRequest": {
+  "type": "object",
+  "required": ["phone_number", "friendly_name", "sid", "auth"],
+  "properties": {
+    "phone_number": {
+      "type": "string",
+      "description": "Phone number to be verified",
+      "example": "+919999008776"
+    },
+    "friendly_name": {
+      "type": "string",
+      "description": "Label to identify the phone number",
+      "example": "TEST"
+    },
+    "sid": {
+      "type": "string",
+      "description": "Twilio Account SID"
+    },
+    "auth": {
+      "type": "string",
+      "description": "Twilio Auth Token"
+    }
+  }
+},
+"StartVerificationResponse": {
+  "type": "object",
+  "properties": {
+    "sid": {
+      "type": "integer",
+      "description": "Internal system ID for the verification task",
+      "example": 99
+    },
+    "phone_number": {
+      "type": "string",
+      "description": "Phone number that was verified",
+      "example": "+919999008776"
+    },
+    "validation_code": {
+      "type": "string",
+      "description": "The generated code for caller ID validation",
+      "example": "838171"
+    },
+    "call_sid": {
+      "type": "string",
+      "description": "Twilio call SID generated for the verification process"
+    }
+  }
+},
+"VerificationStatusResponse": {
+  "type": "object",
+  "properties": {
+    "phone_number": {
+      "type": "string",
+      "description": "The phone number being verified",
+      "example": "+919999008776"
+    },
+    "validation_code": {
+      "type": "string",
+      "description": "The Twilio validation code sent to verify the phone number",
+      "example": "838171"
+    },
+    "twilio_sid": {
+      "type": ["string", "null"],
+      "description": "Twilio SID associated with the phone number if available",
+      "example": null
+    },
+    "is_verified": {
+      "type": "boolean",
+      "description": "Indicates whether the phone number is verified",
+      "example": false
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of when the verification process started",
+      "example": "2025-08-26T09:22:32.928114Z"
+    },
+    "friendly_name": {
+      "type": ["string", "null"],
+      "description": "A user-defined name for the phone number",
+      "example": null
+    }
+  }
+},
+"DeleteTwilioContactResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true,
+      "description": "Indicates whether the deletion was successful"
+    },
+    "message": {
+      "type": "string",
+      "example": "Deleted successfully",
+      "description": "Result message"
+    }
+  }
+},
+"GHLConnectUserRequest": {
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Authorization code returned from GHL",
+      "example": "a"
+    },
+    "state": {
+      "type": "string",
+      "description": "State value returned from GHL",
+      "example": "a"
+    }
+  },
+  "required": ["code", "state"]
+},
+"GHLConnectUserResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "example": "User successfully connected to GHL"
+    }
+  }
+},
+"AgencyAPIKeyResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "example": "data found"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "agency_key": {
+          "type": "string"
+        }
+      }
+    }
+  }
+},
+"SalesforceCallbackRequest": {
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Authorization code returned from Salesforce",
+      "example": "a"
+    },
+    "state": {
+      "type": "string",
+      "description": "State value returned from Salesforce",
+      "example": "a"
+    }
+  },
+  "required": ["code", "state"]
+},
+"SalesforceCallbackResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "example": "User successfully connected to Salesforce"
+    }
+  }
+},
+"SnowieCallbackRequest": {
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Authorization code returned from Snowie",
+      "example": "abc123"
+    }
+  },
+  "required": ["code"]
+},
+"SnowieCallbackResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "example": "User successfully connected to Snowie"
+    }
+  }
+},
+"RegisterWebhookRequest": {
+  "type": "object",
+  "properties": {
+    "webhook_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to send webhook payloads to",
+      "example": "https://webhook.site/abcdef123456"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the webhook purpose",
+      "example": "This is a test webhook to capture call start and end events."
+    },
+    "agent_ids": {
+      "type": "array",
+      "description": "List of agent IDs this webhook is associated with",
+      "items": {
+        "type": "string",
+        "example": "549"
+      }
+    },
+    "events_to_subscribe": {
+      "type": "array",
+      "description": "List of events to subscribe to (e.g. call.started, call.ended)",
+      "items": {
+        "type": "string",
+        "example": "call.started"
+      }
+    }
+  },
+  "required": ["webhook_url", "description", "agent_ids", "events_to_subscribe"]
+},
+"RegisterWebhookResponse": {
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "string",
+      "example": "Webhook registered successfully!"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 25
+        },
+        "webhook_url": {
+          "type": "string",
+          "example": "https://webhook.site/abcdef123456"
+        },
+        "description": {
+          "type": "string",
+          "example": "This is a test webhook to capture call start and end events."
+        },
+        "agents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 549
+              },
+              "agent_name": {
+                "type": "string",
+                "example": "vinay dan 2"
+              }
+            }
+          }
+        },
+        "events_to_subscribe": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "call.started"
+          }
+        }
+      }
+    }
+  }
+},
+"EditWebhookRequest": {
+  "type": "object",
+  "properties": {
+    "webhook_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The updated URL where webhook events will be sent",
+      "example": "https://webhook.site/abcdefgh123456789"
+    },
+    "description": {
+      "type": "string",
+      "description": "Updated description of the webhook",
+      "example": "This edited is a test webhook to capture call start and end events."
+    },
+    "agent_ids": {
+      "type": "array",
+      "description": "List of agent IDs this webhook is associated with",
+      "items": {
+        "type": "string",
+        "example": "570"
+      }
+    },
+    "events_to_subscribe": {
+      "type": "array",
+      "description": "Events to subscribe to (e.g., call.started, call.ended)",
+      "items": {
+        "type": "string",
+        "example": "call.started"
+      }
+    }
+  },
+  "required": ["webhook_url", "description", "agent_ids", "events_to_subscribe"]
+},
+"EditWebhookResponse": {
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "string",
+      "example": "Webhook updated successfully!"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 25
+        },
+        "webhook_url": {
+          "type": "string",
+          "example": "https://webhook.site/abcdefgh123456789"
+        },
+        "description": {
+          "type": "string",
+          "example": "This edited is a test webhook to capture call start and end events."
+        },
+        "agents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 570
+              },
+              "agent_name": {
+                "type": "string",
+                "example": "dan 3"
+              }
+            }
+          }
+        },
+        "events_to_subscribe": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "call.started"
+          }
+        }
+      }
+    }
+  }
+},
+"DeleteWebhookResponse": {
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "string",
+      "example": "Webhook deleted successfully"
+    }
+  }
+},
+"GetWebhookListResponse": {
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "string",
+      "example": "Webhook list retrieved successfully!"
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 3
+          },
+          "webhook_url": {
+            "type": "string",
+            "example": "https://services.leadconnectorhq.com/hooks/DHubtJyGmvUTtbYB7aEL/webhook-trigger/1a499911-ce93-4451-ba41-d64dea7b6d4e"
+          },
+          "description": {
+            "type": "string",
+            "example": "prio"
+          },
+          "agents": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 16
+                },
+                "agent_name": {
+                  "type": "string",
+                  "example": "inbound prio agent"
+                }
+              }
+            }
+          },
+          "events_to_subscribe": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "call.started"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"ActiveWebhookStatsResponse": {
+  "type": "object",
+  "properties": {
+    "active_webhooks_count": {
+      "type": "integer",
+      "example": 16,
+      "description": "Total number of active webhooks"
+    },
+    "average_response_time": {
+      "type": "number",
+      "format": "float",
+      "example": 938.430755498023,
+      "description": "Average response time (in milliseconds) for the active webhooks"
+    },
+    "total_hit_count": {
+      "type": "integer",
+      "example": 179,
+      "description": "Total number of times all webhooks have been triggered"
+    }
+  }
+},
+"ListAllAgentsResponse": {
+  "type": "object",
+  "properties": {
+    "total_count": {
+      "type": "integer",
+      "example": 559
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pk": { "type": "integer", "example": 571 },
+          "agent_name": { "type": "string", "example": "add_agent_name" },
+          "agent_id": { "type": "string", "example": "agent_77f109e0965c6947df907591b3" },
+          "voice_id": { "type": "string", "example": "openai-Shimmer" },
+          "language": { "type": "string", "example": "en-US" },
+          "interruption_sensitivity": { "type": "string", "example": "1.0" },
+          "voicemail": { "type": "boolean", "example": true },
+          "voicemail_message": { "type": ["string", "null"], "example": null },
+          "end_call_after_silence": { "type": "integer", "example": 10 },
+          "max_call_duration": { "type": "integer", "example": 10 },
+          "reminder_trigger": { "type": "integer", "example": 10 },
+          "ambient_sound": { "type": ["string", "null"], "example": null },
+          "analysis_data": { "type": "array", "items": {} },
+          "llm": { "type": "integer", "example": 577 },
+          "voice_speed": { "type": "number", "example": 1.0 },
+          "voice_temperature": { "type": "number", "example": 1.0 },
+          "volume": { "type": "number", "example": 1.0 },
+          "enable_backchannel": { "type": "boolean", "example": true },
+          "normalize_for_speech": { "type": "boolean", "example": false },
+          "enable_transcription_formatting": { "type": "boolean", "example": true },
+          "reminder_trigger_ms": { "type": "integer", "example": 10000 },
+          "reminder_max_count": { "type": "integer", "example": 1 },
+          "boosted_keywords": { "type": "array", "items": {} },
+          "ambient_sound_volume": { "type": "number", "example": 1.0 },
+          "voicemail_detection_timeout_ms": { "type": "integer", "example": 5000 },
+          "begin_message_delay_ms": { "type": "integer", "example": 0 },
+          "updated_at": { "type": "string", "format": "date-time", "example": "2025-08-26T11:41:37.296105Z" },
+          "is_locked": { "type": "boolean", "example": false },
+          "calendar_id": { "type": ["string", "null"], "example": null },
+          "inbound_appoitment": { "type": "boolean", "example": false },
+          "ring_duration_sec": { "type": "integer", "example": 30 },
+          "stt_mode": { "type": "string", "example": "fast" },
+          "backchannel_words": { "type": ["string", "null"], "example": null },
+          "backchannel_frequency": { "type": "number", "example": 0.8 },
+          "call_scheduling": { "type": "boolean", "example": false },
+          "agent_crm_type": { "type": ["string", "null"], "example": null },
+          "voicemail_option": {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "example": "hangup" }
+                }
+              }
+            }
+          },
+          "agent_type": { "type": "string", "example": "legacy" },
+          "responsiveness": { "type": "number", "example": 1.0 },
+          "pronunciation_dictionary": { "type": ["string", "null"], "example": null },
+          "vocab_specialization": { "type": "string", "example": "general" },
+          "user_dtmf_options": { "type": "object" },
+          "denoising_mode": { "type": "string", "example": "noise-cancellation" },
+          "allow_user_dtmf": { "type": "boolean", "example": true },
+          "llm_detail": {
+            "type": "object",
+            "properties": {
+              "llm_id": { "type": "string", "example": "llm_b47e623ae3d8110e6a05241a9799" },
+              "model": { "type": ["string", "null"], "example": null },
+              "s2s_model": { "type": "string", "example": "gpt-4o-mini-realtime" }
+            }
+          },
+          "is_active": { "type": "boolean", "example": false }
+        }
+      }
+    }
+  }
+},
+"TelnyxRegisterNumberRequest": {
+  "type": "object",
+  "required": ["phone_number", "friendly_name", "country_code"],
+  "properties": {
+    "phone_number": {
+      "type": "string",
+      "example": "+12183009429",
+      "description": "Phone number to register"
+    },
+    "friendly_name": {
+      "type": "string",
+      "example": "testing6",
+      "description": "Custom label for the number"
+    },
+    "country_code": {
+      "type": "string",
+      "example": "US",
+      "description": "Country code of the number"
+    }
+  }
+},
+"TelnyxRegisterNumberResponse": {
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "string",
+      "example": "Number registered successfully"
+    }
+  }
+},
+"TelnyxCombinedNumbersResponse": {
+  "type": "object",
+  "properties": {
+    "purchased_numbers": {
+      "type": "array",
+      "description": "List of already purchased Telnyx numbers",
+      "items": {
+        "type": "string",
+        "example": "+12183009429"
+      }
+    },
+    "available_numbers": {
+      "type": "array",
+      "description": "List of available Telnyx numbers for purchase",
+      "items": {
+        "type": "string",
+        "example": "+12702035492"
+      }
+    },
+    "is_masked": {
+      "type": "boolean",
+      "description": "Indicates if numbers are partially masked for security or preview",
+      "example": false
+    }
+  }
+},
+"TwilioBuyNumberRequest": {
+    "type": "object",
+    "required": [
+      "twilio_sid",
+      "auth_token",
+      "phone_number",
+      "friendly_name",
+      "new_number"
+    ],
+    "properties": {
+      "twilio_sid": {
+        "type": "string",
+        "description": "Twilio account SID used to authenticate."
+      },
+      "auth_token": {
+        "type": "string",
+        "description": "Twilio Auth Token for the given SID."
+      },
+      "phone_number": {
+        "type": "string",
+        "description": "The Twilio phone number to be purchased.",
+        "example": "+12154346029"
+      },
+      "friendly_name": {
+        "type": "string",
+        "description": "Custom nickname for the phone number.",
+        "example": "ttesting"
+      },
+      "new_number": {
+        "type": "boolean",
+        "description": "Flag indicating if a new number is being purchased."
+      }
+    }
+  },
+  "TwilioBuyNumberResponse": {
+    "type": "object",
+    "properties": {
+      "success": {
+        "type": "boolean",
+        "example": true
+      },
+      "message": {
+        "type": "string",
+        "example": "contact number added"
+      },
+      "data": {
+        "type": "object",
+        "description": "Contains additional data if any"
+      }
+    }
+  },
+  "TwilioRegisterRequest": {
+  "type": "object",
+  "required": ["twilio_sid", "twilio_token"],
+  "properties": {
+    "twilio_sid": {
+      "type": "string",
+      "description": "Twilio Account SID"
+    },
+    "twilio_token": {
+      "type": "string",
+      "description": "Twilio Auth Token"
+    }
+  }
+},
+"TwilioRegisterResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "example": "twilio sid and twilio token updated sucessfully"
+    },
+    "data": {
+      "type": "object",
+      "example": {}
+    }
+  }
+},
+"TwilioRegisterGetResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "example": "twilio sid and twilio token updated"
+    },
+    "data": {
+  "type": "object",
+  "properties": {
+    "company_name": {
+      "type": "string",
+      "example": "your-company-name"
+    },
+    "twilio_sid": {
+      "type": "string"
+    },
+    "twilio_token": {
+      "type": "string",
+      "example": "your_auth_token_here"
+    },
+    "twilio_buy_hide": {
+      "type": "boolean",
+      "example": false
+    },
+    "twilio_available_hide": {
+      "type": "boolean",
+      "example": false
+    }
+  }
+}
+
+  }
+},
+"CustomAddContactRequest": {
+  "type": "object",
+  "required": [
+    "phone_number",
+    "termination_uri",
+    "sip_trunk_auth_username",
+    "sip_trunk_auth_password",
+    "nickname",
+    "source_of_origin"
+  ],
+  "properties": {
+    "phone_number": {
+      "type": "string",
+      "description": "The phone number to register",
+      "example": "+917418520030"
+    },
+    "termination_uri": {
+      "type": "string",
+      "description": "The SIP termination URI (used for routing)",
+      "example": "popuptesting"
+    },
+    "sip_trunk_auth_username": {
+      "type": "string",
+      "description": "SIP trunk authentication username",
+      "example": "kadpro@gmail.com"
+    },
+    "sip_trunk_auth_password": {
+      "type": "string",
+      "description": "SIP trunk authentication password",
+      "example": "2345$"
+    },
+    "nickname": {
+      "type": "string",
+      "description": "A friendly name or nickname for the number",
+      "example": "testingg"
+    },
+    "source_of_origin": {
+      "type": "string",
+      "description": "The source from which the contact originates",
+      "example": "custom"
+    }
+  }
+},
+"CustomAddContactResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "example": "contact created"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "pk": {
+          "type": "integer",
+          "example": 68
+        },
+        "phone_number": {
+          "type": "string",
+          "example": "+917418963066"
+        },
+        "termination_uri": {
+          "type": "string",
+          "example": "popuptesting"
+        },
+        "sip_trunk_auth_username": {
+          "type": "string",
+          "example": "kadpro@gmail.com"
+        },
+        "sip_trunk_auth_password": {
+          "type": "string",
+          "example": "345$"
+        },
+        "nickname": {
+          "type": "string",
+          "example": "testingg"
+        },
+        "source_of_origin": {
+          "type": "string",
+          "example": "custom"
+        },
+        "phone_number_sid": {
+          "type": ["string", "null"],
+          "example": null
+        },
+        "verification_status": {
+          "type": ["string", "null"],
+          "example": null
+        },
+        "in_used_by_agent": {
+          "type": "string",
+          "example": "none"
+        },
+        "is_auto_buyed": {
+          "type": "boolean",
+          "example": false
+        }
+      }
+    }
+  }
+},
+"TelnyxRegisterRequest": {
+  "type": "object",
+  "required": ["telnyx_api_key"],
+  "properties": {
+    "telnyx_api_key": {
+      "type": "string",
+      "description": "Your Telnyx API key used for authentication"
+    }
+  }
+},
+"TelnyxRegisterResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": false
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "example": []
+    },
+    "response": {
+      "type": "string",
+      "description": "Response content, such as the company name",
+      "example": "voizerfreeaccount"
+    },
+    "message": {
+      "type": "string",
+      "description": "Response message",
+      "example": "Telnyx API key updated successfully"
+    }
+  }
+},
+"TelnyxRegisterGetResponse": {
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "string",
+      "description": "The registered Telnyx API key"
+    },
+    "telnyx_buy_hide": {
+      "type": "boolean",
+      "description": "UI visibility flag for buying Telnyx numbers",
+      "example": false
+    },
+    "telynx_available_hide": {
+      "type": "boolean",
+      "description": "UI visibility flag for available Telnyx numbers",
+      "example": false
+    }
+  }
+},
+"TelnyxBuyCallerIDRequest": {
+  "type": "object",
+  "required": ["phone_number", "friendly_name"],
+  "properties": {
+    "phone_number": {
+      "type": "string",
+      "description": "The phone number to be used as caller ID."
+    },
+    "friendly_name": {
+      "type": "string",
+      "description": "A custom name or label for the number.",
+      "example": "TEST"
+    }
+  }
+},
+"TelnyxBuyCallerIDResponse": {
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": true
+    },
+    "message": {
+      "type": "string",
+      "example": "Caller ID saved successfully"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "phone_number": {
+          "type": "string"
+        },
+        "termination_uri": {
+          "type": "string"
+        },
+        "sip_trunk_auth_username": {
+          "type": "string"
+        },
+        "sip_trunk_auth_password": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        }
+      }
+    }
+  }
+},
+"FetchPricesResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": []
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "has_subscription": {
+                "type": "boolean",
+                "example": true
+              },
+              "active_subscription": {
+                "type": "object",
+                "properties": {
+                  "plan": {
+                    "type": ["string", "null"],
+                    "example": null
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "active"
+                  },
+                  "next_billing": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2025-09-14T18:45:46Z"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "format": "float",
+                    "example": 97.0
+                  },
+                  "features": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "price_id": {
+                    "type": "string"
+                  },
+                  "payment_gateway": {
+                    "type": "string",
+                    "example": "stripe"
+                  }
+                }
+              },
+              "prices": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "price_id": {
+                      "type": "string"
+                    },
+                    "amount": {
+                      "type": "number",
+                      "format": "float",
+                      "example": 297.0
+                    },
+                    "currency": {
+                      "type": "string",
+                      "example": "usd"
+                    },
+                    "product_name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": ["string", "null"],
+                      "example": null
+                    },
+                    "interval": {
+                      "type": "string",
+                      "example": "month"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "All Prices"
+          }
+        }
+},
+"TransactionHistoryResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Transaction History"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "object_id": {
+                  "type": ["string", "null"],
+                  "example": "mi2rsRoS"
+                },
+                "payment_amount": {
+                  "type": "string",
+                  "example": "99.00"
+                },
+                "payment_type": {
+                  "type": "string",
+                  "example": "subscription"
+                },
+                "credits": {
+                  "type": ["string", "null"],
+                  "example": "1000.00"
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "usd"
+                },
+                "payment_status": {
+                  "type": "string",
+                  "example": "paid"
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2025-08-01T11:59:24.382629Z"
+                },
+                "invoice_id": {
+                  "type": ["string", "null"],
+                  "example": "5v6Ae11"
+                }
+              }
+            }
+          },
+          "total_transactions": {
+            "type": "integer",
+            "example": 9
+          },
+          "total_pages": {
+            "type": "integer",
+            "example": 1
+          },
+          "current_page": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+},
+"ListCardsResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": []
+          },
+          "response": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "display_brand": {
+                  "type": "string",
+                  "description": "Card brand (e.g., Visa, MasterCard)",
+                  "example": "visa"
+                },
+                "exp_month": {
+                  "type": "integer",
+                  "description": "Card expiration month",
+                  "example": 9
+                },
+                "exp_year": {
+                  "type": "integer",
+                  "description": "Card expiration year",
+                  "example": 2032
+                },
+                "last4": {
+                  "type": "string",
+                  "description": "Last 4 digits of the card",
+                  "example": "99999"
+                },
+                "customer": {
+                  "type": "string",
+                  "description": "Stripe customer ID",
+                  "example": "z45j888B"
+                },
+                "id": {
+                  "type": "string",
+                  "description": "Stripe payment method ID",
+                  "example": "88GE"
+                },
+                "default": {
+                  "type": "boolean",
+                  "description": "Whether this card is the default payment method",
+                  "example": true
+                }
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "Cards List"
+          }
+        }
+      },
+"DownloadInvoiceRequest": {
+        "type": "object",
+        "required": ["invoice_id"],
+        "properties": {
+          "invoice_id": {
+            "type": "string",
+            "description": "The Stripe invoice ID to generate the download link for",
+            "example": "h5v6Ae11"
+          }
+        }
+},
+"DownloadInvoiceResponse": {
+        "type": "object",
+        "properties": {
+          "invoice_pdf_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Direct PDF URL of the Stripe invoice"
+          }
+        }
+},
+"CampaignStatsResponse": {
+        "type": "object",
+        "properties": {
+          "active_campaign_count": {
+            "type": "integer",
+            "description": "Number of currently active campaigns",
+            "example": 1
+          },
+          "active_quick_campaign_count": {
+            "type": "integer",
+            "description": "Number of currently active quick campaigns",
+            "example": 7
+          },
+          "total_credit_deducted": {
+            "type": "number",
+            "format": "float",
+            "description": "Total number of credits deducted across campaigns",
+            "example": 285
+          },
+          "total_call_duration": {
+            "type": "integer",
+            "description": "Total call duration in seconds",
+            "example": 72
+          },
+          "credit": {
+            "type": "number",
+            "format": "float",
+            "description": "Total available credit",
+            "example": 67.5813
+          }
+        }
+},
+"AddCreditsRequest": {
+        "type": "object",
+        "required": ["custom_credits", "custom_amount", "payment_method"],
+        "properties": {
+          "custom_credits": {
+            "type": "integer",
+            "description": "Number of credits the user wants to purchase",
+            "example": 1000
+          },
+          "custom_amount": {
+            "type": "number",
+            "format": "float",
+            "description": "Amount to be paid for the credits (in dollars)",
+            "example": 99
+          },
+          "payment_method": {
+            "type": "string",
+            "description": "Payment gateway used for transaction",
+            "example": "stripe"
+          }
+        }
+      },
+      "AddCreditsResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "integer",
+                "description": "Total amount in smallest currency unit (e.g., cents)",
+                "example": 9900
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Stripe payment URL to complete the transaction"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "User's email associated with the transaction",
+                "example": "abc@gmail.com"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "Stripe Payment Link for credit purchase created"
+          }
+        }
+      },
+      "AddPaypalCreditsRequest": {
+    "type": "object",
+    "required": ["amount", "currency", "user_id"],
+    "properties": {
+      "amount": {
+        "type": "number",
+        "format": "float",
+        "example": 25.00,
+        "description": "The amount of credits (in currency) the user wants to purchase."
+      },
+      "currency": {
+        "type": "string",
+        "example": "USD",
+        "description": "The currency in which the payment will be made."
+      },
+      "user_id": {
+        "type": "string",
+        "example": "user_12345",
+        "description": "The ID of the user purchasing the credits."
+      }
+    }
+  },
+  "AddPaypalCreditsResponse": {
+    "type": "object",
+    "properties": {
+      "payment_link": {
+        "type": "string",
+        "format": "uri",
+        "example": "https://xyz.com/abc?token=123",
+        "description": "The PayPal payment link the user should be redirected to."
+      },
+      "status": {
+        "type": "string",
+        "example": "pending",
+        "description": "The status of the payment link generation."
+      }
+    }
+  },
+  "ChangePlanRequest": {
+    "type": "object",
+    "required": ["user_id", "new_plan_id"],
+    "properties": {
+      "user_id": {
+        "type": "string",
+        "example": "user_12345",
+        "description": "The ID of the user whose plan is being changed."
+      },
+      "new_plan_id": {
+        "type": "string",
+        "example": "premium_monthly",
+        "description": "The ID of the new subscription plan."
+      },
+      "current_plan_id": {
+        "type": "string",
+        "example": "basic_monthly",
+        "description": "The ID of the current subscription plan (optional, may be validated internally)."
+      },
+      "prorate": {
+        "type": "boolean",
+        "example": true,
+        "description": "Whether to prorate the billing for the plan change."
+      }
+    }
+  },
+  "ChangePlanResponse": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "example": "success",
+        "description": "Status of the plan change operation."
+      },
+      "new_plan_id": {
+        "type": "string",
+        "example": "premium_monthly",
+        "description": "ID of the new active plan."
+      },
+      "effective_date": {
+        "type": "string",
+        "format": "date-time",
+        "example": "2025-09-02T12:00:00Z",
+        "description": "Date and time when the new plan becomes effective."
+      }
+    }
+  },
+  "UpdateSubscriptionRequest": {
+    "type": "object",
+    "required": ["user_id"],
+    "properties": {
+      "user_id": {
+        "type": "string",
+        "example": "user_12345",
+        "description": "The ID of the user whose subscription is being updated."
+      },
+      "auto_renew": {
+        "type": "boolean",
+        "example": false,
+        "description": "Toggle for auto-renewal setting."
+      },
+      "billing_cycle": {
+        "type": "string",
+        "example": "monthly",
+        "description": "New billing cycle if being changed. Accepted values: 'monthly', 'yearly'."
+      },
+      "status": {
+        "type": "string",
+        "example": "paused",
+        "description": "Set subscription status. Example values: 'active', 'paused', 'cancelled'."
+      }
+    }
+  },
+  "UpdateSubscriptionResponse": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "example": "success",
+        "description": "Status of the subscription update operation."
+      },
+      "subscription_id": {
+        "type": "string",
+        "example": "sub_67890",
+        "description": "ID of the updated subscription."
+      },
+      "updated_fields": {
+        "type": "object",
+        "example": {
+          "auto_renew": false,
+          "billing_cycle": "monthly"
+        },
+        "description": "The fields that were updated in the subscription."
+      }
+    }
+  },
+  "AddNewCardRequest": {
+    "type": "object",
+    "required": ["user_id", "card_number", "exp_month", "exp_year", "cvc"],
+    "properties": {
+      "user_id": {
+        "type": "string",
+        "example": "user_12345",
+        "description": "The ID of the user adding the card."
+      },
+      "card_number": {
+        "type": "string",
+        "example": "4242424242424242",
+        "description": "The card number."
+      },
+      "exp_month": {
+        "type": "integer",
+        "example": 12,
+        "description": "Card expiry month (1-12)."
+      },
+      "exp_year": {
+        "type": "integer",
+        "example": 2027,
+        "description": "Card expiry year (4-digit)."
+      },
+      "cvc": {
+        "type": "string",
+        "example": "123",
+        "description": "Card CVC/CVV security code."
+      },
+      "is_default": {
+        "type": "boolean",
+        "example": true,
+        "description": "Whether this card should be set as the default payment method."
+      }
+    }
+  },
+  "AddNewCardResponse": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "example": "success",
+        "description": "Status of the card addition request."
+      },
+      "card_id": {
+        "type": "string",
+        "example": "card_abc123",
+        "description": "The unique ID of the newly added card."
+      },
+      "is_default": {
+        "type": "boolean",
+        "example": true,
+        "description": "Whether this card is set as the default."
+      }
+    }
+  },
+  "SetDefaultRequest": {
+    "type": "object",
+    "required": ["user_id"],
+    "properties": {
+      "user_id": {
+        "type": "string",
+        "example": "user_12345",
+        "description": "The ID of the user for whom the card will be set as default."
+      }
+    }
+  },
+  "SetDefaultResponse": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "example": "success",
+        "description": "Indicates whether the default setting was successful."
+      },
+      "default_card_id": {
+        "type": "string",
+        "example": "card_abc123",
+        "description": "The ID of the card now set as the default."
+      }
+    }
+  },
+  "DeleteCardResponse": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "example": "success",
+        "description": "Indicates that the card was deleted successfully."
+      },
+      "deleted_card_id": {
+        "type": "string",
+        "example": "card_22923",
+        "description": "The ID of the card that was deleted."
+      }
+    }
+  },
+  "ActiveSubscriptionResponse": {
+    "type": "object",
+    "properties": {
+      "success": {
+        "type": "boolean",
+        "example": true,
+        "description": "Indicates whether the request was successful."
+      },
+      "errors": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "example": [],
+        "description": "List of errors if any occurred."
+      },
+      "response": {
+        "type": "object",
+        "properties": {
+          "has_subscription": {
+            "type": "boolean",
+            "example": true,
+            "description": "Whether the user has an active subscription."
+          },
+          "active_subscription": {
+            "type": "object",
+            "properties": {
+              "plan": {
+                "type": ["string", "null"],
+                "example": null,
+                "description": "Name of the current plan. Can be null."
+              },
+              "status": {
+                "type": "string",
+                "example": "active",
+                "description": "Status of the current subscription."
+              },
+              "next_billing": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2025-09-14T18:45:46Z",
+                "description": "Date and time of the next billing cycle."
+              },
+              "amount": {
+                "type": "number",
+                "example": 997.0,
+                "description": "Billing amount of the current plan."
+              },
+              "features": {
+                "type": "string",
+                "example": "",
+                "description": "Features included in the plan (if any)."
+              },
+              "price_id": {
+                "type": "string",
+                "example": "NhFBDI6",
+                "description": "Stripe price ID associated with the plan."
+              },
+              "payment_gateway": {
+                "type": "string",
+                "example": "stripe",
+                "description": "Payment gateway used for this subscription."
+              }
+            }
+          },
+          "prices": {
+            "type": "array",
+            "description": "List of available pricing plans.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "price_id": {
+                  "type": "string",
+                  "example": "HgHjFwt",
+                  "description": "Unique ID of the price."
+                },
+                "amount": {
+                  "type": "number",
+                  "example": 297.0,
+                  "description": "Price amount."
+                },
+                "currency": {
+                  "type": "string",
+                  "example": "usd",
+                  "description": "Currency of the price."
+                },
+                "product_name": {
+                  "type": "string",
+                  "example": "xyz.com (AI Calling Plan) 7-Day Free Trial",
+                  "description": "Name of the product associated with this price."
+                },
+                "description": {
+                  "type": ["string", "null"],
+                  "example": null,
+                  "description": "Additional description of the plan (if any)."
+                },
+                "interval": {
+                  "type": "string",
+                  "example": "month",
+                  "description": "Billing interval (e.g., month, year)."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       "Error": {
         "required": [
           "error",
@@ -5511,3 +12055,5 @@
     }
   }
 }
+
+
