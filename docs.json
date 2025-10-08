@@ -85,7 +85,6 @@
               "api-reference/agent/get-agent",
               "api-reference/agent/get-llm",
               "api-reference/agent/update-agent",
-              "api-reference/agent/update-llm",
               "api-reference/agent/delete-agent"
             ]
           },
