@@ -1,0 +1,62 @@
+---
+title: 'Create Agent'
+description: 'Step-by-step guide on creating an AI calling agent within the platform.'
+icon: 'robot'
+---
+
+## Create an Agent  
+In this section you’ll learn how to set up a new AI voice agent from scratch — defining how it sounds, what it says, how it behaves, and how it integrates with your data and campaign flows.
+
+---
+
+### 1. Agent Setup  
+- Navigate to *Agents → Create New Agent*.  
+- Give your agent a **name** and optionally a **description** to reflect its purpose (e.g., “Real-Estate Follow-Up Bot”).  
+- Choose the **agent type**: outbound-only, inbound-only or hybrid (based on your use-case).  
+- Select the **voice settings**: voice model (male/female), language/accent, tone style.  
+  > Example: On CloserX.ai you can “Train Your AI Agent in 10 Seconds from a Call Recording”. [Learn more](https://www.closerx.ai/)
+
+---
+
+### 2. Script / Call-Flow Configuration  
+- Upload or define your initial **script or call flow**:
+  - Write the agent’s opening prompt.  
+  - Add the decision-logic: how the agent should respond based on user answers or scenario branches (e.g., “If lead says ‘yes’, ask for appointment time; else ask for hesitation reasons”).  
+  - Optionally upload **audio recordings** to train the agent’s behaviour or style.  
+- Set **voicemail detection** logic: how the agent behaves if no human picks up. Note: CloserX AI emphasises a natural voicemail-handling experience. [Learn more](https://www.closerx.ai/)
+
+---
+
+### 3. Data & Knowledge Integration  
+- Link your agent to a **knowledge base** or external data source so it can reference real information (e.g., client details, prior interactions).  
+- Set up **CRM integration**: define which system the agent will read from or write to (lead status, booking info).  
+- Map **outcome fields**: configure how the agent records call outcomes (appointment booked, call failed, follow-up needed).  
+
+---
+
+### 4. Telephony & Channel Configuration  
+- Assign a **caller ID number** or select the inbound number that will route to the agent.  
+- Configure the agent’s **dialing settings** (for outbound): time windows, retry logic, concurrency limit.  
+- Set **SMS fallback/omnichannel** (if applicable): in case the call is not answered or the lead prefers SMS.  
+- Enable or adjust **whitelabel branding** if you are building this agent for a client under your own brand identity. [Learn more](https://www.closerx.ai/)
+
+---
+
+### 5. Test & Preview  
+- Use your platform’s **playground/test mode** to simulate a call: wander through the script, check branching logic, test voicemail detection and data writes.  
+- Check latency and response fluidity: ensure the agent responds within a natural timeframe, avoiding awkward pauses.  
+- Review logs/transcripts: verify that the agent captured correct outcome data.  
+  > Tip: Keep this first test simple — a short script, minimal branching, one voice. Once it works smoothly, expand.  
+
+---
+
+### 6. Save & Launch  
+- Once you’re satisfied, **save the agent** configuration and enable it for assignment to a campaign.  
+- Optionally, enable **versioning / rollback** so you can update the agent later and revert if needed.  
+- Assign the agent to a campaign with leads and call flows, ensure credits and settings are ready, then **go live**.
+
+---
+
+<Tip>  
+Start with one agent with a single, focused goal (for example: “Book appointment”). After you’ve launched and seen results, replicate and adapt that agent into multiple variants (different voices, languages or scripts) for scale.
+</Tip>

@@ -1,28 +1,18 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Overview of the CloserX.ai API endpoints for managing AI-powered calling operations'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
 
 ## Welcome
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+The CloserX.ai API enables programmatic management of AI-driven communication, including agent configuration, campaign execution, contact management, telephony integration, and more. 
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All CloserX.ai API endpoints are authenticated using Bearer tokens. To authenticate, obtain an API key via the /auth/login endpoint or use the /auth/refresh endpoint to refresh an existing token. The token must be included in the Authorization header as a Bearer token for all requests.
+
 
 ```json
 "security": [

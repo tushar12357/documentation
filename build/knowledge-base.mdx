@@ -1,0 +1,54 @@
+---
+title: 'Knowledge-Base'
+description: 'Guide to setting up and connecting knowledge bases for AI voice agents.'
+icon: 'database'
+---
+
+## Knowledge-Base Overview  
+A **knowledge base** (KB) is a structured collection of information that your AI agents can access to answer questions, reference data, or guide conversations during calls. Integrating a knowledge base ensures your agents are informed and provide accurate responses to leads or customers.
+
+---
+
+## 1. Purpose of Knowledge Base  
+- Store FAQs, product/service details, scripts, and client-specific information.  
+- Allow AI agents to **dynamically reference data** during conversations.  
+- Reduce errors and improve the relevance and quality of agent responses.  
+- Enable consistent messaging across campaigns and agents.  
+
+---
+
+## 2. Types of Knowledge Bases  
+- **Internal KB**: Stored within your platform, typically editable via a dashboard.  
+- **External KB**: Connected via APIs, webhooks, or CRM systems to fetch live data.  
+- **Hybrid KB**: Combines internal and external sources for comprehensive coverage.  
+
+---
+
+## 3. Setting Up a Knowledge Base  
+1. Navigate to *Knowledge-Base → Create New KB*.  
+2. Provide a **name** and **description** for the knowledge base.  
+3. Choose the **source type** (internal, external, hybrid).  
+4. Upload or input data:  
+   - Text files, spreadsheets, JSON, or structured content.  
+   - Include FAQs, call scripts, product details, or customer info.  
+5. Configure **access rules**: define which agents or campaigns can use this KB.  
+
+---
+
+## 4. Connecting Knowledge Base to Agents  
+- Assign your KB to one or multiple AI agents in the *Agent Settings → Knowledge Base* section.  
+- Agents will automatically reference the KB when generating responses during calls.  
+- Set **priority or fallback rules** if multiple KBs are connected (e.g., internal KB first, then external API).  
+
+---
+
+## 5. Testing & Updating KB  
+- Use the **playground/test mode** to ensure the agent retrieves correct data from the KB.  
+- Update the KB regularly to include new information, correct errors, or improve coverage.  
+- Keep track of KB versions for rollback or agent re-training if needed.  
+
+---
+
+<Tip>  
+A well-maintained knowledge base improves agent performance, reduces failed calls, and ensures consistent messaging across campaigns. Start with a small, high-priority dataset and expand over time.
+</Tip>

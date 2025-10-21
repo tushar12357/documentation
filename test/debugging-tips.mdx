@@ -1,0 +1,50 @@
+---
+title: 'Debugging Tips'
+description: 'Best practices and tips for identifying and fixing issues with AI agents.'
+icon: 'bug'
+---
+
+## Debugging Tips Overview  
+Debugging ensures your AI agent operates smoothly and handles calls as expected. By systematically identifying and fixing issues, you improve agent reliability and lead engagement.
+
+---
+
+## 1. Common Issues to Check  
+- **Incorrect or off-script responses:** Prompt or script logic issues.  
+- **Knowledge base errors:** Missing data, incorrect retrieval, or misformatted entries.  
+- **Variable substitution errors:** Dynamic fields not populating correctly (e.g., `{lead_name}`).  
+- **Telephony problems:** Call drops, voicemail mishandling, or retry failures.  
+- **Latency or response delays:** Agent taking too long to reply.  
+- **Audio issues:** Mispronunciations, stuttering, wrong tone or accent.  
+
+---
+
+## 2. Debugging Workflow  
+1. **Review Logs & Transcripts:** Identify patterns or repeated errors.  
+2. **Use Playground / Simulation Testing:** Reproduce the issue in a controlled environment.  
+3. **Check Prompt & Script Logic:** Ensure correct branching and fallback instructions.  
+4. **Verify Knowledge Base & Variables:** Ensure data sources are connected and variables are accurate.  
+5. **Test Audio & Voice Settings:** Confirm proper pronunciation, tone, and pacing.  
+6. **Adjust & Retest:** Make incremental changes and re-run tests until the issue is resolved.  
+
+---
+
+## 3. Tools for Debugging  
+- **Playground Mode:** Step-through simulation and real-time testing.  
+- **Simulation Testing:** Large-scale scenario testing to catch edge cases.  
+- **Call Replays:** Review actual agent calls to pinpoint errors.  
+- **Logs & Metrics Dashboards:** Monitor call outcomes, response latency, and errors.  
+
+---
+
+## 4. Best Practices  
+- Tackle **one issue at a time** to avoid introducing new problems.  
+- Keep **versioned scripts and prompts** for easy rollback.  
+- Document frequent issues and fixes to build an internal troubleshooting guide.  
+- Test thoroughly after every change, especially in **high-stakes campaigns**.  
+
+---
+
+<Tip>  
+Effective debugging is iterative. Combine logs, simulations, and call replays to systematically identify root causes and improve agent performance.
+</Tip>

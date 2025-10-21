@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "CloserX.ai Documentation",
   "colors": {
     "primary": "#16A34A",
     "light": "#7954b9",
@@ -11,47 +11,104 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Getting Started",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "index"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Concepts & Terminology",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "concepts/overview",
+              "concepts/glossary",
+              "concepts/call-lifecycle",
+              "concepts/key-terms"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Build",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "build/overview",
+              "build/create-agent",
+              "build/knowledge-base",
+              "build/prompt-engineering",
+              "build/language-and-voices",
+              "build/ui-vs-api-workflow"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Test",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "test/overview",
+              "test/playground-mode",
+              "test/simulation-testing",
+              "test/audio-testing",
+              "test/debugging-tips"
+            ]
+          },
+          {
+            "group": "Deploy",
+            "pages": [
+              "deploy/overview",
+              "deploy/inbound-calls",
+              "deploy/outbound-calls",
+              "deploy/telephony-integration",
+              "deploy/sms-and-omnichannel",
+              "deploy/batch-dialing-and-limits"
+            ]
+          },
+          {
+            "group": "Monitor & Analytics",
+            "pages": [
+              "monitor/overview",
+              "monitor/dashboard-usage",
+              "monitor/post-call-analysis",
+              "monitor/webhooks-and-events",
+              "monitor/reliability-and-sla"
+            ]
+          },
+          {
+            "group": "Advanced & Best Practices",
+            "pages": [
+              "advanced/overview",
+              "advanced/prompt-engineering-guide",
+              "advanced/knowledge-base-design",
+              "advanced/tool-integration",
+              "advanced/security-and-compliance",
+              "advanced/performance-optimization"
+            ]
+          },
+          {
+            "group": "Use Cases & Examples",
+            "pages": [
+              "use-cases/overview",
+              "use-cases/customer-support",
+              "use-cases/outbound-sales",
+              "use-cases/appointment-booking",
+              "use-cases/custom-template-gallery"
+            ]
+          },
+          {
+            "group": "Support & Resources",
+            "pages": [
+              "support/overview",
+              "support/faq",
+              "support/changelog",
+              "support/release-notes",
+              "support/contact-us",
+              "support/community-forum"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "API Reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "API Documentation",
             "pages": [
               "api-reference/introduction"
             ]
@@ -61,7 +118,7 @@
             "pages": [
               "api-reference/auth/login",
               "api-reference/auth/forgot-password",
-              "api-reference/auth//reset-password",
+              "api-reference/auth/reset-password",
               "api-reference/auth/reset-password-complete",
               "api-reference/auth/refresh",
               "api-reference/auth/logout"
@@ -76,7 +133,7 @@
               "api-reference/dashboard/get-campaign-results",
               "api-reference/dashboard/get-quick-campaign-results"
             ]
-          } ,       
+          },
           {
             "group": "Agent",
             "pages": [
@@ -88,145 +145,140 @@
               "api-reference/agent/delete-agent"
             ]
           },
-            {
-              "group": "Campaign",
-              "pages": [
-                "api-reference/campaign/get-campaign-list/",
-                "api-reference/campaign/create-campaign/",
-                "api-reference/campaign/create-quick-campaign/",
-                "api-reference/campaign/edit-campaign/",
-                "api-reference/campaign/daily-campaign-results/",
-                "api-reference/campaign/campaign-analytics/",
-                "api-reference/campaign/export-campaign/",
-                "api-reference/campaign/campaign-final-analysis/"
-              ]
-            },
-            {
-              "group": "Callbacks",
-              "pages": [
-                "api-reference/callbacks/scheduled-callbacks-voizerfreeaccount/",
-                "api-reference/callbacks/callback-history/"
-              ]
-            },
-            {
-              "group": "Contact",
-              "pages": [
-                "api-reference/contact/all-list/",
-                "api-reference/contact/filter-by-tags/",
-                "api-reference/contact/edit-contact/",
-                "api-reference/contact/delete-contact/",
-                "api-reference/contact/contact-profile/",
-                "api-reference/contact/bulk-delete-contact/",
-                "api-reference/contact/bulk-create-contact/",
-                "api-reference/contact/import-from-crm-leadconnect/",
-                "api-reference/contact/import-from-crm-salesforce/",
-                "api-reference/contact/transfer-contacts/",
-                "api-reference/contact/add-contact/"
-              ]
-            },
-            {
-              "group": "Phone_Number",
-              "pages": [
-                "api-reference/phonenumber/twillo-get/",
-                "api-reference/phonenumber/twillo-register/",
-                "api-reference/phonenumber/twillo-user/",
-                "api-reference/phonenumber/twillo-new-number/",
-                "api-reference/phonenumber/twillo-buy-number/",
-                "api-reference/phonenumber/twillo-buy-caller-id/",
-                "api-reference/phonenumber/add-caller-id/",
-                "api-reference/phonenumber/start-verification/",
-                "api-reference/phonenumber/verification-status/",
-                "api-reference/phonenumber/telynx-register-get/",
-                "api-reference/phonenumber/telynx-register-add/",
-                "api-reference/phonenumber/telynx-register-number/",
-                "api-reference/phonenumber/telynx-purchased-number-list/",
-                "api-reference/phonenumber/custom-telephony-add-contact/",
-                "api-reference/phonenumber/contact-list/",
-                "api-reference/phonenumber/contact-delete/"
-              ]
-            },
-            {
-              "group": "Integrations",
-              "pages": [
-                "api-reference/integrations/ghl-connect-user/",
-                "api-reference/integrations/salesforce-callback/",
-                "api-reference/integrations/webcall/",
-                "api-reference/integrations/get-api-key/",
-                "api-reference/integrations/webhook-active-list/",
-                "api-reference/integrations/webhook-active-stats/",
-                "api-reference/integrations/webhook-register/",
-                "api-reference/integrations/webhook-edit/",
-                "api-reference/integrations/webhook-delete/",
-                "api-reference/integrations/list-all-agents/"
-              ]
-            },
-            {
-              "group": "Billing & Subscription",
-              "pages": [
-                "api-reference/billing/current-plan/",
-                "api-reference/billing/add-new-card/",
-                "api-reference/billing/make-default-card/",
-                "api-reference/billing/delete-card/",
-                "api-reference/billing/transaction-history/",
-                "api-reference/billing/download-invoice/",
-                "api-reference/billing/payment-methods/",
-                "api-reference/billing/get-active-subscription/",
-                "api-reference/billing/update-subscription/"
-              ]
-            },
-            {
-              "group": "Credits",
-              "pages": [
-                "api-reference/credits/campaign-stats/",
-                "api-reference/credits/add-credits/",
-                "api-reference/credits/paypal-add-credits/"
-              ]
-            }         
+          {
+            "group": "Campaign",
+            "pages": [
+              "api-reference/campaign/get-campaign-list",
+              "api-reference/campaign/create-campaign",
+              "api-reference/campaign/create-quick-campaign",
+              "api-reference/campaign/edit-campaign",
+              "api-reference/campaign/daily-campaign-results",
+              "api-reference/campaign/campaign-analytics",
+              "api-reference/campaign/export-campaign",
+              "api-reference/campaign/campaign-final-analysis"
+            ]
+          },
+          {
+            "group": "Callbacks",
+            "pages": [
+              "api-reference/callbacks/scheduled-callbacks-voizerfreeaccount",
+              "api-reference/callbacks/callback-history"
+            ]
+          },
+          {
+            "group": "Contact",
+            "pages": [
+              "api-reference/contact/all-list",
+              "api-reference/contact/filter-by-tags",
+              "api-reference/contact/edit-contact",
+              "api-reference/contact/delete-contact",
+              "api-reference/contact/contact-profile",
+              "api-reference/contact/bulk-delete-contact",
+              "api-reference/contact/bulk-create-contact",
+              "api-reference/contact/import-from-crm-leadconnect",
+              "api-reference/contact/import-from-crm-salesforce",
+              "api-reference/contact/transfer-contacts",
+              "api-reference/contact/add-contact"
+            ]
+          },
+          {
+            "group": "Phone Number",
+            "pages": [
+              "api-reference/phonenumber/twillo-get",
+              "api-reference/phonenumber/twillo-register",
+              "api-reference/phonenumber/twillo-user",
+              "api-reference/phonenumber/twillo-new-number",
+              "api-reference/phonenumber/twillo-buy-number",
+              "api-reference/phonenumber/twillo-buy-caller-id",
+              "api-reference/phonenumber/add-caller-id",
+              "api-reference/phonenumber/start-verification",
+              "api-reference/phonenumber/verification-status",
+              "api-reference/phonenumber/telynx-register-get",
+              "api-reference/phonenumber/telynx-register-add",
+              "api-reference/phonenumber/telynx-register-number",
+              "api-reference/phonenumber/telynx-purchased-number-list",
+              "api-reference/phonenumber/custom-telephony-add-contact",
+              "api-reference/phonenumber/contact-list",
+              "api-reference/phonenumber/contact-delete"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "api-reference/integrations/ghl-connect-user",
+              "api-reference/integrations/salesforce-callback",
+              "api-reference/integrations/webcall",
+              "api-reference/integrations/get-api-key",
+              "api-reference/integrations/webhook-active-list",
+              "api-reference/integrations/webhook-active-stats",
+              "api-reference/integrations/webhook-register",
+              "api-reference/integrations/webhook-edit",
+              "api-reference/integrations/webhook-delete",
+              "api-reference/integrations/list-all-agents"
+            ]
+          },
+          {
+            "group": "Billing & Subscription",
+            "pages": [
+              "api-reference/billing/current-plan",
+              "api-reference/billing/add-new-card",
+              "api-reference/billing/make-default-card",
+              "api-reference/billing/delete-card",
+              "api-reference/billing/transaction-history",
+              "api-reference/billing/download-invoice",
+              "api-reference/billing/payment-methods",
+              "api-reference/billing/get-active-subscription",
+              "api-reference/billing/update-subscription"
+            ]
+          },
+          {
+            "group": "Credits",
+            "pages": [
+              "api-reference/credits/campaign-stats",
+              "api-reference/credits/add-credits",
+              "api-reference/credits/paypal-add-credits"
+            ]
+          }
         ]
       }
     ],
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
           "anchor": "Community",
-          "href": "https://mintlify.com/community",
+          "href": "https://closerx.ai/community",
           "icon": "slack"
         },
         {
           "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
+          "href": "https://closerx.ai/blog",
           "icon": "newspaper"
         }
       ]
     }
   },
   "logo": {
-    "light": "/images/snowie.ai_20250309_162347_0000_K09AbcY.png",
-    "dark": "/images/snowie.ai_20250309_162347_0000_K09AbcY.png"
+    "light": "/images/closerx_dark.png",
+    "dark": "/images/closerx_dark.png"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:info@closerx.ai"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://app.closerx.ai"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/closerxai",
+      "github": "https://github.com/closerxai",
+      "linkedin": "https://linkedin.com/company/closerxai"
     }
   }
 }

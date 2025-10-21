@@ -1,0 +1,58 @@
+---
+title: 'Simulation Testing'
+description: 'Guide to running full-scale simulations of AI agent calls before live deployment.'
+icon: 'cpu'
+---
+
+## Simulation Testing Overview  
+**Simulation Testing** allows you to run AI agent calls in a controlled, automated environment. Unlike the playground mode, simulations can mimic real-world campaigns at scale, including multiple leads, call timing, and branching scenarios.
+
+---
+
+## 1. Purpose of Simulation Testing  
+- Validate agent performance under real-world conditions.  
+- Test **multi-agent campaigns** with varied scripts and prompts.  
+- Measure **response accuracy, knowledge base usage, and call outcomes**.  
+- Identify potential failures in **telephony settings, retry logic, or branching paths**.  
+- Assess overall system **latency, concurrency handling, and scalability**.  
+
+---
+
+## 2. Setting Up a Simulation  
+1. Navigate to *Testing → Simulation Testing*.  
+2. Select the **agent(s)** to include in the simulation.  
+3. Upload or select a **lead dataset** to simulate real calls.  
+4. Configure **call parameters**:
+   - Start times, time windows, concurrency limits.  
+   - Retry rules and fallback handling.  
+5. Choose **test scenarios**: normal calls, edge cases, voicemail, or missed calls.  
+
+---
+
+## 3. Running the Simulation  
+- Start the simulation to execute calls automatically.  
+- Monitor **agent responses, call outcomes, and knowledge base interactions** in real-time.  
+- Collect **metrics and logs** for later analysis.  
+
+---
+
+## 4. Key Metrics to Monitor  
+- **Call success rate:** How many calls completed successfully.  
+- **Response correctness:** Accuracy of agent replies and outcome recordings.  
+- **Knowledge base accuracy:** Correct retrieval of information.  
+- **Latency and pacing:** Time taken for agent responses.  
+- **Error logs:** Failed calls, unhandled responses, or system errors.  
+
+---
+
+## 5. Iterating Post-Simulation  
+- Review simulation results and identify **script or prompt adjustments**.  
+- Refine **knowledge base entries** or variable mappings.  
+- Re-run simulations after adjustments to ensure improvements.  
+- Only deploy live after agents consistently pass simulation tests.  
+
+---
+
+<Tip>  
+Simulation testing is crucial for **scaling campaigns safely**. Use it to catch edge cases, verify agent reliability, and optimize scripts before engaging real leads.
+</Tip>

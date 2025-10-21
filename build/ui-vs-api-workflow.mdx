@@ -1,0 +1,56 @@
+---
+title: 'UI vs API Workflow'
+description: 'Understanding the difference between building agents via the platform UI or API.'
+icon: 'git-merge'
+---
+
+## UI vs API Workflow Overview  
+You can create and manage AI agents using either the **platform UI** or the **API**. Choosing the right approach depends on your workflow, automation needs, and scale.
+
+---
+
+## 1. UI Workflow  
+- **Ideal for:** small teams, manual setup, visual inspection, or one-off campaigns.  
+- **Process:**  
+  1. Navigate through the platform dashboard.  
+  2. Click to create a new agent.  
+  3. Configure scripts, prompts, language, voice, and knowledge base via forms.  
+  4. Assign the agent to campaigns and test calls in playground mode.  
+- **Pros:** Intuitive, visual, easy to explore options.  
+- **Cons:** Harder to scale or automate; requires manual intervention.  
+
+---
+
+## 2. API Workflow  
+- **Ideal for:** large-scale deployments, automation, integrations with CRM or lead systems.  
+- **Process:**  
+  1. Authenticate via API key.  
+  2. Create agents programmatically with JSON payloads.  
+  3. Assign scripts, prompts, voice settings, and knowledge base references.  
+  4. Launch campaigns and monitor outcomes via API endpoints.  
+- **Pros:** Automates repetitive tasks, integrates with existing systems, supports bulk operations.  
+- **Cons:** Requires programming knowledge and understanding of API endpoints.  
+
+---
+
+## 3. When to Use Each  
+| Use Case | Recommended Workflow |
+|----------|--------------------|
+| Single campaign / one-off agent | UI |
+| Multiple campaigns or agents | API |
+| Continuous integration with CRM | API |
+| Testing, preview, experimentation | UI |
+| Large-scale lead processing | API |
+
+---
+
+## 4. Hybrid Approach  
+- Use **UI** for initial setup, testing, and agent preview.  
+- Use **API** for bulk updates, campaign scheduling, and automated reporting.  
+- This approach leverages the strengths of both methods.  
+
+---
+
+<Tip>  
+Start with the **UI** for learning and experimentation. Once confident, switch to the **API** for scaling, automation, and integrating into your workflows.
+</Tip>

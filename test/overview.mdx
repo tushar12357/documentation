@@ -1,0 +1,54 @@
+---
+title: 'Overview'
+description: 'Guide to testing and previewing AI calling agents before live deployment.'
+icon: 'check-square'
+---
+
+## Test Overview  
+Testing ensures your AI agents behave as expected before going live. This phase helps catch errors in scripts, prompts, knowledge base retrieval, and telephony settings, ensuring smooth, natural conversations with leads.
+
+---
+
+## 1. Purpose of Testing  
+- Verify the **conversation flow** matches the script and branching logic.  
+- Ensure **prompts and responses** are clear, accurate, and contextually relevant.  
+- Validate **knowledge base integration** and variable replacement.  
+- Check **telephony and channel configurations**: caller ID, voicemail handling, retry logic.  
+- Detect **errors, latency issues, or unnatural responses**.  
+
+---
+
+## 2. Types of Tests  
+- **Playground / Simulation:**  
+  - Simulate calls in a controlled environment.  
+  - Walk through the agent script manually or via automated scenarios.  
+- **Live Test Calls:**  
+  - Make real calls to test numbers to check naturalness, voice quality, and end-to-end functionality.  
+- **Edge Case Tests:**  
+  - Test unusual responses, incomplete answers, or interruptions.  
+  - Ensure agent handles errors gracefully and follows fallback instructions.  
+
+---
+
+## 3. Testing Workflow  
+1. Select the agent to test.  
+2. Choose a **test scenario** (script segment, full call, edge case).  
+3. Run the simulation in the **playground/test mode**.  
+4. Monitor agent responses, transcription accuracy, and knowledge base references.  
+5. Adjust **prompts, scripts, or settings** based on observations.  
+6. Repeat tests until the agent performs reliably.  
+
+---
+
+## 4. Key Metrics to Monitor  
+- **Response latency:** Time taken for agent replies.  
+- **Transcript accuracy:** Correct capture of spoken words.  
+- **Outcome accuracy:** Correct recording of lead responses or actions.  
+- **Voice naturalness:** Pronunciation, tone, and pacing.  
+- **Knowledge base utilization:** Correct data retrieval during conversations.  
+
+---
+
+<Tip>  
+Always run multiple tests with varied scenarios. Start simple and gradually introduce edge cases. Proper testing prevents errors and improves lead engagement in live campaigns.
+</Tip>

@@ -1,0 +1,52 @@
+---
+title: 'Webhooks & Events'
+description: 'Guide to setting up webhooks and event notifications for real-time monitoring and automation.'
+icon: 'bell'
+---
+
+## Webhooks & Events Overview  
+Webhooks allow your platform to **notify external systems or applications in real-time** whenever specific events occur. This is essential for automation, integrations, and proactive monitoring of AI agent campaigns.
+
+---
+
+## 1. Purpose of Webhooks  
+- Trigger actions in external systems (CRM, Slack, Zapier) automatically.  
+- Receive real-time notifications for **call events, agent activity, or campaign milestones**.  
+- Enable **automated workflows** without manual monitoring.  
+- Improve **reporting and analytics** by sending event data to dashboards or databases.  
+
+---
+
+## 2. Supported Events  
+Common events you can monitor and act upon via webhooks:  
+- **Call Started / Completed** – Track calls in real-time.  
+- **Call Outcome Recorded** – Log conversions, follow-ups, or failed calls.  
+- **Agent Response Events** – Capture specific responses or script branches.  
+- **Campaign Status Changes** – Notify when campaigns start, pause, or end.  
+- **System Alerts** – Low credits, failed calls, or telephony errors.  
+
+---
+
+## 3. Setting Up Webhooks  
+1. Navigate to *Monitor → Webhooks & Events*.  
+2. Click **Add New Webhook** and provide:  
+   - **Endpoint URL** – Where event data should be sent.  
+   - **Event types** – Select which events trigger this webhook.  
+   - **Authentication / Secret Key** – Optional security for verification.  
+3. Save the webhook and **test** with sample events.  
+4. Monitor logs to ensure events are **received correctly**.  
+
+---
+
+## 4. Best Practices  
+- Use **secure HTTPS endpoints** to protect event data.  
+- Only subscribe to **relevant events** to reduce noise.  
+- Implement **retry logic** on your endpoint to handle temporary failures.  
+- Log events locally for auditing and troubleshooting.  
+- Combine webhooks with dashboards for **real-time monitoring and analytics**.  
+
+---
+
+<Tip>  
+Webhooks are powerful for automating workflows and keeping your team or systems informed in real-time. Test thoroughly before relying on them for critical processes.
+</Tip>

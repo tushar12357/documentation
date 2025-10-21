@@ -1,0 +1,61 @@
+---
+title: 'Call Lifecycle'
+description: 'Understand the stages a call goes through on the platform, from lead import to post-call outcome.'
+icon: 'phone'
+---
+
+## Call Lifecycle Overview  
+This page explains the end-to-end lifecycle of a voice call in our system — from when a lead is loaded to when the outcome is recorded and analysed. Understanding this flow helps you design agents, monitor campaigns and troubleshoot more effectively.
+
+---
+
+## 1. Lead Intake & Campaign Setup  
+- You import or load leads into the system (via CSV upload, CRM sync, or API).  
+- You select or create a campaign template (script, settings) and assign one or more AI calling agents.  
+- You configure campaign parameters: calling window, retry logic, concurrency limits, intake credits/usage.  
+- The system schedules the call for outbound dialing (or routes incoming calls if inbound is supported).
+
+---
+
+## 2. Dialing & Connection  
+- The system initiates the outbound call using the configured telephony integration (e.g., SIP/VoIP provider).  
+- **Ringing phase**: The call is being connected; no agent speech yet.  
+- **Answered phase**: The call is picked up by a human (or voicemail).  
+  > Note: Only answered calls consume credits/minutes in our platform.  
+- The AI voice agent joins the call once the human is detected and the “answered” event is triggered.
+
+---
+
+## 3. Conversation & Agent Interaction  
+- The AI voice agent executes the pre-configured script or dynamic prompt, engages with the lead, asks questions, handles responses and objections.  
+- The agent may invoke external tools/actions: e.g., check CRM, log information, schedule an appointment.  
+- Real-time speech recognition (ASR) and response generation (LLM/LLM-like system) power the interaction.  
+- If voicemail or no answer is detected, different logic may apply (e.g., leave a message, retry later).
+
+---
+
+## 4. Outcome & Logging  
+- At the end of the interaction (or when the agent ends the call), an outcome is recorded. Outcomes may include: appointment booked, lead declined, follow-up scheduled, no answer, etc.  
+- The call transcript and metadata (duration, agent ID, lead ID, outcome) are stored in the system.  
+- The outcome is synced with external systems if configured (CRM update, webhook event).  
+
+---
+
+## 5. Post-Call Analysis & Reporting  
+- The platform runs post-call analysis: sentiment detection, outcome categorisation, key-phrase extraction, scorecards.  
+- Metrics are surfaced in your dashboard: number of calls, bookings, conversion rate, average call duration, agent performance.  
+- Automated alerts or triggers may fire based on outcomes (e.g., appointment booked → send confirmation SMS, add to CRM funnel).  
+- Historical data is available for optimisation: you can revisit who the best performing scripts/agents are and iterate.
+
+---
+
+## 6. Campaign Closing & Follow-Up  
+- The campaign may end when all leads are processed or a termination condition is met (e.g., budget exhausted, time window closed).  
+- Follow-up logic: leads not reached may be re-queued, leads booked may be handed off to human teams, leads needing nurture may be scheduled for future calls.  
+- Usage and billing data is finalised: credits consumed, call minutes billed, agent minutes counted, etc.
+
+---
+
+<Tip>  
+Map your custom workflows into this lifecycle. For example: if you have inbound calls or hybrid human-agent handoffs, mark where they fit in (Dialing → Conversation). Having this shared mental model makes troubleshooting and onboarding easier.  
+</Tip>
