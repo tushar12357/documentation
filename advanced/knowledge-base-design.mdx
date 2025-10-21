@@ -1,0 +1,76 @@
+---
+title: 'Knowledge Base Design'
+description: 'Learn how to structure and optimize your AI agent’s knowledge base for context-rich, accurate conversations.'
+icon: 'book-open'
+---
+
+# Knowledge Base Design
+
+A well-designed knowledge base (KB) is essential for enabling your AI agents to **understand your business context**, answer questions intelligently, and maintain accurate, goal-oriented conversations.
+
+This guide covers how to **structure**, **train**, and **optimize** your knowledge base for high recall and natural dialogue on CloserX.ai.
+
+---
+
+## 1. Purpose of the Knowledge Base
+
+The Knowledge Base powers your AI agent’s **factual understanding** and **context retrieval**.
+
+It helps the agent:
+- Access real-time company or product data.
+- Answer domain-specific questions confidently.
+- Reference stored information mid-conversation (e.g., pricing, policies, hours).
+- Maintain brand accuracy and compliance across all agents.
+
+> Think of it as your agent’s internal library — everything it needs to know before and during the call.
+
+---
+
+## 2. Knowledge Base Structure
+
+A good knowledge base is modular and organized for clarity and retrievability.
+
+### Recommended Structure
+
+| Section | Content Type | Example |
+|----------|---------------|----------|
+| **Company Info** | Overview, mission, team, contact details | “We’re a real estate automation platform helping agents close deals faster.” |
+| **Product / Service Details** | Offerings, features, pricing tiers | “Our Premium plan includes AI scheduling and CRM sync.” |
+| **Process / Workflow Docs** | How calls, bookings, or follow-ups work | “Agents confirm leads and book slots via Calendly.” |
+| **Objection Handling** | Common customer hesitations with sample responses | “If user says ‘I need to talk to my manager’, respond politely with a follow-up option.” |
+| **Legal / Compliance** | Privacy policies, disclaimers, permissions | “Calls are recorded for training and quality purposes.” |
+
+---
+
+## 3. Data Sources & Sync Options
+
+CloserX.ai supports multiple KB sources to ensure your agents always have the most up-to-date context.
+
+### Supported Types:
+- **Manual Entries:** Add text blocks, FAQs, and instructions directly.  
+- **File Uploads:** Import PDFs, CSVs, or Markdown documents.  
+- **API Integration:** Sync with CRMs (Salesforce, HubSpot, GoHighLevel) or CMS platforms.  
+- **Live Retrieval:** Use connected APIs for real-time data access (e.g., product stock or scheduling availability).  
+
+### Example:
+> Sync your “Pricing” section daily from your website API, while “Company Policy” remains a static Markdown file.
+
+---
+
+## 4. Best Practices for Knowledge Organization
+
+✅ **Keep entries atomic:** Each document or block should cover a single topic.  
+✅ **Use consistent headings:** Helps retrieval models understand hierarchy.  
+✅ **Tag documents:** Use tags like `pricing`, `legal`, `faq` for faster filtering.  
+✅ **Regularly update:** Schedule auto-refreshes for time-sensitive data.  
+✅ **Embed examples:** For each policy or fact, include a sample question and expected answer.  
+
+Example:
+```markdown
+### Pricing Policy
+Our standard consultation call costs $50.
+
+**Example Question:**  
+"What is the consultation fee?"
+**Expected Answer:**  
+"Our consultation fee is $50 per session."

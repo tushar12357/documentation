@@ -1,0 +1,94 @@
+---
+title: Performance Optimization
+description: Best practices to optimize CloserX agents for faster, smoother, and more efficient call performance.
+---
+
+# Performance Optimization
+
+Optimizing performance ensures your AI agents deliver **low-latency**, **high-quality**, and **natural** voice interactions. This guide covers tuning techniques and platform-level settings that help you get the most out of CloserX.
+
+---
+
+## ⚡ Key Performance Factors
+
+1. **Model Latency**  
+   The time between user speech and AI response. Influenced by:
+   - Model type (e.g., `gpt-4-turbo` vs `gpt-3.5-turbo`)
+   - Context length and prompt complexity
+   - External tool integrations or API calls
+
+2. **Audio Streaming Speed**  
+   The delay between generation and playback.  
+   - Use **WebSocket streaming** for real-time responses.  
+   - Compress audio using **Opus** codec when possible.
+
+3. **Network Conditions**  
+   Ensure agents operate in low-packet-loss, low-jitter environments.  
+   For production, prefer wired or high-stability connections.
+
+---
+
+## 🔧 Optimization Strategies
+
+### 1. Simplify Prompt Context
+- Avoid overly long prompt chains.
+- Use structured instructions instead of verbose text.
+- Cache or reuse common system messages.
+
+### 2. Preload Knowledge Base
+- Pre-embed key documents and FAQs before runtime.
+- Use short embedding vectors for faster lookups.
+- Minimize real-time vector search latency with **Redis or Pinecone caching**.
+
+### 3. Minimize API Bottlenecks
+- Parallelize third-party API calls where possible.
+- Use async processing or webhook callbacks instead of synchronous waits.
+- Profile your endpoints to identify slow integrations.
+
+### 4. Reduce Audio Processing Delays
+- Set a **low silence threshold** for quicker speech detection.
+- Enable **streaming transcription** to overlap recognition and response.
+- Tune audio sampling rates to **16kHz** for balance between clarity and speed.
+
+---
+
+## 🧠 Model Configuration Tips
+
+| Setting | Description | Recommended |
+|----------|--------------|-------------|
+| `temperature` | Controls creativity vs precision | 0.4–0.6 for calls |
+| `max_tokens` | Limits token generation | 512–1024 |
+| `frequency_penalty` | Reduces repetition | 0.2–0.4 |
+| `presence_penalty` | Encourages topic variety | 0.1–0.3 |
+
+---
+
+## 📊 Monitoring Performance
+
+Use the **Dashboard > Metrics** tab to track:
+- **Average response latency**
+- **Call completion time**
+- **Token usage per interaction**
+- **Voice streaming stability**
+
+> Integrate with our **Monitoring API** to automate performance alerts and anomaly detection.
+
+---
+
+## 🚀 Advanced Tuning
+
+- Enable **agent-level caching** to store previously computed embeddings or responses.  
+- Prewarm model sessions using `POST /session/init` before calls start.  
+- Use **GPU-backed models** for high concurrency voice tasks.  
+- Experiment with **knowledge-based filtering** to skip irrelevant documents.
+
+---
+
+## ✅ Summary
+
+By applying these optimization strategies, your AI agents can:
+- Respond up to **40% faster**  
+- Deliver smoother conversation flow  
+- Handle more concurrent calls without resource strain  
+
+> For advanced tuning help, reach out to **support@closerx.ai** with your project ID.

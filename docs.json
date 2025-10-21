@@ -16,7 +16,10 @@
           {
             "group": "Getting Started",
             "pages": [
-              "index"
+              "index",
+              "architecture",
+              "getting-started/quickstart",
+              "installation"
             ]
           },
           {

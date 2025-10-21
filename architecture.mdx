@@ -1,0 +1,45 @@
+---
+title: Architecture Overview
+description: Overview of CloserX system architecture, backend components, and data flow.
+---
+
+# System Architecture
+
+CloserX is built on a **scalable, modular architecture** that supports high-performance AI calling agents for real-time conversations.
+
+---
+
+## 🔹 Key Components
+
+1. **AI Engine**
+   - Handles natural language understanding (NLU) and response generation.  
+   - Processes call scripts, prompts, and branching logic.
+
+2. **Telephony Layer**
+   - Manages inbound/outbound calls via SIP, Twilio, Telnyx, or custom integrations.  
+   - Supports SMS and omnichannel fallbacks.
+
+3. **Knowledge & Data Layer**
+   - Stores conversation scripts, knowledge base, CRM integration, and call outcomes.  
+   - Supports dynamic data fetching during calls.
+
+4. **Campaign & Workflow Manager**
+   - Orchestrates call scheduling, batch dialing, retries, and agent assignments.  
+   - Handles analytics, logging, and reporting.
+
+5. **Dashboard & Monitoring**
+   - Provides real-time insights on agent performance, call metrics, and system health.  
+   - Supports webhooks and notifications for events.
+
+---
+
+## 🔄 Data Flow
+
+```mermaid
+graph LR
+A[User Input / Lead Data] --> B[AI Engine]
+B --> C[Telephony Layer]
+C --> D[Knowledge Base / CRM]
+D --> B
+B --> E[Call Outcome & Logs]
+E --> F[Dashboard & Analytics]

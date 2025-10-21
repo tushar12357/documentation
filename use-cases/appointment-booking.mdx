@@ -1,0 +1,99 @@
+---
+title: Appointment Booking
+description: Automate your appointment scheduling workflow with AI voice agents that call, confirm, and manage bookings in real time.
+---
+
+# Appointment Booking Automation
+
+CloserX helps you **automate appointment scheduling** through AI-powered voice agents that can call leads, confirm times, reschedule meetings, and sync directly with your calendar or CRM.
+
+Whether you’re running a clinic, salon, real estate agency, or sales team — your AI agent can manage the entire booking lifecycle hands-free.
+
+---
+
+## 🎯 Objective
+
+Eliminate manual appointment coordination by letting AI handle:
+- New booking requests  
+- Appointment confirmations  
+- Cancellations and reschedules  
+- No-show follow-ups  
+
+---
+
+## 🧠 How It Works
+
+1. **Setup the Booking Agent**  
+   - Create an AI agent specifically for scheduling (e.g., “Booking Assistant”).  
+   - Configure tone, prompt, and fallback rules for missed calls or uncertain responses.  
+   - Define clear call goals such as “confirm a booking” or “offer next available slot.”  
+
+2. **Calendar Integration**  
+   - Connect **Google Calendar**, **Outlook**, or your custom scheduling API.  
+   - Sync availability so the agent always knows the next open slot.  
+   - Automatically block or release time slots based on conversation outcomes.  
+
+3. **Booking Flow**  
+   - The agent initiates or receives a call.  
+   - It asks questions like preferred time or service.  
+   - Suggests available slots dynamically.  
+   - Books and confirms in real time.  
+
+4. **Follow-Up Actions**  
+   - Sends SMS or email confirmations (via integrated channels).  
+   - Adds event to CRM with status “Booked / Pending / Rescheduled.”  
+   - Optionally triggers reminders or satisfaction surveys post-call.  
+
+---
+
+## 📞 Example Conversation
+
+| Step | AI Agent | User Response |
+|------|-----------|---------------|
+| 1 | “Hi, this is Alex from CloserX Dental. I’m calling to help schedule your cleaning appointment.” | “Sure!” |
+| 2 | “Would tomorrow at 3 PM work for you?” | “That’s perfect.” |
+| 3 | “Great, I’ve confirmed your appointment for tomorrow at 3 PM. You’ll get a reminder text an hour before.” | “Thanks!” |
+
+---
+
+## ⚙️ Configuration Steps
+
+1. **Agent Setup**  
+   - Go to *Build → Create Agent → Type: Appointment*.  
+   - Configure script with options for booking, rescheduling, and follow-ups.  
+
+2. **Calendar Integration**  
+   - Enable Google or Outlook integration from *Integrations → Calendar*.  
+   - Use OAuth or API key for secure access.  
+
+3. **Confirmation Message**  
+   - Add a webhook or automation step to send SMS/email confirmations using Twilio or SendGrid.  
+
+4. **Follow-Up Automation**  
+   - Schedule reminder calls or texts 24 hours and 1 hour before appointment.  
+
+---
+
+## 🧩 Features
+
+| Feature | Description |
+|----------|--------------|
+| Real-Time Booking | Syncs directly with your connected calendar |
+| Smart Rescheduling | Detects conflicts and offers alternate times |
+| CRM Updates | Logs booking outcomes and next steps |
+| Multi-Agent Handling | Assign specific agents per service type |
+| Omnichannel Support | Fallback to SMS or WhatsApp if call is missed |
+
+---
+
+## 🧪 Example Workflow
+
+```mermaid
+graph LR
+A[Lead Created] --> B[AI Agent Calls Lead]
+B --> C{Interested?}
+C -->|Yes| D[Check Calendar Availability]
+C -->|No| E[Mark as Uninterested]
+D --> F[Book Appointment]
+F --> G[Send Confirmation SMS/Email]
+G --> H[CRM Sync + Status: Confirmed]

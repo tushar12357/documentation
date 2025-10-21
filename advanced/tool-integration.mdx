@@ -1,0 +1,101 @@
+---
+title: 'Tool Integration'
+description: 'Learn how to connect CloserX.ai with your existing tools and automate workflows using APIs, webhooks, and third-party integrations.'
+icon: 'puzzle-piece'
+---
+
+# Tool Integration
+
+CloserX.ai is built to **seamlessly integrate** with your favorite tools — from CRMs and telephony providers to automation platforms like Zapier and webhooks for real-time event handling.
+
+This guide explains how to connect, configure, and extend CloserX.ai’s functionality through external tools and APIs.
+
+---
+
+## 1. Why Integrate Tools?
+
+Integrations enable you to:
+- Sync leads, calls, and outcomes with your **CRM**.  
+- Automate tasks like follow-ups, SMS reminders, and report generation.  
+- Push analytics data to dashboards or BI tools.  
+- Trigger **custom workflows** in your existing ecosystem.  
+
+> Example: After a successful AI call, automatically mark the lead as “Contacted” in your CRM and send a summary email to your sales rep.
+
+---
+
+## 2. Supported Integrations
+
+CloserX.ai provides **built-in** and **custom** integration capabilities:
+
+| Category | Tools / Services | Description |
+|-----------|------------------|--------------|
+| **CRM Systems** | GoHighLevel, HubSpot, Salesforce, Zoho | Sync lead data, call logs, and booking details |
+| **Telephony Providers** | Twilio, Telnyx, SIP Trunking | Connect custom numbers or use CloserX-managed calls |
+| **Automation Platforms** | Zapier, Make (Integromat), n8n | Automate repetitive workflows with no code |
+| **Payment Gateways** | Stripe | Manage billing, credits, and subscriptions |
+| **Storage & Analytics** | AWS S3, Google Sheets, BigQuery | Export call data and recordings for reporting |
+| **Messaging** | Slack, Email, SMS | Send notifications or summaries after calls |
+
+---
+
+## 3. CRM Integration
+
+### Setup Steps
+1. Go to **Integrations → CRM → Connect**.  
+2. Choose your CRM provider (e.g., GoHighLevel).  
+3. Authenticate via API key or OAuth.  
+4. Map fields between CloserX.ai and your CRM:
+   - Lead name → `contact_name`
+   - Call result → `status`
+   - Next follow-up → `task_due`
+
+### Example Workflow
+When an AI agent books a meeting:
+- The lead is updated in your CRM as **"Booked"**.  
+- A **calendar invite** is automatically generated.  
+- A **Slack notification** is sent to the assigned team.  
+
+---
+
+## 4. Zapier Integration
+
+Zapier lets you connect CloserX.ai with 6,000+ apps — **no code required**.
+
+### Example Zaps:
+- When a call is **completed**, send a **summary email**.  
+- When a **new lead** is added to CRM, trigger an **AI call campaign**.  
+- When a **voicemail** is detected, create a **follow-up task** in Notion.
+
+### Setup:
+1. Create a new Zap → **Trigger: Webhook (Catch Hook)**.  
+2. Copy the generated Zapier URL.  
+3. Paste it into CloserX.ai under **Webhooks → Add Endpoint**.  
+4. Map call data fields in your Zap (e.g., lead_name, duration, transcript).  
+
+---
+
+## 5. Webhook Automation
+
+For more advanced workflows, use **native webhooks** to handle real-time event data.
+
+### Common Event Types:
+- `call.started`
+- `call.completed`
+- `call.voicemail_detected`
+- `lead.updated`
+- `appointment.booked`
+
+### Example Payload:
+```json
+{
+  "event": "call.completed",
+  "timestamp": "2025-10-21T10:45:00Z",
+  "data": {
+    "lead_id": "12345",
+    "agent": "Real Estate AI",
+    "outcome": "Appointment Booked",
+    "duration": 134,
+    "recording_url": "https://closerx.ai/recordings/abc123"
+  }
+}

@@ -1,0 +1,51 @@
+---
+title: 'Prompt Engineering Guide'
+description: 'A detailed guide on designing effective prompts for CloserX.ai agents to achieve consistent, human-like communication.'
+icon: 'message-square'
+---
+
+# Prompt Engineering Guide
+
+Prompt engineering defines how your AI agent **thinks, speaks, and reacts** during calls. With effective prompt design, you can ensure that your agent communicates naturally, handles edge cases gracefully, and stays aligned with your brand tone.
+
+---
+
+## Why Prompt Engineering Matters
+
+At the heart of every AI agent is a **prompt** — a structured set of instructions that guides the AI’s responses and decisions.
+
+Well-crafted prompts enable:
+- **Consistency** in tone and phrasing across calls.  
+- **Goal-driven behavior**, e.g., scheduling, qualifying leads, or collecting information.  
+- **Error resilience**, so the AI handles unexpected user inputs smoothly.  
+- **Dynamic personalization**, by referencing caller data or previous interactions.  
+
+---
+
+## Core Components of a Prompt
+
+A well-designed prompt includes these elements:
+
+| Component | Description | Example |
+| ---------- | ------------ | -------- |
+| **System Context** | Defines the agent’s role, style, and constraints. | “You are an AI appointment assistant for a real estate company.” |
+| **Conversation Goals** | Defines what the agent must achieve in this call. | “Your goal is to confirm if the client is available for a house visit this week.” |
+| **Tone & Personality** | Guides emotion, friendliness, and brand fit. | “Be concise, polite, and slightly enthusiastic.” |
+| **Response Format** | Enforces structure for predictable output. | “Always reply in complete sentences, avoid bullet points.” |
+| **Error Handling** | Describes fallback when unclear. | “If unsure, politely ask for clarification instead of guessing.” |
+
+---
+
+## Example: Appointment Scheduling Prompt
+
+```text
+You are an AI assistant helping schedule appointments for CloserX Realty.
+
+GOAL: Confirm a time for a home viewing appointment with the lead.
+
+RULES:
+- Be friendly, concise, and professional.
+- If the customer is busy, ask for a callback time.
+- If they show interest, confirm their preferred day and time.
+- If they decline, thank them politely and end the call.
+- Use the caller’s name whenever possible.
