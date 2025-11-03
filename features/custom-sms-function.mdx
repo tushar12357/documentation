@@ -1,0 +1,45 @@
+---
+title: 'Custom SMS Function Call'
+description: 'Trigger personalized SMS during or after AI calls — confirm bookings, send links, or follow up.'
+icon: 'message-circle'
+---
+
+## Custom SMS Function Call
+
+Let your AI **send SMS instantly** — no human needed.  
+Used for **appointment confirmations**, **payment links**, **follow-ups**, or **voicemail drops**.
+
+---
+<CardGroup cols={1}>
+  <iframe
+    width="720"
+    height="400"
+    src="https://www.loom.com/embed/closerx-custom-sms"
+    title="Custom SMS Function Guide"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+</CardGroup>
+---
+
+### How It Works
+
+| Trigger | AI Action | SMS Sent |
+|--------|----------|---------|
+| "Text me the link" | Detects intent | "Hi John, here's your appt: [link]" |
+| Call ends (booked) | Auto-confirm | "Your appt is Tue 3pm. Reply STOP to opt-out" |
+| Missed call | Voicemail drop | "We tried calling. Call back at +1555..." |
+
+---
+
+### Setup Steps
+
+1. **Agent Editor** → **Tools** → **+ Add Function** → **Send SMS**
+2. Configure:
+   - **Provider**: Twilio, GHL, or Native
+   - **From Number**: Client’s verified number
+   - **Template**:
+     ```text
+     Hi {first_name}, your appt with {agent_name} is confirmed for {date} at {time}.
+     View: {booking_url}

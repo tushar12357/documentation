@@ -17,92 +17,112 @@
             "group": "Getting Started",
             "pages": [
               "index",
-              "architecture",
               "getting-started/quickstart",
               "installation"
             ]
           },
           {
-            "group": "Concepts & Terminology",
+            "group": "Agent Creation & Management",
             "pages": [
-              "concepts/overview",
-              "concepts/glossary",
-              "concepts/call-lifecycle",
-              "concepts/key-terms"
+              "agents/create-agent",
+              "agents/agent-templates",
+              "agents/clone-agents",
+              "agents/setup-talk-ai",
+              "agents/agent-creation"
             ]
           },
           {
-            "group": "Build",
+            "group": "Prompts & Advanced",
             "pages": [
-              "build/overview",
-              "build/create-agent",
-              "build/knowledge-base",
-              "build/prompt-engineering",
-              "build/language-and-voices",
-              "build/ui-vs-api-workflow"
+              "prompts/temperature-setting",
+              "prompts/effective-ai-prompts",
+              "prompts/custom-function"
             ]
           },
           {
-            "group": "Test",
+            "group": "Voices & Call Features",
             "pages": [
-              "test/overview",
-              "test/playground-mode",
-              "test/simulation-testing",
-              "test/audio-testing",
-              "test/debugging-tips"
+              "calls/change-voice",
+              "calls/setup-end-calls",
+              "calls/setup-transfer-call",
+              "calls/end-silence-duration",
+              "calls/setup-voicemail"
             ]
           },
           {
-            "group": "Deploy",
+            "group": "Testing",
             "pages": [
-              "deploy/overview",
-              "deploy/inbound-calls",
-              "deploy/outbound-calls",
-              "deploy/telephony-integration",
-              "deploy/sms-and-omnichannel",
-              "deploy/batch-dialing-and-limits"
+              "test/test-agents"
             ]
           },
           {
-            "group": "Monitor & Analytics",
+            "group": "Contacts Management",
             "pages": [
-              "monitor/overview",
-              "monitor/dashboard-usage",
-              "monitor/post-call-analysis",
-              "monitor/webhooks-and-events",
-              "monitor/reliability-and-sla"
+              "contacts/upload-contact-list",
+              "contacts/match-fields-add-individual",
+              "contacts/import-crm"
             ]
           },
           {
-            "group": "Advanced & Best Practices",
+            "group": "Campaigns",
             "pages": [
-              "advanced/overview",
-              "advanced/prompt-engineering-guide",
-              "advanced/knowledge-base-design",
-              "advanced/tool-integration",
-              "advanced/security-and-compliance",
-              "advanced/performance-optimization"
+              "campaigns/create-inbound-campaign",
+              "campaigns/ghl-quick-campaign-automation",
+              "campaigns/new-campaign-analytics"
             ]
           },
           {
-            "group": "Use Cases & Examples",
+            "group": "Integrations",
             "pages": [
-              "use-cases/overview",
-              "use-cases/customer-support",
-              "use-cases/outbound-sales",
-              "use-cases/appointment-booking",
-              "use-cases/custom-template-gallery"
+              "integrations/ghl-integration",
+              "integrations/calcom-calendar-setup",
+              "integrations/ghl-calendar-setup",
+              "integrations/ghl-calendar-booking",
+              "integrations/post-call-analysis",
+              "integrations/tags-explanation",
+              "integrations/zapier-agency-integration",
+              "integrations/ghl-subaccount-connection",
+              "integrations/ghl-user-limit-enable",
+              "integrations/salesforce-connection",
+              "integrations/salesforce-loom-video",
+              "integrations/crm-form-fetch"
             ]
           },
           {
-            "group": "Support & Resources",
+            "group": "Telephony",
             "pages": [
-              "support/overview",
-              "support/faq",
-              "support/changelog",
-              "support/release-notes",
-              "support/contact-us",
-              "support/community-forum"
+              "telephony/twilio-setup-caller-id"
+            ]
+          },
+          {
+            "group": "Agency & Billing",
+            "pages": [
+              "agency/create-credit-packages",
+              "agency/choose-credit-packages",
+              "agency/add-clients",
+              "agency/manual-client-creation-credits",
+              "agency/add-dns-record",
+              "agency/domain-types",
+              "agency/logo-favicon",
+              "agency/subscription-plans-crm",
+              "agency/event-type-calendar-creation"
+            ]
+          },
+          {
+            "group": "Dashboard & Support",
+            "pages": [
+              "dashboard/dashboard-information",
+              "support/change-password",
+              "support/add-members"
+            ]
+          },
+          {
+            "group": "Other Features",
+            "pages": [
+              "features/email-templates",
+              "features/custom-sms-function",
+              "features/agency-video-loom",
+              "features/callback-loom-video"
             ]
           }
         ]

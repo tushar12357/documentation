@@ -1,0 +1,42 @@
+---
+title: 'Add DNS Record in Agency'
+description: 'Set up custom domains: ai.client.com'
+icon: 'globe'
+---
+
+## Add DNS Record in Agency
+
+Give clients **branded AI URLs**: `ai.dentalpro.com`
+
+---
+<CardGroup cols={1}>
+  <iframe
+    width="720"
+    height="400"
+    src="https://www.loom.com/embed/custom-domain-dns"
+    title="Custom Domain DNS"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+</CardGroup>
+---
+
+### 1. Enable Custom Domain
+- **Client Settings** → **Domain**
+- Enter: `ai.client.com`
+
+---
+
+### 2. DNS Records to Add
+
+| Type | Host | Value |
+|------|------|-------|
+| CNAME | `ai` | `proxy.closerx.ai` |
+
+> Takes 5–30 min to propagate
+
+---
+<Note>
+SSL auto-issued. No cert management.
+</Note>

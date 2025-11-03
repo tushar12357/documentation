@@ -1,0 +1,55 @@
+---
+title: 'Prompt Temperature Setting'
+description: 'Control AI creativity vs. consistency using the temperature parameter.'
+icon: 'thermometer'
+---
+
+## What is Prompt Temperature?
+
+**Temperature** controls how **creative** or **predictable** your AI agent’s responses are.
+
+| Value | Behavior | Use Case |
+|-------|---------|---------|
+| `0.0` | Deterministic — same input = same output | Booking, compliance, scripts |
+| `0.5` | Balanced | Sales, support |
+| `0.7–1.0` | Creative | Brainstorming, storytelling |
+
+---
+<CardGroup cols={1}>
+  <iframe
+    width="720"
+    height="400"
+    src="https://www.loom.com/embed/temperature-demo-12345"
+    title="Temperature Demo"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+</CardGroup>
+---
+
+### How to Set Temperature
+
+1. Open your **Agent Editor** → **Advanced Settings**
+2. Find **LLM Parameters** → **Temperature**
+3. Slide or enter value (`0.0` – `1.0`)
+4. Click **Save & Test**
+
+> **Pro Tip:** Use `0.0` for **appointment booking**, `0.7` for **sales objections**
+
+---
+
+### Client-Specific Temperature
+
+When assigning to a client:
+
+1. **Clone** the master agent
+2. Adjust temperature per client:
+   - Conservative clients → `0.2`
+   - Creative agencies → `0.8`
+3. Save as **"ClientName - Creative"** or **"ClientName - Strict"**
+
+---
+<Warning>
+Never use >0.9 in compliance-heavy industries (finance, healthcare).
+</Warning>

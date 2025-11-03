@@ -1,0 +1,59 @@
+---
+title: 'Custom Function Calls'
+description: 'Trigger external actions during calls — book, tag, notify, and more.'
+icon: 'zap'
+---
+
+## Custom Function Calls
+
+Let your AI **do things** — not just talk. Trigger APIs, update CRMs, send SMS, and more — mid-call.
+
+---
+<CardGroup cols={1}>
+  <iframe
+    width="720"
+    height="400"
+    src="https://www.loom.com/embed/custom-functions-guide"
+    title="Custom Functions Guide"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+</CardGroup>
+---
+
+### Available Functions
+
+| Function | Trigger | Example |
+|--------|--------|--------|
+| `book_appointment` | "Yes, 3pm Tuesday" | Syncs to GHL/Calendar |
+| `add_tag` | Lead says "interested" | Tags in CRM: `hot-lead` |
+| `send_sms` | "Send me the link" | Sends via Twilio |
+| `transfer_call` | "Speak to manager" | Routes to human |
+| `notify_slack` | High-value lead | Pings sales team |
+
+---
+
+### How to Add a Custom Function
+
+1. Go to **Agent Editor** → **Tools** → **+ Add Function**
+2. Choose from **pre-built** or **custom webhook**
+3. Define:
+   - **Name**: `send_brochure`
+   - **Trigger Phrase**: `brochure`, `info pack`
+   - **Action**: POST to `https://yourwebhook.com/send`
+4. Test in **Playground**
+
+---
+
+### Agency Scaling Tip
+
+- Create **function templates** (e.g., `GHL Tag + SMS`)
+- Clone per client
+- Only change **webhook URL** and **tag name**
+- Deploy in seconds
+
+---
+<Note>
+All functions are **logged** in call transcript for compliance.
+</Note>

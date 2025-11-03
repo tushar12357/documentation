@@ -1,0 +1,31 @@
+---
+title: 'Fetch Form Data from One CRM to Another'
+description: 'Move form submissions between CRMs instantly.'
+icon: 'form-input'
+---
+
+## Fetch Form Data from One CRM to Another
+
+**Form submitted → CRM A → CRM B → AI Call**
+
+---
+<CardGroup cols={1}>
+  <iframe
+    width="720"
+    height="400"
+    src="https://www.loom.com/embed/form-crm-flow"
+    title="Form to CRM to AI"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+</CardGroup>
+---
+
+### Example Flow
+```mermaid
+graph LR
+  A[Website Form] --> B(CRM A: HubSpot)
+  B --> C[Webhook]
+  C --> D(CRM B: GHL)
+  D --> E[CloserX AI Call]

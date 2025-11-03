@@ -1,0 +1,98 @@
+---
+title: 'How to Test Agents'
+description: 'Test your AI voice agents safely before going live — with real-time simulation, audio playback, and performance scoring.'
+icon: 'test-tube'
+---
+
+## How to Test Agents
+
+**Never launch untested.**  
+Use the **Playground**, **Simulation Mode**, and **Live Preview** to ensure your AI sounds natural, handles objections, and books appointments — all without spending credits.
+
+---
+<CardGroup cols={1}>
+  <iframe
+    width="720"
+    height="400"
+    src="https://www.loom.com/embed/agent-testing-playground"
+    title="Agent Testing Playground Guide"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+</CardGroup>
+---
+
+### 1. Open the Testing Playground
+- Go to **Agents** → Select your agent → Click **Test in Playground**
+- Or: **Dashboard** → **Playground** → Drag your agent in
+
+---
+
+### 2. Test Modes
+
+| Mode | Purpose | Cost |
+|------|--------|------|
+| **Text Simulation** | Type user replies | Free |
+| **Voice Input** | Speak into mic | Free |
+| **Audio Upload** | Test with real call recordings | Free |
+| **Live Preview** | Call your agent from your phone | 1 credit |
+
+---
+
+### 3. Run a Full Test Script
+
+#### Example: Dental Booking Agent
+
+| Step | You Say/Type | Expected AI Response |
+|------|-------------|------------------------|
+| 1 | "Hi, I need to book an appointment" | "Great! May I have your full name?" |
+| 2 | "John Smith" | "Thanks, John. Are you a new or returning patient?" |
+| 3 | "New" | "Welcome! When are you available next week?" |
+| 4 | "Tuesday at 3pm" | "Perfect. I’ve booked you with Dr. Lee on Tuesday at 3pm. You’ll get a confirmation text." |
+
+Click **Run Full Script** to auto-play.
+
+---
+
+### 4. Review Performance Score
+
+After each test, get an **AI Scorecard**:
+
+| Metric | Score | Notes |
+|-------|-------|-------|
+| **Naturalness** | 9.2/10 | Pauses perfect |
+| **Goal Completion** | 100% | Booking made |
+| **Objection Handling** | 8.5/10 | Could improve "too busy" |
+| **Latency** | 420ms | Fast |
+
+---
+
+### 5. Debug & Fix
+
+- **Red highlights** = AI failed or went off-script
+- Click any line → **Edit Prompt** → Fix logic
+- Re-run test instantly
+
+---
+
+### 6. Client Handoff (Agency Workflow)
+
+1. **Clone** tested agent → `ClientX - Final`
+2. Run **client-specific test script** (their name, number, brand)
+3. Record **demo call** in Playground
+4. Click **Share Demo** → Send secure link to client
+5. Deploy to **Client Portal** → They see **"Your AI is live and tested"**
+
+---
+<Tip>
+Always test **3 scenarios**:  
+1. Ideal path  
+2. Objection ("I’m busy")  
+3. Edge case (wrong input)
+</Tip>
+
+---
+<Note>
+All tests are **private** — no data leaves your account.
+</Note>

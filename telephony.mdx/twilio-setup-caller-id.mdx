@@ -1,0 +1,115 @@
+---
+title: 'Twilio Setup & Caller ID'
+description: 'Connect Twilio, buy numbers, verify caller IDs, and go live in minutes.'
+icon: 'phone'
+---
+
+## Twilio Setup & Caller ID
+
+**Your AI needs a phone number.**  
+Use **Twilio** to buy, port, or verify numbers — fully integrated and whitelabel-ready.
+
+---
+<CardGroup cols={1}>
+  <iframe
+    width="720"
+    height="400"
+    src="https://www.loom.com/embed/twilio-full-setup"
+    title="Twilio Full Setup Guide"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+</CardGroup>
+---
+
+### 1. Connect Your Twilio Account
+1. **Dashboard** → **Telephony** → **Twilio**
+2. Click **Connect Twilio**
+3. Log in → Authorize CloserX
+4. Done — All numbers auto-imported
+
+---
+
+### 2. Buy a New Number
+
+| Step | Action |
+|------|--------|
+| 1 | **Telephony** → **Buy Number** |
+| 2 | Search: `+1 (555) 123-XXXX` |
+| 3 | Filter: **Voice**, **SMS**, **Local** |
+| 4 | Click **Purchase** → $1/mo |
+
+> Number instantly usable in campaigns
+
+---
+
+### 3. Verify Caller ID (For Outbound)
+
+> Required by Twilio to prevent spam flags
+
+| Field | Example |
+|-------|--------|
+| **Friendly Name** | `Dr. Smith Dental` |
+| **Phone Number** | `+15559876543` |
+| **Call Purpose** | `Appointment Reminders` |
+
+1. **Telephony** → **Caller ID** → **+ Verify**
+2. Enter details → Submit
+3. Twilio calls you → Enter PIN
+4. **Verified** — Ready for outbound
+
+---
+
+### 4. Port Existing Number
+
+Want to keep your **main business line**?
+
+1. **Port Number** → Enter current number
+2. Provide:
+   - Account SID
+   - Auth Token
+   - LOA (if needed)
+3. Takes **3–7 days**
+4. Once live → Forward to CloserX
+
+---
+
+### 5. Client-Specific Setup (Agency)
+
+| Step | Action |
+|------|--------|
+| 1 | **Clone** Twilio connection per client |
+| 2 | Buy **client-branded number** (e.g., `+1-800-DENTIST`) |
+| 3 | Verify with **client’s business name** |
+| 4 | Assign → Client sees **their number only** |
+| 5 | Whitelabel: Show **client logo** on caller ID (CNAM) |
+
+---
+<mermaid>
+graph TD
+  A[Agency Twilio] --> B[Client 1 Number]
+  A --> C[Client 2 Number]
+  B --> D[AI Answers as Client 1]
+  C --> E[AI Answers as Client 2]
+</mermaid>
+
+---
+
+### 6. Caller ID Best Practices
+
+| Do | Don’t |
+|----|-------|
+| Use **local numbers** per area | Use **toll-free** for local leads |
+| Verify **all outbound numbers** | Call unverified → blocked |
+| Match **CNAM** to business name | Generic “Unknown” |
+
+---
+<Tip>
+Buy **10-digit local numbers** — 3x higher connect rate.
+</Tip>
+
+---
+<Note>
+All calls are **recorded**, **transcribed**, and **logged in CRM**.
+</Note>

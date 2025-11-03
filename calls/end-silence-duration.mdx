@@ -1,0 +1,54 @@
+---
+title: 'End Call on Silence & Max Duration'
+description: 'Prevent dead air and control call length with smart timeouts.'
+icon: 'timer'
+---
+
+## End Call on Silence & Max Duration
+
+Avoid long silences and runaway calls with **smart timeouts**.
+
+---
+<CardGroup cols={1}>
+  <iframe
+    width="720"
+    height="400"
+    src="https://www.loom.com/embed/silence-duration"
+    title="Silence & Duration Settings"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+</CardGroup>
+---
+
+### Settings Explained
+
+| Setting | Default | Recommended |
+|-------|--------|------------|
+| **End on Silence** | 8 sec | 6–10 sec |
+| **Max Call Duration** | 15 min | 5–10 min (sales), 3 min (support) |
+
+---
+
+### How to Configure
+
+1. **Agent Editor** → **Call Settings**
+2. Set:
+   - **Silence Timeout**: `8` sec
+   - **Max Duration**: `10` min
+3. Customize **timeout message**:
+   > “I think we lost you. I’ll send a follow-up text!”
+
+---
+
+### Client Customization
+
+- **Spa Client**: 5 min max, 6 sec silence
+- **Solar Sales**: 12 min max, 10 sec silence
+- Clone → tweak → assign
+
+---
+<Tip>
+Shorter durations = higher **connect rate** in outbound.
+</Tip>

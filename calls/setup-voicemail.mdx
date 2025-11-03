@@ -1,0 +1,44 @@
+---
+title: 'Setup Voicemail Message'
+description: 'Leave professional, branded voicemails when no one answers.'
+icon: 'voicemail'
+---
+
+## Setup Voicemail Message
+
+Turn **no-answers** into **follow-up opportunities** with personalized voicemails.
+
+---
+<CardGroup cols={1}>
+  <iframe
+    width="720"
+    height="400"
+    src="https://www.loom.com/embed/voicemail-setup"
+    title="Voicemail Setup Guide"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+</CardGroup>
+---
+
+### Voicemail Options
+
+| Option | Use Case |
+|------|---------|
+| **Generic** | “Hi, this is Sarah from ABC Clinic…” |
+| **Personalized** | “Hi John, it’s Sarah from Dr. Smith’s office…” |
+| **Dynamic** | Uses contact name + custom field |
+
+---
+
+### How to Set Up
+
+1. **Agent Editor** → **Call Flow** → **Voicemail**
+2. Enable **"Leave Voicemail"**
+3. Write script:
+   ```text
+   Hi {first_name}, this is {agent_name} from {company}.
+   We tried reaching you about your {reason}.
+   Call us back at {callback_number} or reply to this message.
+   Have a great day!

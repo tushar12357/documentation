@@ -1,0 +1,67 @@
+---
+title: 'Import from CRM'
+description: 'Sync leads directly from GoHighLevel, Salesforce, HubSpot, and 100+ CRMs.'
+icon: 'refresh-cw'
+---
+
+## Import from CRM
+
+**Zero manual work.** Sync leads **in real-time** from your CRM.
+
+---
+<CardGroup cols={1}>
+  <iframe
+    width="720"
+    height="400"
+    src="https://www.loom.com/embed/crm-import-sync"
+    title="CRM Import & Sync Guide"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+</CardGroup>
+---
+
+### Supported CRMs
+
+| CRM | Sync Type | Frequency |
+|-----|----------|-----------|
+| **GoHighLevel** | Two-way | Real-time |
+| **Salesforce** | One-way | Every 5 min |
+| **HubSpot** | Two-way | Real-time |
+| **Pipedrive** | One-way | Hourly |
+
+---
+
+### Setup: GoHighLevel (Most Popular)
+
+1. **Agency Dashboard** → **Integrations** → **GHL**
+2. Connect your **agency GHL account**
+3. Select **subaccount** → **pipeline stage** → `New Lead`
+4. Map:
+   - `Phone` → `phone`
+   - `First Name` → `first_name`
+   - `Tags` → `tags`
+5. Enable **Auto-Sync**
+
+> New leads → Instantly in CloserX → AI calls in <60 sec
+
+---
+
+### Client-Specific Import
+
+1. **Clone** CRM connection per client
+2. Connect to **client’s GHL subaccount**
+3. Assign → Client sees **only their leads**
+4. AI uses **their pipeline stages** in prompts
+
+---
+
+### Form → CRM → CloserX Flow
+
+```mermaid
+graph LR
+  A[Website Form] --> B(GoHighLevel)
+  B --> C[CloserX.ai]
+  C --> D[AI Calls Lead]
+  D --> E[Books Appt → Back to GHL]
