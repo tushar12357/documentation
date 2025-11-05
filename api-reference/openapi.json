@@ -14,10 +14,10 @@
     }
     ],
   "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
+  {
+    "api_key": []
+  }
+],
   "paths": {
     "/auth/login/":{
      "post": {
@@ -12906,11 +12906,12 @@
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
-      }
-    }
+  "api_key": {
+    "type": "api_key",
+    "in": "header",
+    "name": "X-API-Key"
+  }
+}
   }
 }
 
