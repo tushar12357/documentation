@@ -1,67 +1,68 @@
 ---
-title: 'Import from CRM'
-description: 'Sync leads directly from GoHighLevel, Salesforce, HubSpot, and 100+ CRMs.'
-icon: 'refresh-cw'
+title: 'GHL Quick Campaign Automation'
+description: 'Trigger instant AI calls from GoHighLevel pipelines without syncing or importing CRM.'
+icon: 'zap'
 ---
 
-## Import from CRM
+## GHL Quick Campaign Automation
 
-**Zero manual work.** Sync leads **in real-time** from your CRM.
+**No CRM import needed.** When a lead enters a selected pipeline stage in GoHighLevel, CloserX calls instantly.
 
 ---
+
 <CardGroup cols={1}>
   <iframe
     width="720"
     height="400"
     src="https://www.loom.com/embed/62c196459efa4455bb9cf8acc803ce42"
-    title="CRM Import & Sync Guide"
-    frameborder="0"
+    title="GHL Quick Campaign Automation Guide"
+    frameBorder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen
-  />
+    allowFullScreen
+  ></iframe>
 </CardGroup>
----
-
-### Supported CRMs
-
-| CRM | Sync Type | Frequency |
-|-----|----------|-----------|
-| **GoHighLevel** | Two-way | Real-time |
-| **Salesforce** | One-way | Every 5 min |
-| **HubSpot** | Two-way | Real-time |
-| **Pipedrive** | One-way | Hourly |
 
 ---
 
-### Setup: GoHighLevel (Most Popular)
+### Supported Triggers
 
-1. **Agency Dashboard** → **Integrations** → **GHL**
-2. Connect your **agency GHL account**
-3. Select **subaccount** → **pipeline stage** → `New Lead`
-4. Map:
-   - `Phone` → `phone`
-   - `First Name` → `first_name`
-   - `Tags` → `tags`
-5. Enable **Auto-Sync**
-
-> New leads → Instantly in CloserX → AI calls in <60 sec
+| Trigger | Type | Speed |
+|---------|------|-------|
+| **Pipeline Stage Change** | Native | Instant |
+| **New Contact Added** | Native | Instant |
+| **Tag Applied** | Native | <10 sec |
 
 ---
 
-### Client-Specific Import
+### Setup: Most Popular
 
-1. **Clone** CRM connection per client
-2. Connect to **client’s GHL subaccount**
-3. Assign → Client sees **only their leads**
-4. AI uses **their pipeline stages** in prompts
+1. Go to **Automations** → **Quick Campaign**
+2. Connect **GoHighLevel Agency**
+3. Select:
+   - Subaccount  
+   - Pipeline  
+   - Stage (example: `New Lead`)
+4. Choose the **AI Campaign** to run
+5. Enable **Instant Trigger**
+
+> Lead moves to selected stage → CloserX calls in <60 sec → Books appointment
 
 ---
 
-### Form → CRM → CloserX Flow
+### Client-Specific Routing
+
+1. Create **one Quick Campaign per client**
+2. Connect the client’s **GHL subaccount**
+3. Client sees **only their own leads**
+4. AI uses **their calendar + scripts**
+
+---
+
+### GHL → CloserX → GHL Flow
 
 ```mermaid
 graph LR
-  A[Website Form] --> B(GoHighLevel)
-  B --> C[CloserX.ai]
-  C --> D[AI Calls Lead]
-  D --> E[Books Appt → Back to GHL]
+  A[Lead moves to GHL Pipeline Stage] --> B[CloserX.ai]
+  B --> C[AI Calls Lead]
+  C --> D[Books Appointment]
+  D --> E[Appointment sent back to GHL]

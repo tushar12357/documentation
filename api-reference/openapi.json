@@ -12905,13 +12905,13 @@
         }
       }
     },
-    "securitySchemes": {
-  "api_key": {
-    "type": "api_key",
-    "in": "header",
-    "name": "X-API-Key"
+   "securitySchemes": {
+    "api_key": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "api_key"
+    }
   }
-}
   }
 }
 
