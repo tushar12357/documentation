@@ -67,7 +67,6 @@
             "group": "Campaigns",
             "pages": [
               "campaigns/create-inbound-campaign",
-              "campaigns/ghl-quick-campaign-automation",
               "campaigns/new-campaign-analytics"
             ]
           },
